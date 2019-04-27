@@ -16,4 +16,8 @@
     <ProjectReference Include="..\esme.Shared\esme.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>

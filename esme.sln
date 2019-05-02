@@ -1,12 +1,16 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "esme.Server", "esme.Server\esme.Server.csproj", "{33818BF8-F9F7-4A1F-94C0-074A175C48E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "esme.Server", "src\esme.Server\esme.Server.csproj", "{33818BF8-F9F7-4A1F-94C0-074A175C48E8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "esme.Client", "esme.Client\esme.Client.csproj", "{72B2D241-F1C5-424E-B247-1E3316FA5423}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "esme.Client", "src\esme.Client\esme.Client.csproj", "{72B2D241-F1C5-424E-B247-1E3316FA5423}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "esme.Shared", "esme.Shared\esme.Shared.csproj", "{00A132F1-75B0-4F6D-9FE7-5A4AE3E8E53F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "esme.Shared", "src\esme.Shared\esme.Shared.csproj", "{00A132F1-75B0-4F6D-9FE7-5A4AE3E8E53F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{920AF70A-39F7-4F9E-A336-DA64873FA2C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "esme.Core.Tests", "test\esme.Core.Tests\esme.Core.Tests.csproj", "{BFB4FD28-55E4-4AAC-BAD6-CD6C3B1D6D60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,11 +58,26 @@ Global
 		{00A132F1-75B0-4F6D-9FE7-5A4AE3E8E53F}.Release|x64.Build.0 = Release|Any CPU
 		{00A132F1-75B0-4F6D-9FE7-5A4AE3E8E53F}.Release|x86.ActiveCfg = Release|Any CPU
 		{00A132F1-75B0-4F6D-9FE7-5A4AE3E8E53F}.Release|x86.Build.0 = Release|Any CPU
+		{BFB4FD28-55E4-4AAC-BAD6-CD6C3B1D6D60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFB4FD28-55E4-4AAC-BAD6-CD6C3B1D6D60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFB4FD28-55E4-4AAC-BAD6-CD6C3B1D6D60}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BFB4FD28-55E4-4AAC-BAD6-CD6C3B1D6D60}.Debug|x64.Build.0 = Debug|Any CPU
+		{BFB4FD28-55E4-4AAC-BAD6-CD6C3B1D6D60}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BFB4FD28-55E4-4AAC-BAD6-CD6C3B1D6D60}.Debug|x86.Build.0 = Debug|Any CPU
+		{BFB4FD28-55E4-4AAC-BAD6-CD6C3B1D6D60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFB4FD28-55E4-4AAC-BAD6-CD6C3B1D6D60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFB4FD28-55E4-4AAC-BAD6-CD6C3B1D6D60}.Release|x64.ActiveCfg = Release|Any CPU
+		{BFB4FD28-55E4-4AAC-BAD6-CD6C3B1D6D60}.Release|x64.Build.0 = Release|Any CPU
+		{BFB4FD28-55E4-4AAC-BAD6-CD6C3B1D6D60}.Release|x86.ActiveCfg = Release|Any CPU
+		{BFB4FD28-55E4-4AAC-BAD6-CD6C3B1D6D60}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {80618018-C8BF-4C63-A5B2-3C6FD086AFC5}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BFB4FD28-55E4-4AAC-BAD6-CD6C3B1D6D60} = {920AF70A-39F7-4F9E-A336-DA64873FA2C9}
 	EndGlobalSection
 EndGlobal

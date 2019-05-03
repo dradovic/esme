@@ -15,33 +15,32 @@ namespace esme.Core.Tests
             const int Center = ViewBoxWidth / 2;
             const int OuterRadius = (ViewBoxWidth - ViewBoxOffset) / 2;
             const int InnerRadius = OuterRadius / 3;
-            DrawCircle(Center, Center, OuterRadius); // big outer
-            DrawCircle(Center, Center, InnerRadius); // center small one
+            HashSet<string> svgElements = new HashSet<string>();
+            svgElements.Add(DrawCircle(Center, Center, OuterRadius)); // big outer
+            //DrawCircle(Center, Center, InnerRadius); // center small one
 
-            HashSet<(double, double)> centers = new HashSet<(double, double)>();
-            foreach (var center in ComputeCenters(Center, Center, InnerRadius))
+            foreach (var (x, y) in ComputeCenters(Center, Center, InnerRadius))
             {
-                centers.Add(center); // eliminates doubles
+                double distanceToCenter = Math.Sqrt(Math.Pow(Center - x, 2) + Math.Pow(Center - y, 2));
+                bool overlapsOuterCircle = distanceToCenter > OuterRadius - InnerRadius + 1.0;
+                if (overlapsOuterCircle)
+                {
+
+                }
+                else
+                {
+                    svgElements.Add(DrawCircle(x, y, InnerRadius));
+                }
             }
-            foreach (var (x, y) in centers)
+            foreach (string svgElement in svgElements)
             {
-                DrawCircle(x, y, InnerRadius);
+                TestContext.Progress.WriteLine(svgElement);
             }
         }
 
-        //[Test]
-        //public void HashWithTuplesWorksAsExpected()
-        //{
-        //    var set = new HashSet<(double, double)>();
-        //    set.Add((Math.PI, Math.PI));
-        //    set.Add((Math.PI, Math.PI));
-        //    set.Add((Math.PI, 0.0));
-        //    Assert.AreEqual(2, set.Count);
-        //}
-
         private IEnumerable<(double, double)> ComputeCenters(double X, double Y, double R, int level = 0)
         {
-            if (level > 1) yield break;
+            if (level > 2) yield break;
 
             const double sixtyDegInRad = Math.PI / 3.0;
             for (int i = 0; i < 6; i++)
@@ -56,9 +55,26 @@ namespace esme.Core.Tests
             }
         }
 
-        private void DrawCircle(double x, double y, double r)
+        private string DrawCircle(double x, double y, double r)
         {
-            TestContext.Progress.WriteLine($"            <circle cx=\"{x:0.####}\" cy=\"{y:0.####}\" r=\"{r}\" stroke-width=\"1\" fill=\"none\" />");
+            return $"            <circle cx=\"{x:0.####}\" cy=\"{y:0.####}\" r=\"{r}\" stroke-width=\"1\" fill=\"none\" />";
+        }
+
+        private string DrawArc(double x, double y, double radius, double startAngle, double endAngle)
+        {
+            var start = PolarToCartesian(x, y, radius, endAngle);
+            var end = PolarToCartesian(x, y, radius, startAngle);
+
+            string largeArcFlag = endAngle - startAngle <= Math.PI ? "0" : "1";
+
+            var d = $"M {start.x} {start.y} A {radius} {radius} 0 {largeArcFlag} 0 {end.x} {end.y}";
+
+            return $"            <path d=\"{d}\" stroke-width=\"1\" fill=\"none\" />";
+        }
+
+        private (double x, double y) PolarToCartesian(double centerX, double centerY, double radius, double angle)
+        {
+            return (centerX + (radius * Math.Cos(angle)), centerY + (radius * Math.Sin(angle)));
         }
     }
 }

@@ -81,7 +81,7 @@ namespace esme.Core.Tests
 
         private string DrawCircle(double x, double y, double r)
         {
-            return $"            <circle cx=\"{x:0.####}\" cy=\"{y:0.####}\" r=\"{r}\" stroke-width=\"1\" fill=\"none\" />";
+            return $"            <circle cx=\"{x:0.####}\" cy=\"{y:0.####}\" r=\"{r}\" />";
         }
 
         private string DrawArc(double x, double y, double radius, double startAngle, double endAngle)
@@ -93,7 +93,7 @@ namespace esme.Core.Tests
 
             var d = $"M {start.x:0.####} {start.y:0.####} A {radius} {radius} 0 {largeArcFlag} 0 {end.x:0.####} {end.y:0.####}";
 
-            return $"            <path d=\"{d}\" stroke-width=\"1\" fill=\"none\" />";
+            return $"            <path d=\"{d}\" />";
         }
 
         private (double x, double y) PolarToCartesian(double centerX, double centerY, double radius, double angle)

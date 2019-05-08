@@ -13,22 +13,45 @@
         <defs>
             <radialGradient id="myGradient" gradientUnits="userSpaceOnUse">
                 <stop offset="0%" stop-color="white">
-                    <animate id="an1" attributeName="stop-color" values="white;gold;white" dur="12s" begin="2s" repeatCount="indefinite" />
+                    <animate id="an1" attributeName="stop-color" values="white;gold;white" dur="12s" repeatCount="1" />
+                </stop>
+                <stop offset="10%" stop-color="white">
+                    <animate id="an2" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an1.begin + 1s" repeatCount="1" />
+                    <animate id="an2_2" attributeName="stop-color" values="white;#fffdf2;white" dur="12s" begin="an2.end" repeatCount="indefinite" />
                 </stop>
                 <stop offset="20%" stop-color="white">
-                    <animate id="an2" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an1.begin + 2s" repeatCount="indefinite" />
+                    <animate id="an3" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an2.begin + 1s" repeatCount="1" />
+                    <animate id="an3_2" attributeName="stop-color" values="white;#fffbe6;white" dur="12s" begin="an3.end" repeatCount="indefinite" />
+                </stop>
+                <stop offset="30%" stop-color="white">
+                    <animate id="an4" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an3.begin + 1s" repeatCount="1" />
+                    <animate id="an4_2" attributeName="stop-color" values="white;#fff7cc;white" dur="12s" begin="an4.end" repeatCount="indefinite" />
                 </stop>
                 <stop offset="40%" stop-color="white">
-                    <animate id="an3" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an2.begin + 2s" repeatCount="indefinite" />
+                    <animate id="an5" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an4.begin + 1s" repeatCount="1" />
+                    <animate id="an5_2" attributeName="stop-color" values="white;#fff3b2;white" dur="12s" begin="an5.end" repeatCount="indefinite" />
+                </stop>
+                <stop offset="50%" stop-color="white">
+                    <animate id="an6" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an5.begin + 1s" repeatCount="1" />
+                    <animate id="an6_2" attributeName="stop-color" values="white;#ffed8c;white" dur="12s" begin="an6.end" repeatCount="indefinite" />
                 </stop>
                 <stop offset="60%" stop-color="white">
-                    <animate id="an4" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an3.begin + 2s" repeatCount="indefinite" />
+                    <animate id="an7" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an6.begin + 1s" repeatCount="indefinite" />
+                </stop>
+                <stop offset="70%" stop-color="white">
+                    <animate id="an8" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an7.begin + 1s" repeatCount="indefinite" />
                 </stop>
                 <stop offset="80%" stop-color="white">
-                    <animate id="an5" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an4.begin + 2s" repeatCount="indefinite" />
+                    <animate id="an9" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an8.begin + 1s" repeatCount="indefinite" />
+                </stop>
+                <stop offset="90%" stop-color="white">
+                    <animate id="an10" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an9.begin + 1s" repeatCount="indefinite" />
                 </stop>
                 <stop offset="100%" stop-color="white">
-                    <animate id="an5" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an4.begin + 2s" repeatCount="indefinite" />
+                    <animate id="an11" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an10.begin + 1s" repeatCount="indefinite" />
+                </stop>
+                <stop offset="110%" stop-color="white">
+                    <animate id="an12" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an11.begin + 1s" repeatCount="indefinite" />
                 </stop>
             </radialGradient>
         </defs>

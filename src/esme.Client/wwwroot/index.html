@@ -144,7 +144,8 @@
             <path d="M 130 25.0962 A 50 50 0 0 0 180 25.0962" />
             <path d="M 180 25.0962 A 50 50 0 0 0 230 25.0962" />
         </g>
-        <g class="fadeInAnimated">
+        <g opacity="0">
+            <animate id="anESME" attributeName="opacity" from="0" to="1" dur="12s" begin="indefinite" repeatCount="1" fill="freeze" />
             <text x="0" y="169" font-family="Arial Black" font-size="40px" transform="translate(107,0) scale(-1, 1)">E</text>
             <text x="117" y="169" font-family="Arial Black" font-size="40px">S</text>
             <text x="155" y="169" font-family="Arial Black" font-size="40px">M</text>
@@ -159,8 +160,8 @@
     <script src="_framework/blazor.webassembly.js"></script>
     <script type="text/javascript">
         window.startAnimation = function () {
-            var an1 = document.getElementById("an1");
             an1.beginElement();
+            anESME.beginElement();
         }
     </script>
 </body>

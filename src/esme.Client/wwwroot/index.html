@@ -150,6 +150,8 @@
             <text x="117" y="169" font-family="Arial Black" font-size="40px">S</text>
             <text x="155" y="169" font-family="Arial Black" font-size="40px">M</text>
             <text x="203" y="169" font-family="Arial Black" font-size="40px">E</text>
+            <animate id="anESMEfadeout" attributeName="fill" values="black;gold" dur="1s" begin="indefinite" repeatCount="1" fill="freeze" />
+            <animate id="anESMEfadeout_2" attributeName="opacity" from="1" to="0.1" dur="1s" begin="anESMEfadeout.begin" repeatCount="1" fill="freeze" />
         </g>
     </svg>
     <div class="d-flex align-items-center h-100">
@@ -162,6 +164,9 @@
         window.startAnimation = function () {
             an1.beginElement();
             anESME.beginElement();
+        }
+        window.endAnimation = function () {
+            anESMEfadeout.beginElement();
         }
     </script>
 </body>

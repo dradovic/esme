@@ -1,4 +1,6 @@
 @page "/"
+@using System
+@implements IDisposable
 @inject IJSRuntime JSRuntime
 
 <div>
@@ -13,5 +15,10 @@
     protected override async Task OnInitAsync()
     {
         await JSRuntime.InvokeAsync<string>("startAnimation");
+    }
+
+    public void Dispose()
+    {
+        JSRuntime.InvokeAsync<string>("endAnimation");
     }
 }

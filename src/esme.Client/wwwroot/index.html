@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -13,7 +13,7 @@
         <defs>
             <radialGradient id="myGradient" gradientUnits="userSpaceOnUse">
                 <stop offset="0%" stop-color="white">
-                    <animate id="an1" attributeName="stop-color" values="white;gold;white" dur="12s" begin="5s" repeatCount="1" />
+                    <animate id="an1" attributeName="stop-color" values="white;gold;white" dur="12s" begin="indefinite" repeatCount="1" />
                 </stop>
                 <stop offset="10%" stop-color="white">
                     <animate id="an2" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an1.begin + 1s" repeatCount="1" />
@@ -157,5 +157,11 @@
         </div>
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
+    <script type="text/javascript">
+        window.startAnimation = function () {
+            var an1 = document.getElementById("an1");
+            an1.beginElement();
+        }
+    </script>
 </body>
 </html>

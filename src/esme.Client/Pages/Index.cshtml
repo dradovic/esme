@@ -1,4 +1,5 @@
 @page "/"
+@inject IJSRuntime JSRuntime
 
 <div>
     <div class="display-1" style="letter-spacing:0.2em;padding-left:0.2em">
@@ -7,3 +8,10 @@
         </a>
     </div>
 </div>
+
+@functions {
+    protected override async Task OnInitAsync()
+    {
+        await JSRuntime.InvokeAsync<string>("startAnimation");
+    }
+}

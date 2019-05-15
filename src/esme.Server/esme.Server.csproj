@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\esme.Client\esme.Client.csproj" />
+    <ProjectReference Include="..\esme.Infrastructure\esme.Infrastructure.csproj" />
     <ProjectReference Include="..\esme.Shared\esme.Shared.csproj" />
   </ItemGroup>
 

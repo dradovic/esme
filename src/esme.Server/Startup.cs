@@ -32,22 +32,24 @@ namespace esme.Server
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(o =>
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+            services.Configure<IdentityOptions>(o =>
             {
-                //configure identity options
                 o.Password.RequireDigit = true;
                 o.Password.RequireLowercase = true;
                 o.Password.RequireUppercase = true;
                 o.Password.RequireNonAlphanumeric = true;
                 o.Password.RequiredLength = 8;
-            })
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-            services.Configure<IdentityOptions>(o =>
-            {
+                o.Password.RequiredUniqueChars = 6;
+
                 o.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
                 o.Lockout.MaxFailedAccessAttempts = 5;
+
+                o.User.RequireUniqueEmail = true;
             });
+
             services.Configure<SecurityStampValidatorOptions>(o =>
             {
                 o.ValidationInterval = TimeSpan.FromMinutes(10); // defines when cookie i.e. for password change or lockout is revalidated.
@@ -83,7 +85,7 @@ namespace esme.Server
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseAuthentication(); // add cookie-based authentication to the request pipeline
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

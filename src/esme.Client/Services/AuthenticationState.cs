@@ -1,5 +1,4 @@
 ﻿using esme.Shared.Users;
-using Microsoft.JSInterop;
 using System.Threading.Tasks;
 
 namespace esme.Client.Services
@@ -7,19 +6,18 @@ namespace esme.Client.Services
     public class AuthenticationState
     {
         private readonly IAuthorizationApi _authorizationApi;
-        private readonly IJSRuntime _jsRuntime;
 
         public UserViewModel User { get; private set; }
 
-        public AuthenticationState(IAuthorizationApi authorizationApi, IJSRuntime jsRuntime)
+        public AuthenticationState(IAuthorizationApi authorizationApi)
         {
             _authorizationApi = authorizationApi;
-            _jsRuntime = jsRuntime;
         }
 
-        public Task<bool> IsLoggedIn()
+        public async Task<bool> IsLoggedIn()
         {
-            return _jsRuntime.InvokeAsync<bool>("Authorization_LoginCookieExists"); // FIXME: da, find a better sln to this (maybe: https://stackoverflow.com/questions/41298621/js-get-cookie-asp-net-core-identity)
+            User = await _authorizationApi.TryFetchUser();
+            return User != null;
         }
 
         public async Task Login(LoginParameters loginParameters)

@@ -13,6 +13,7 @@ namespace esme.Client.Services
         Task<UserViewModel> Login(LoginParameters loginParameters);
         Task<UserViewModel> Register(SignupParameters signupParameters);
         Task Logout();
+        Task<UserViewModel> TryFetchUser();
     }
 
     public class AuthorizationApi : IAuthorizationApi
@@ -48,6 +49,12 @@ namespace esme.Client.Services
             result.EnsureSuccessStatusCode();
 
             return Json.Deserialize<UserViewModel>(await result.Content.ReadAsStringAsync());
+        }
+
+        public async Task<UserViewModel> TryFetchUser()
+        {
+            var result = await _httpClient.GetJsonAsync<UserViewModel>("api/Authorize/UserInfo");
+            return result;
         }
     }
 }

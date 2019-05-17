@@ -1,3 +1,27 @@
 ﻿@inherits LayoutComponentBase
+@inject AuthenticationState state
+@inject IUriHelper uriHelper
 
-@Body
+@if (IsLoggedIn)
+{
+    <button type="button" class="btn btn-link ml-md-auto" onclick="@LogoutClick">Logout</button>
+    @Body
+}
+
+@functions{
+    protected bool IsLoggedIn;
+    protected override async Task OnInitAsync()
+    {
+        IsLoggedIn = await state.IsLoggedIn();
+        if (!IsLoggedIn)
+        {
+            uriHelper.NavigateTo("/login");
+        }
+    }
+
+    async Task LogoutClick()
+    {
+        await state.Logout();
+        uriHelper.NavigateTo("/login");
+    }
+}

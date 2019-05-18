@@ -5,14 +5,15 @@ using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Linq;
 using System.Net.Mime;
+using System.Threading.Tasks;
 
 namespace esme.Server
 {
@@ -35,6 +36,7 @@ namespace esme.Server
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
             services.Configure<IdentityOptions>(o =>
             {
                 o.Password.RequireDigit = true;
@@ -55,16 +57,37 @@ namespace esme.Server
                 o.ValidationInterval = TimeSpan.FromMinutes(10); // defines when cookie i.e. for password change or lockout is revalidated.
             });
 
-            services.AddMvc()
-                 .AddMvcOptions(o =>
-                 {
-                     // make sure all controllers authorize by default
-                     o.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder()
-                              .RequireAuthenticatedUser()
-                              .Build()));
-                     o.Filters.Add(new RequireHttpsAttribute { Permanent = true });
-                 });
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true; // FIXME: da, required?
+            });
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.Events.OnRedirectToLogin = context =>
+                {
+                    context.Response.StatusCode = 401;
+                    return Task.CompletedTask;
+                };
+            });
+
+            // FIXME: da, introduce global authorization per default
+            services.AddControllers(o =>
+            {
+                //o.Filters.Add(new RequireHttpsAttribute { Permanent = true }); // FIXME: da, require https
+            }).AddNewtonsoftJson(); // FIXME: da, AddNewtonsoftJson needed?
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "esme API",
+                    Description = "esme REST API",
+                });
+            });
+                
             services.AddResponseCompression(options =>
             {
                 options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[]
@@ -83,18 +106,27 @@ namespace esme.Server
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseBlazorDebugging();
             }
 
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 //endpoints.MapHub<ChatHub>("/chat");
-                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapDefaultControllerRoute();
             });
+
+            if (env.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Test API V1");
+                });
+            }
 
             app.UseBlazor<Client.Startup>();
         }

@@ -3,22 +3,34 @@
 @inject IUriHelper uriHelper
 @inject AuthenticationState state
 
-<form onsubmit="@OnSubmit">
-    <label for="inputUsername" class="sr-only">User Name</label>
-    <input id="inputUsername" class="form-control" placeholder="Username" required autofocus bind="@loginParameters.UserName" />
-
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required bind="@loginParameters.Password" />
-
-    <div class="form-check m-3">
-        <input type="checkbox" id="inputRememberMe" class="form-check-input" bind="@loginParameters.RememberMe" />
-        <label class="form-check-label" for="inputRememberMe">Remember Me</label>
-    </div>
-
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-
-    <label class="text-danger">@error</label>
-</form>
+    <form onsubmit="@OnSubmit">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4 offset-sm-4 mb-2">
+                    <label for="inputUsername" class="sr-only">User Name</label>
+                    <input id="inputUsername" class="form-control" placeholder="Username" required autofocus bind="@loginParameters.UserName" />
+                </div>
+                <div class="w-100"></div>
+                <div class="col-sm-4 offset-sm-4 mb-2">
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required bind="@loginParameters.Password" />
+                </div>
+                <div class="w-100"></div>
+                <div class="col-sm-4 offset-sm-4 mb-2">
+                    <input type="checkbox" id="inputRememberMe" class="form-check-input" bind="@loginParameters.RememberMe" />
+                    <label class="form-check-label" for="inputRememberMe">Remember Me</label>
+                </div>
+                <div class="w-100"></div>
+                <div class="col-sm-4 offset-sm-4 mb-2">
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                </div>
+                <div class="w-100"></div>
+                <div class="col-sm-4 offset-sm-4">
+                    <label class="text-danger">@error</label>
+                </div>
+            </div>
+        </div>
+    </form>
 
 @functions{
 

@@ -16,7 +16,7 @@ namespace esme.Client.Services
 
         public async Task<bool> IsLoggedIn()
         {
-            User = await _authorizationApi.TryFetchUser();
+            User = await _authorizationApi.TryGetUser();
             return User != null;
         }
 

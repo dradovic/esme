@@ -13,7 +13,7 @@ namespace esme.Client.Services
         Task<UserViewModel> Login(LoginParameters loginParameters);
         Task<UserViewModel> Register(SignupParameters signupParameters);
         Task Logout();
-        Task<UserViewModel> TryFetchUser();
+        Task<UserViewModel> TryGetUser();
     }
 
     public class AuthorizationApi : IAuthorizationApi
@@ -28,7 +28,7 @@ namespace esme.Client.Services
         public async Task<UserViewModel> Login(LoginParameters loginParameters)
         {
             var stringContent = new StringContent(Json.Serialize(loginParameters), Encoding.UTF8, "application/json");
-            var result = await _httpClient.PostAsync("api/Authorize/Login", stringContent);
+            var result = await _httpClient.PostAsync("api/authorization/login", stringContent);
             if (result.StatusCode == System.Net.HttpStatusCode.BadRequest) throw new Exception(await result.Content.ReadAsStringAsync());
             result.EnsureSuccessStatusCode();
 
@@ -37,23 +37,23 @@ namespace esme.Client.Services
 
         public async Task Logout()
         {
-            var result = await _httpClient.PostAsync("api/Authorize/Logout", null);
+            var result = await _httpClient.PostAsync("api/authorization/logout", null);
             result.EnsureSuccessStatusCode();
         }
 
         public async Task<UserViewModel> Register(SignupParameters signupParameters)
         {
             var stringContent = new StringContent(Json.Serialize(signupParameters), Encoding.UTF8, "application/json");
-            var result = await _httpClient.PostAsync("api/Authorize/Register", stringContent);
+            var result = await _httpClient.PostAsync("api/authorization/register", stringContent);
             if (result.StatusCode == System.Net.HttpStatusCode.BadRequest) throw new Exception(await result.Content.ReadAsStringAsync());
             result.EnsureSuccessStatusCode();
 
             return Json.Deserialize<UserViewModel>(await result.Content.ReadAsStringAsync());
         }
 
-        public async Task<UserViewModel> TryFetchUser()
+        public async Task<UserViewModel> TryGetUser()
         {
-            var result = await _httpClient.GetJsonAsync<UserViewModel>("api/Authorize/UserInfo");
+            var result = await _httpClient.GetJsonAsync<UserViewModel>("api/authorization/me");
             return result;
         }
     }

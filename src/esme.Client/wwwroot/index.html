@@ -9,167 +9,25 @@
     <link href="css/site.css" rel="stylesheet" />
 </head>
 <body style="height:100vh">
-    <svg style="z-index:-1;position:absolute;" width="100%" height="100%" viewBox="0 0 310 310">
-        <defs>
-            <radialGradient id="myGradient" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stop-color="white">
-                    <animate id="an1" attributeName="stop-color" values="white;gold;white" dur="12s" begin="indefinite" repeatCount="1" />
-                </stop>
-                <stop offset="10%" stop-color="white">
-                    <animate id="an2" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an1.begin + 1s" repeatCount="1" />
-                    <animate id="an2_2" attributeName="stop-color" values="white;#fffdf2;white" dur="12s" begin="an2.end" repeatCount="indefinite" />
-                </stop>
-                <stop offset="20%" stop-color="white">
-                    <animate id="an3" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an2.begin + 1s" repeatCount="1" />
-                    <animate id="an3_2" attributeName="stop-color" values="white;#fffbe6;white" dur="12s" begin="an3.end" repeatCount="indefinite" />
-                </stop>
-                <stop offset="30%" stop-color="white">
-                    <animate id="an4" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an3.begin + 1s" repeatCount="1" />
-                    <animate id="an4_2" attributeName="stop-color" values="white;#fff7cc;white" dur="12s" begin="an4.end" repeatCount="indefinite" />
-                </stop>
-                <stop offset="40%" stop-color="white">
-                    <animate id="an5" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an4.begin + 1s" repeatCount="1" />
-                    <animate id="an5_2" attributeName="stop-color" values="white;#fff3b2;white" dur="12s" begin="an5.end" repeatCount="indefinite" />
-                </stop>
-                <stop offset="50%" stop-color="white">
-                    <animate id="an6" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an5.begin + 1s" repeatCount="1" />
-                    <animate id="an6_2" attributeName="stop-color" values="white;#ffed8c;white" dur="12s" begin="an6.end" repeatCount="indefinite" />
-                </stop>
-                <stop offset="60%" stop-color="white">
-                    <animate id="an7" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an6.begin + 1s" repeatCount="indefinite" />
-                </stop>
-                <stop offset="70%" stop-color="white">
-                    <animate id="an8" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an7.begin + 1s" repeatCount="indefinite" />
-                </stop>
-                <stop offset="80%" stop-color="white">
-                    <animate id="an9" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an8.begin + 1s" repeatCount="indefinite" />
-                </stop>
-                <stop offset="90%" stop-color="white">
-                    <animate id="an10" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an9.begin + 1s" repeatCount="indefinite" />
-                </stop>
-                <stop offset="100%" stop-color="white">
-                    <animate id="an11" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an10.begin + 1s" repeatCount="indefinite" />
-                </stop>
-                <stop offset="110%" stop-color="white">
-                    <animate id="an12" attributeName="stop-color" values="white;gold;white" dur="12s" begin="an11.begin + 1s" repeatCount="indefinite" />
-                </stop>
-            </radialGradient>
-        </defs>
-        <g style="stroke:url(#myGradient)" stroke-width="1" fill="none">
-            <circle cx="155" cy="155" r="153" stroke-width="0.5" />
-            <circle cx="155" cy="155" r="150" />
-            <circle cx="205" cy="155" r="50" />
-            <circle cx="255" cy="155" r="50" />
-            <path d="M 255 155 A 50 50 0 0 0 280 198.3013" />
-            <path d="M 280 111.6987 A 50 50 0 0 0 255 155" />
-            <path d="M 305 155 A 50 50 0 0 0 280 198.3013" />
-            <path d="M 230 198.3013 A 50 50 0 0 0 255 241.6025" />
-            <path d="M 255 155 A 50 50 0 0 0 230 198.3013" />
-            <path d="M 305 155 A 50 50 0 0 0 255 155" />
-            <path d="M 255 155 A 50 50 0 0 0 305 155" />
-            <path d="M 230 111.6987 A 50 50 0 0 0 255 155" />
-            <path d="M 255 68.3975 A 50 50 0 0 0 230 111.6987" />
-            <path d="M 280 111.6987 A 50 50 0 0 0 305 155" />
-            <path d="M 280 198.3013 A 50 50 0 0 0 255 241.6025" />
-            <path d="M 205 241.6025 A 50 50 0 0 0 230 284.9038" />
-            <path d="M 230 198.3013 A 50 50 0 0 0 205 241.6025" />
-            <path d="M 280 198.3013 A 50 50 0 0 0 230 198.3013" />
-            <circle cx="230" cy="198.3013" r="50" />
-            <circle cx="205" cy="241.6025" r="50" />
-            <circle cx="180" cy="198.3013" r="50" />
-            <circle cx="155" cy="155" r="50" />
-            <circle cx="180" cy="111.6987" r="50" />
-            <circle cx="230" cy="111.6987" r="50" />
-            <circle cx="205" cy="68.3975" r="50" />
-            <path d="M 230 111.6987 A 50 50 0 0 0 280 111.6987" />
-            <path d="M 205 68.3975 A 50 50 0 0 0 230 111.6987" />
-            <path d="M 230 25.0962 A 50 50 0 0 0 205 68.3975" />
-            <path d="M 255 68.3975 A 50 50 0 0 0 280 111.6987" />
-            <path d="M 255 241.6025 A 50 50 0 0 0 230 284.9038" />
-            <path d="M 205 241.6025 A 50 50 0 0 0 180 284.9038" />
-            <path d="M 255 241.6025 A 50 50 0 0 0 205 241.6025" />
-            <path d="M 155 241.6025 A 50 50 0 0 0 130 284.9038" />
-            <path d="M 205 241.6025 A 50 50 0 0 0 155 241.6025" />
-            <path d="M 230 284.9038 A 50 50 0 0 0 205 241.6025" />
-            <circle cx="155" cy="241.6025" r="50" />
-            <circle cx="130" cy="198.3013" r="50" />
-            <path d="M 105 241.6025 A 50 50 0 0 0 80 284.9038" />
-            <path d="M 155 241.6025 A 50 50 0 0 0 105 241.6025" />
-            <path d="M 180 284.9038 A 50 50 0 0 0 155 241.6025" />
-            <circle cx="105" cy="241.6025" r="50" />
-            <circle cx="80" cy="198.3013" r="50" />
-            <circle cx="105" cy="155" r="50" />
-            <circle cx="130" cy="111.6987" r="50" />
-            <circle cx="55" cy="155" r="50" />
-            <circle cx="80" cy="111.6987" r="50" />
-            <circle cx="105" cy="68.3975" r="50" />
-            <circle cx="155" cy="68.3975" r="50" />
-            <path d="M 155 68.3975 A 50 50 0 0 0 180 25.0962" />
-            <path d="M 105 68.3975 A 50 50 0 0 0 155 68.3975" />
-            <path d="M 80 25.0962 A 50 50 0 0 0 105 68.3975" />
-            <path d="M 205 68.3975 A 50 50 0 0 0 230 25.0962" />
-            <path d="M 155 68.3975 A 50 50 0 0 0 205 68.3975" />
-            <path d="M 130 25.0962 A 50 50 0 0 0 155 68.3975" />
-            <path d="M 205 68.3975 A 50 50 0 0 0 255 68.3975" />
-            <path d="M 180 25.0962 A 50 50 0 0 0 205 68.3975" />
-            <path d="M 230 25.0962 A 50 50 0 0 0 255 68.3975" />
-            <path d="M 230 284.9038 A 50 50 0 0 0 180 284.9038" />
-            <path d="M 180 284.9038 A 50 50 0 0 0 130 284.9038" />
-            <path d="M 130 284.9038 A 50 50 0 0 0 80 284.9038" />
-            <path d="M 105 241.6025 A 50 50 0 0 0 55 241.6025" />
-            <path d="M 130 284.9038 A 50 50 0 0 0 105 241.6025" />
-            <path d="M 80 284.9038 A 50 50 0 0 0 105 241.6025" />
-            <path d="M 80 198.3013 A 50 50 0 0 0 30 198.3013" />
-            <path d="M 105 241.6025 A 50 50 0 0 0 80 198.3013" />
-            <path d="M 55 241.6025 A 50 50 0 0 0 80 198.3013" />
-            <path d="M 55 155 A 50 50 0 0 0 5 155" />
-            <path d="M 80 198.3013 A 50 50 0 0 0 55 155" />
-            <path d="M 80 284.9038 A 50 50 0 0 0 55 241.6025" />
-            <path d="M 55 241.6025 A 50 50 0 0 0 30 198.3013" />
-            <path d="M 30 198.3013 A 50 50 0 0 0 5 155" />
-            <path d="M 30 198.3013 A 50 50 0 0 0 55 155" />
-            <path d="M 55 155 A 50 50 0 0 0 30 111.6987" />
-            <path d="M 55 155 A 50 50 0 0 0 80 111.6987" />
-            <path d="M 5 155 A 50 50 0 0 0 55 155" />
-            <path d="M 80 111.6987 A 50 50 0 0 0 55 68.3975" />
-            <path d="M 80 111.6987 A 50 50 0 0 0 105 68.3975" />
-            <path d="M 30 111.6987 A 50 50 0 0 0 80 111.6987" />
-            <path d="M 105 68.3975 A 50 50 0 0 0 80 25.0962" />
-            <path d="M 5 155 A 50 50 0 0 0 30 111.6987" />
-            <path d="M 30 111.6987 A 50 50 0 0 0 55 68.3975" />
-            <path d="M 55 68.3975 A 50 50 0 0 0 80 25.0962" />
-            <path d="M 105 68.3975 A 50 50 0 0 0 130 25.0962" />
-            <path d="M 55 68.3975 A 50 50 0 0 0 105 68.3975" />
-            <path d="M 80 25.0962 A 50 50 0 0 0 130 25.0962" />
-            <path d="M 130 25.0962 A 50 50 0 0 0 180 25.0962" />
-            <path d="M 180 25.0962 A 50 50 0 0 0 230 25.0962" />
-        </g>
-        <g opacity="0">
-            <animate id="anESME" attributeName="opacity" from="0" to="1" dur="12s" begin="indefinite" repeatCount="1" fill="freeze" />
-            <text x="0" y="169" font-family="Arial Black" font-size="40px" transform="translate(107,0) scale(-1, 1)">E</text>
-            <text x="117" y="169" font-family="Arial Black" font-size="40px">S</text>
-            <text x="155" y="169" font-family="Arial Black" font-size="40px">M</text>
-            <text x="203" y="169" font-family="Arial Black" font-size="40px">E</text>
-            <animate id="anESMEfadeout" attributeName="fill" values="black;gold" dur="1s" begin="indefinite" repeatCount="1" fill="freeze" />
-            <animate id="anESMEfadeout_2" attributeName="opacity" from="1" to="0.1" dur="1s" begin="anESMEfadeout.begin" repeatCount="1" fill="freeze" />
-        </g>
-    </svg>
-    <div class="d-flex align-items-center h-100">
-        <div class="container text-center">
-            <app>
+    <app>
+        <div class="d-flex align-items-center h-100">
+            <div class="container text-center">
                 <div class="display-4">
                     LOADING
                 </div>
-            </app>
+            </div>
         </div>
-    </div>
+    </app>
     <script src="_framework/blazor.webassembly.js"></script>
     <script type="text/javascript">
         window.startAnimation = function () {
+            const an1 = document.getElementById("an1");
             an1.beginElement();
+            const anESME = document.getElementById("anESME");
             anESME.beginElement();
         }
         window.endAnimation = function () {
+            const anESMEfadeout = document.getElementById("anESMEfadeout");
             anESMEfadeout.beginElement();
         }
     </script>

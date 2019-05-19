@@ -16,9 +16,11 @@
                     <input type="password" id="inputPassword" class="form-control" placeholder="Password" required bind="@loginParameters.Password" />
                 </div>
                 <div class="w-100"></div>
-                <div class="col-sm-4 offset-sm-4 mb-2">
-                    <input type="checkbox" id="inputRememberMe" class="form-check-input" bind="@loginParameters.RememberMe" />
-                    <label class="form-check-label" for="inputRememberMe">Remember Me</label>
+                <div class="col-sm-4 offset-sm-4 mb-2 text-left"> @*FIXME: da, rather use text-left by default*@
+                    <label class="form-check-label" for="inputRememberMe">
+                        <input type="checkbox" id="inputRememberMe" class="form-check-input" bind="@loginParameters.RememberMe" />
+                        Remember Me
+                    </label>
                 </div>
                 <div class="w-100"></div>
                 <div class="col-sm-4 offset-sm-4 mb-2">

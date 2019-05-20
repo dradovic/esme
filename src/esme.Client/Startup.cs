@@ -1,4 +1,5 @@
-using Microsoft.AspNetCore.Blazor.Builder;
+using esme.Client.Services;
+using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace esme.Client
@@ -7,9 +8,11 @@ namespace esme.Client
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<AuthenticationState>();
+            services.AddScoped<IAuthorizationApi, AuthorizationApi>();
         }
 
-        public void Configure(IBlazorApplicationBuilder app)
+        public void Configure(IComponentsApplicationBuilder app)
         {
             app.AddComponent<App>("app");
         }

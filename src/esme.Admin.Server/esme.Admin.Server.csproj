@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\esme.Admin.App\esme.Admin.App.csproj" />
+    <ProjectReference Include="..\esme.Infrastructure\esme.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

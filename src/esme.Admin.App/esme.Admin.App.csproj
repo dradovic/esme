@@ -10,4 +10,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0.0-preview5-19227-01" PrivateAssets="all" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\esme.Admin.Shared\esme.Admin.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

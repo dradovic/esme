@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using System.Net.Mime;
+using esme.Admin.Shared.Services;
+using esme.Infrastructure.Services;
 
 namespace esme.Admin.Server
 {
@@ -28,6 +30,7 @@ namespace esme.Admin.Server
                     WasmMediaTypeNames.Application.Wasm,
                 });
             });
+            services.AddScoped<ISampleDataService, AdminSampleDataService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

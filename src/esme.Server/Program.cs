@@ -49,6 +49,7 @@ namespace esme.Server
                     config.SetBasePath(context.HostingEnvironment.ContentRootPath);
                     config.AddJsonFile("appsettings.json");
                     config.AddJsonFile($"appsettings.{env.EnvironmentName.ToLower()}.json", optional: true);
+                    config.AddUserSecrets<Startup>();
                 })
                 .UseStartup<Startup>()
                 .Build();

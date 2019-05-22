@@ -13,9 +13,14 @@ namespace esme.Admin.Server
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseConfiguration(new ConfigurationBuilder()
-                    .AddCommandLine(args)
-                    .Build())
+                .ConfigureAppConfiguration((context, config) =>
+                {
+                    var env = context.HostingEnvironment;
+                    config.SetBasePath(context.HostingEnvironment.ContentRootPath);
+                    config.AddJsonFile("appsettings.json");
+                    config.AddJsonFile($"appsettings.{env.EnvironmentName.ToLower()}.json", optional: true);
+                    config.AddUserSecrets<Startup>();
+                })
                 .UseStartup<Startup>()
                 .Build();
     }

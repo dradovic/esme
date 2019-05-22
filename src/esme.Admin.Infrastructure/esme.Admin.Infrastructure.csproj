@@ -1,11 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0-preview5-19227-01" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\esme.Admin.Shared\esme.Admin.Shared.csproj" />
+    <ProjectReference Include="..\esme.Infrastructure\esme.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

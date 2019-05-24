@@ -14,6 +14,7 @@ using esme.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using System;
+using GridMvc;
 
 namespace esme.Admin.Server
 {
@@ -56,6 +57,8 @@ namespace esme.Admin.Server
             //services.AddSingleton<CircuitHandler, LoggingCircuitHandler>();
             services.AddServerSideBlazor();
 
+            services.AddGridMvc();
+
             services.AddResponseCompression(options =>
             {
                 options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[]
@@ -65,6 +68,7 @@ namespace esme.Admin.Server
                 });
             });
             services.AddScoped<ISampleDataService, SampleDataService>();
+            services.AddScoped<IUsersGridService, UsersGridService>();
 
             services.AddOptions();
             services.Configure<SampleDataOptions>(_configuration.GetSection("SampleData"));

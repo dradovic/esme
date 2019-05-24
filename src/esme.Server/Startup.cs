@@ -76,7 +76,7 @@ namespace esme.Server
             // FIXME: da, introduce global authorization per default
             services.AddControllers(o =>
             {
-                //o.Filters.Add(new RequireHttpsAttribute { Permanent = true }); // FIXME: da, require https
+                o.Filters.Add(new RequireHttpsAttribute { Permanent = true });
             }).AddNewtonsoftJson(); // FIXME: da, AddNewtonsoftJson needed?
 
             services.AddSwaggerGen(c =>

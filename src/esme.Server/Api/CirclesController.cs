@@ -29,8 +29,7 @@ namespace esme.Server.Api
         {
             string userId = _userManager.GetUserId(User);
             var user = await _db.Users.Include(u => u.Circles).SingleOrDefaultAsync(u => u.Id == userId);
-            var circles = new[] { Circle.OpenCircle }.Union(user.Circles.Select(uc => uc.Circle));
-            return Ok(circles.Select(c => new CircleViewModel { Name = c.Name })); // FIXME: da, use AutoMapper
+            return Ok(user.AllCircles.Select(c => new CircleViewModel { Name = c.Name })); // FIXME: da, use AutoMapper
         }
     }
 }

@@ -17,6 +17,9 @@ namespace esme.Infrastructure.Data
 
             modelBuilder.Entity<CircleUser>()
                 .HasKey(e => new { e.CircleId, e.UserId });
+
+            modelBuilder.Entity<Circle>()
+                .HasData(Circle.OpenCircle);
         }
     }
 }

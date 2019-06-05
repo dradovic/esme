@@ -10,7 +10,7 @@ else
     @foreach (var circle in Circles)
     {
         <div>
-            @circle.Name
+            <button type="button" class="btn btn-link ml-md-auto" onclick="@(() => CircleClick(circle))">@circle.Name</button>
         </div>
     }
 }

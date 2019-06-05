@@ -1,26 +1,16 @@
 @page "/home"
-@inject HttpClient Http
-@using esme.Shared.Circles
+@inherits HomeBase
 
-@if (circles == null)
+@if (_circles == null)
 {
     <p>Loading...</p>
 }
 else
 {
-    @foreach (var circle in circles)
+    @foreach (var circle in _circles)
     {
         <div>
             @circle.Name
         </div>
-    }
-}
-
-@functions {
-    CircleViewModel[] circles;
-
-    protected override async Task OnInitAsync()
-    {
-        circles = await Http.GetJsonAsync<CircleViewModel[]>("api/my/circles");
     }
 }

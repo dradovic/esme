@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace esme.Server.Api
 {
-    [Route("api/my/[controller]/[action]")]
+    [Route("api/my/[action]")]
     [ApiController] // FIXME: da, decorate on assembly level
     [Authorize]
     public class CirclesController : ControllerBase
@@ -24,11 +24,13 @@ namespace esme.Server.Api
             _userManager = userManager;
         }
 
-        public async Task<ActionResult<IEnumerable<CircleViewModel>>> GetCircles()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<CircleViewModel>>> Circles()
         {
             string userId = _userManager.GetUserId(User);
             var user = await _db.Users.Include(u => u.Circles).SingleOrDefaultAsync(u => u.Id == userId);
-            return Ok(user.Circles.Select(c => new CircleViewModel { Name = c.Circle.Name })); // FIXME: da, use AutoMapper
+            var circles = new[] { Circle.OpenCircle }.Union(user.Circles.Select(uc => uc.Circle));
+            return Ok(circles.Select(c => new CircleViewModel { Name = c.Name })); // FIXME: da, use AutoMapper
         }
     }
 }

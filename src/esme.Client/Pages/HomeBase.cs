@@ -7,14 +7,14 @@ namespace esme.Client.Pages
 {
     public abstract class HomeBase : ComponentBase
     {
-        protected CircleViewModel[] _circles;
+        protected CircleViewModel[] Circles { get; private set; }
 
         [Inject]
         private HttpClient Http { get; set; }
 
         protected override async Task OnInitAsync()
         {
-            _circles = await Http.GetJsonAsync<CircleViewModel[]>("api/my/circles");
+            Circles = await Http.GetJsonAsync<CircleViewModel[]>("api/my/circles");
         }
     }
 }

@@ -1,13 +1,13 @@
 @page "/home"
 @inherits HomeBase
 
-@if (_circles == null)
+@if (Circles == null)
 {
     <p>Loading...</p>
 }
 else
 {
-    @foreach (var circle in _circles)
+    @foreach (var circle in Circles)
     {
         <div>
             @circle.Name

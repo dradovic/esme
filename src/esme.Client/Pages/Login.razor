@@ -1,25 +1,24 @@
 ﻿@page "/login"
+@inherits LoginBase
 @layout FlowerOfLifeLayout
-@inject IUriHelper uriHelper
-@inject AuthenticationState state
 
 <form onsubmit="@OnSubmit">
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-4 offset-sm-4 mb-2">
                 <label for="inputUsername" class="sr-only">User Name</label>
-                <input id="inputUsername" class="form-control" placeholder="Username" required autofocus bind="@loginParameters.UserName" />
+                <input id="inputUsername" class="form-control" placeholder="Username" required autofocus bind="@LoginParameters.UserName" />
             </div>
             <div class="w-100"></div>
             <div class="col-sm-4 offset-sm-4 mb-2">
                 <label for="inputPassword" class="sr-only">Password</label>
-                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required bind="@loginParameters.Password" />
+                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required bind="@LoginParameters.Password" />
             </div>
             <div class="w-100"></div>
             <div class="col-sm-4 offset-sm-4 mb-2 text-left">
                 @*FIXME: da, rather use text-left by default*@
                 <label class="form-check-label" for="inputRememberMe">
-                    <input type="checkbox" id="inputRememberMe" class="form-check-input" bind="@loginParameters.RememberMe" />
+                    <input type="checkbox" id="inputRememberMe" class="form-check-input" bind="@LoginParameters.RememberMe" />
                     Remember Me
                 </label>
             </div>
@@ -29,28 +28,8 @@
             </div>
             <div class="w-100"></div>
             <div class="col-sm-4 offset-sm-4">
-                <label class="text-danger">@error</label>
+                <label class="text-danger">@Error</label>
             </div>
         </div>
     </div>
 </form>
-
-@functions{
-
-    LoginParameters loginParameters { get; set; } = new LoginParameters();
-    string error { get; set; }
-
-    async Task OnSubmit()
-    {
-        error = null;
-        try
-        {
-            await state.Login(loginParameters);
-            uriHelper.NavigateTo("/home");
-        }
-        catch (Exception x)
-        {
-            error = x.Message;
-        }
-    }
-}

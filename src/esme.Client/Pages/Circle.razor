@@ -1,4 +1,18 @@
 ﻿@page "/circle/{Id:int}"
 @inherits CircleBase
 
-<p>The Id is @Id</p>
+@if (Messages == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    @foreach (var message in Messages)
+    {
+        <div>
+            On @message.SentAt @message.SentBy said:<br /> 
+            @message.Text
+        </div>
+    }
+}
+

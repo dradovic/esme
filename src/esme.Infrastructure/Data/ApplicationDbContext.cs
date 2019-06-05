@@ -11,6 +11,8 @@ namespace esme.Infrastructure.Data
 
         public DbSet<Circle> Circles { get; set; }
 
+        public DbSet<Message> Messages { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -10,7 +10,7 @@ else
     @foreach (var message in Messages)
     {
         <div>
-            On @message.SentAt @message.SentBy said:<br /> 
+            On @message.SentAt.ToString("g") @message.SentBy said:<br /> 
             @message.Text
         </div>
     }

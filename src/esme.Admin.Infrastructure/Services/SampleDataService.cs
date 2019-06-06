@@ -25,12 +25,12 @@ namespace esme.Admin.Infrastructure.Services
         public async Task ResetAllWithSampleData()
         {
             await DeleteAll();
-            await AddUser();
-            AddData();
+            var user = await AddUser();
+            AddData(user);
             await _db.SaveChangesAsync();
         }
 
-        private void AddData()
+        private void AddData(ApplicationUser user)
         {
             //_db.Circles.Add(new Circle
             //{
@@ -41,11 +41,11 @@ namespace esme.Admin.Infrastructure.Services
                 CircleId = Circle.OpenCircle.Id,
                 Text = "Hello everybody!",
                 SentAt = DateTimeOffset.UtcNow,
-                SentBy = _options.UserName,
+                SentBy = user.Id,
             });
         }
 
-        private async Task AddUser()
+        private async Task<ApplicationUser> AddUser()
         {
             var user = new ApplicationUser
             {
@@ -58,6 +58,7 @@ namespace esme.Admin.Infrastructure.Services
                 string errors = string.Join(", ", result.Errors.Select(e => e.Description));
                 throw new InvalidOperationException($"Could not create sample user: {errors}.");
             }
+            return user;
         }
 
         private async Task DeleteAll()

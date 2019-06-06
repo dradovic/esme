@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,11 +29,7 @@ namespace esme.Server.Api
         public async Task<ActionResult<IEnumerable<MessageViewModel>>> Messages(int circleId)
         {
             string userId = _userManager.GetUserId(User);
-            var user = await _db.Users.Include(u => u.Circles).SingleOrDefaultAsync(u => u.Id == userId);
-            if (!user.AllCircles.Any(c => c.Id == circleId))
-            {
-                return NotFound();
-            }
+            if (!await UserIsInCircle(userId, circleId)) return NotFound();
 
             var messages = _db.Messages
                 .Where(m => m.CircleId == circleId)
@@ -43,7 +40,30 @@ namespace esme.Server.Api
                 Text = m.Text,
                 SentAt = m.SentAt,
                 SentBy = m.SentBy,
-            })); // FIXME: da, use AutoMapper
+            })); // SUGGESTION: da, use AutoMapper
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Messages(int circleId, [FromBody]MessageEditModel model)
+        {
+            string userId = _userManager.GetUserId(User);
+            if (!await UserIsInCircle(userId, circleId)) return NotFound();
+
+            _db.Messages.Add(new Message
+            {
+                CircleId = circleId,
+                Text = model.Text, // FIXME: da, validate model for max length
+                SentAt = DateTimeOffset.UtcNow,
+                SentBy = userId,
+            });
+            await _db.SaveChangesAsync();
+            return Ok();
+        }
+
+        private async Task<bool> UserIsInCircle(string userId, int circleId)
+        {
+            var user = await _db.Users.Include(u => u.Circles).SingleOrDefaultAsync(u => u.Id == userId);
+            return user.AllCircles.Any(c => c.Id == circleId);
         }
     }
 }

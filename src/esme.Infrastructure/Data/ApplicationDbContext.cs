@@ -22,6 +22,9 @@ namespace esme.Infrastructure.Data
 
             modelBuilder.Entity<Circle>()
                 .HasData(Circle.OpenCircle);
+
+            modelBuilder.Entity<Message>()
+                .HasIndex(m => m.CircleId);
         }
     }
 }

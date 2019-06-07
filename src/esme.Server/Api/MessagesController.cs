@@ -31,9 +31,11 @@ namespace esme.Server.Api
             string userId = _userManager.GetUserId(User);
             if (!await UserIsInCircle(userId, circleId)) return NotFound();
 
-            var messages = _db.Messages
-                .Where(m => m.CircleId == circleId)
-                .OrderBy(m => m.Id); // FIXME: da, implement paging
+            var messages = from m in _db.Messages.Where(m => m.CircleId == circleId)
+                           join u in _db.Users on m.SentBy equals u.Id into MessageUsers
+                           from u in MessageUsers.DefaultIfEmpty()
+                           orderby m.Id
+                           select new { m.Id, m.Text, m.SentAt, SentBy = u != null ? u.UserName : "Unknown" }; // FIXME: da, implement paging
             return Ok(messages.Select(m => new MessageViewModel
             {
                 Id = m.Id,

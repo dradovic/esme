@@ -1,4 +1,5 @@
 using esme.Infrastructure.Data;
+using esme.Server.Api;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Server;
@@ -88,7 +89,9 @@ namespace esme.Server
                     Description = "esme REST API",
                 });
             });
-                
+
+            services.AddSignalR();
+
             services.AddResponseCompression(options =>
             {
                 options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[]
@@ -128,6 +131,8 @@ namespace esme.Server
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Test API V1");
                 });
             }
+
+            app.UseSignalR(routes => routes.MapHub<MessagesHub>("/my/hub"));
 
             app.UseBlazor<Client.Startup>();
         }

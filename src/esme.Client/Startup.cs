@@ -1,3 +1,4 @@
+using Blazor.Extensions;
 using esme.Client.Services;
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,6 +9,8 @@ namespace esme.Client
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<HubConnectionBuilder>();
+
             services.AddScoped<AuthenticationState>();
             services.AddScoped<IAuthorizationApi, AuthorizationApi>();
         }

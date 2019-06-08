@@ -3,6 +3,7 @@ using esme.Shared.Circles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,13 +17,15 @@ namespace esme.Server.Api
     [Authorize]
     public class MessagesController : ControllerBase
     {
-        private readonly ApplicationDbContext _db; // FIXME: da, use MediatR
+        private readonly ApplicationDbContext _db; // FEATURE: da, use MediatR
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IHubContext<MessagesHub, IMessagesHub> _messagesHub;
 
-        public MessagesController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
+        public MessagesController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IHubContext<MessagesHub, IMessagesHub> messagesHub)
         {
             _db = db;
             _userManager = userManager;
+            _messagesHub = messagesHub;
         }
 
         [HttpGet]
@@ -32,13 +35,7 @@ namespace esme.Server.Api
             if (!await UserIsInCircle(userId, circleId)) return NotFound();
 
             var messages = _db.Messages.Where(m => m.CircleId == circleId); // FIXME: da, implement paging
-            return Ok(messages.Select(m => new MessageViewModel
-            {
-                Id = m.Id,
-                Text = m.Text,
-                SentAt = m.SentAt,
-                SenderName = m.SenderName,
-            })); // SUGGESTION: da, use AutoMapper
+            return Ok(messages.Select(ToViewModel));
         }
 
         [HttpPost]
@@ -47,15 +44,17 @@ namespace esme.Server.Api
             var userId = _userManager.ParseUserId(User);
             if (!await UserIsInCircle(userId, circleId)) return NotFound();
 
-            _db.Messages.Add(new Message
+            Message message = new Message
             {
                 CircleId = circleId,
                 Text = model.Text, // FIXME: da, validate model for max length
                 SentAt = DateTimeOffset.UtcNow,
                 SentBy = userId,
                 SenderName = _userManager.GetUserName(User),
-            }); ;
+            };
+            _db.Messages.Add(message); ;
             await _db.SaveChangesAsync();
+            await _messagesHub.Clients.All.MessageAdded(1); // FIXME: da, do not send to *all* users
             return Ok();
         }
 
@@ -63,6 +62,17 @@ namespace esme.Server.Api
         {
             var user = await _db.Users.Include(u => u.Circles).SingleOrDefaultAsync(u => u.Id == userId);
             return user.AllCircles.Any(c => c.Id == circleId);
+        }
+
+        private static MessageViewModel ToViewModel(Message message)
+        {
+            return new MessageViewModel
+            {
+                Id = message.Id,
+                Text = message.Text,
+                SentAt = message.SentAt,
+                SenderName = message.SenderName,
+            };
         }
     }
 }

@@ -42,6 +42,7 @@ namespace esme.Admin.Infrastructure.Services
                 Text = "Hello everybody!",
                 SentAt = DateTimeOffset.UtcNow,
                 SentBy = user.Id,
+                SenderName = user.UserName,
             });
         }
 

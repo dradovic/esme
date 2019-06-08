@@ -7,6 +7,6 @@ namespace esme.Shared.Circles
         public long Id { get; set; }
         public string Text { get; set; }
         public DateTimeOffset SentAt { get; set; }
-        public string SentBy { get; set; }
+        public string SenderName { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace esme.Infrastructure.Data
 
         public Guid SentBy { get; set; }
 
-        //[Required, MaxLength(256)]
-        //public string SenderName { get; set; }
+        [Required, MaxLength(256)]
+        public string SenderName { get; set; }
     }
 }

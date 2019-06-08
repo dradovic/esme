@@ -71,7 +71,6 @@ namespace esme.Admin.Server
             services.AddScoped<IUsersGridService, UsersGridService>();
 
             services.AddOptions();
-            services.Configure<SampleDataOptions>(_configuration.GetSection("SampleData"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

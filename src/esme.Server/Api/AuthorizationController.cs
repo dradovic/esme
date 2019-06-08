@@ -69,9 +69,13 @@ namespace esme.Server.Api
         }
 
         [HttpGet]
-        public async Task<UserViewModel> Me()
+        public async Task<ActionResult<UserViewModel>> Me()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User); // FIXME: da, only get id and username to avoid DB roundtrip
+            if (user == null) // happens for example when user was deleted
+            {
+                return NotFound();
+            }
             return BuildUserInfo(user);
         }
 

@@ -3,6 +3,7 @@ using esme.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,14 +11,12 @@ namespace esme.Admin.Infrastructure.Services
 {
     public class SampleDataService : ISampleDataService
     {
-        private readonly SampleDataOptions _options;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _db;
 
-        public SampleDataService(IOptions<SampleDataOptions> options, UserManager<ApplicationUser> userManager,
+        public SampleDataService(UserManager<ApplicationUser> userManager,
             ApplicationDbContext db)
         {
-            _options = options.Value;
             _userManager = userManager;
             _db = db;
         }
@@ -25,41 +24,54 @@ namespace esme.Admin.Infrastructure.Services
         public async Task ResetAllWithSampleData()
         {
             await DeleteAll();
-            var user = await AddUser();
-            AddData(user);
+            var users = await AddUsers();
+            AddData(users);
             await _db.SaveChangesAsync();
         }
 
-        private void AddData(ApplicationUser user)
+        private void AddData(IEnumerable<ApplicationUser> users)
         {
-            //_db.Circles.Add(new Circle
-            //{
-            //    Name = "My First Circle",
-            //});
-            _db.Messages.Add(new Message
+            foreach (var user in users)
             {
-                CircleId = Circle.OpenCircle.Id,
-                Text = "Hello everybody!",
-                SentAt = DateTimeOffset.UtcNow,
-                SentBy = user.Id,
-                SenderName = user.UserName,
-            });
+                _db.Messages.Add(new Message
+                {
+                    CircleId = Circle.OpenCircle.Id,
+                    Text = "Hello everybody!",
+                    SentAt = DateTimeOffset.UtcNow,
+                    SentBy = user.Id,
+                    SenderName = user.UserName,
+                });
+            }
         }
 
-        private async Task<ApplicationUser> AddUser()
+        private async Task<IEnumerable<ApplicationUser>> AddUsers()
         {
+            var users = new List<ApplicationUser>();
             var user = new ApplicationUser
             {
-                UserName = _options.UserName,
-                Email = _options.Email,
+                UserName = "Eva",
+                Email = "eva@example.com",
             };
-            var result = await _userManager.CreateAsync(user, _options.Password);
+            var result = await _userManager.CreateAsync(user, "Eva_2019");
             if (!result.Succeeded)
             {
                 string errors = string.Join(", ", result.Errors.Select(e => e.Description));
                 throw new InvalidOperationException($"Could not create sample user: {errors}.");
             }
-            return user;
+            users.Add(user);
+            user = new ApplicationUser
+            {
+                UserName = "Adam",
+                Email = "adam@example.com",
+            };
+            result = await _userManager.CreateAsync(user, "Adam_2019");
+            if (!result.Succeeded)
+            {
+                string errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                throw new InvalidOperationException($"Could not create sample user: {errors}.");
+            }
+            users.Add(user);
+            return users;
         }
 
         private async Task DeleteAll()
@@ -87,12 +99,5 @@ namespace esme.Admin.Infrastructure.Services
                 await _userManager.DeleteAsync(user);
             }
         }
-    }
-
-    public class SampleDataOptions
-    {
-        public string UserName { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
     }
 }

@@ -28,7 +28,7 @@ namespace esme.Server.Api
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MessageViewModel>>> Messages(int circleId)
         {
-            string userId = _userManager.GetUserId(User);
+            var userId = _userManager.ParseUserId(User);
             if (!await UserIsInCircle(userId, circleId)) return NotFound();
 
             var messages = from m in _db.Messages.Where(m => m.CircleId == circleId)
@@ -48,7 +48,7 @@ namespace esme.Server.Api
         [HttpPost]
         public async Task<IActionResult> Messages(int circleId, [FromBody]MessageEditModel model)
         {
-            string userId = _userManager.GetUserId(User);
+            var userId = _userManager.ParseUserId(User);
             if (!await UserIsInCircle(userId, circleId)) return NotFound();
 
             _db.Messages.Add(new Message
@@ -62,7 +62,7 @@ namespace esme.Server.Api
             return Ok();
         }
 
-        private async Task<bool> UserIsInCircle(string userId, int circleId)
+        private async Task<bool> UserIsInCircle(Guid userId, int circleId)
         {
             var user = await _db.Users.Include(u => u.Circles).SingleOrDefaultAsync(u => u.Id == userId);
             return user.AllCircles.Any(c => c.Id == circleId);

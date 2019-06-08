@@ -27,12 +27,12 @@ namespace esme.Server.Api
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CircleViewModel>>> Circles()
         {
-            string userId = _userManager.GetUserId(User);
+            var userId = _userManager.ParseUserId(User);
             var user = await _db.Users.Include(u => u.Circles).SingleOrDefaultAsync(u => u.Id == userId);
             return Ok(user.AllCircles.Select(c => new CircleViewModel {
                 Id = c.Id,
                 Name = c.Name,
-            })); // FIXME: da, use AutoMapper
+            })); // FEATURE: da, use AutoMapper
         }
     }
 }

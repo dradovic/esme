@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace esme.Infrastructure.Data
 {
-    public class ApplicationUser : IdentityUser // FIXME: da, switch to User<Guid>
+    public class ApplicationUser : IdentityUser<Guid>
     {
         public List<CircleUser> Circles { get; set; } = new List<CircleUser>();
 

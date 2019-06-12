@@ -16,5 +16,7 @@ namespace esme.Infrastructure.Data
         public string Name { get; set; }
 
         public List<CircleUser> Users { get; set; }
+
+        public int NumberOfMessages { get; set; }
     }
 }

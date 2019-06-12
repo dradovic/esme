@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,13 +29,17 @@ namespace esme.Server.Api
             _messagesHub = messagesHub;
         }
 
-        [HttpGet]
+        [HttpPost]
+        [Route("actions/read")]
         public async Task<ActionResult<IEnumerable<MessageViewModel>>> Messages(int circleId)
         {
             var userId = _userManager.ParseUserId(User);
-            if (!await UserIsInCircle(userId, circleId)) return NotFound();
+            var circle = await GetCircle(userId, circleId);
+            if (circle == null) return NotFound();
 
             var messages = _db.Messages.Where(m => m.CircleId == circleId); // FIXME: da, implement paging
+            circle.NumberOfReadMessages = circle.Circle.NumberOfMessages;
+            await _db.SaveChangesAsync();
             return Ok(messages.Select(ToViewModel));
         }
 
@@ -42,7 +47,8 @@ namespace esme.Server.Api
         public async Task<IActionResult> Messages(int circleId, [FromBody]MessageEditModel model)
         {
             var userId = _userManager.ParseUserId(User);
-            if (!await UserIsInCircle(userId, circleId)) return NotFound();
+            var circle = await GetCircle(userId, circleId);
+            if (circle == null) return NotFound();
 
             Message message = new Message
             {
@@ -52,16 +58,18 @@ namespace esme.Server.Api
                 SentBy = userId,
                 SenderName = _userManager.GetUserName(User),
             };
-            _db.Messages.Add(message); ;
+            _db.Messages.Add(message);
+            circle.Circle.NumberOfMessages++;
             await _db.SaveChangesAsync();
             await _messagesHub.Clients.All.MessageAdded(1); // FIXME: da, do not send to *all* users
             return Ok();
         }
 
-        private async Task<bool> UserIsInCircle(Guid userId, int circleId)
+        private async Task<CircleUser> GetCircle(Guid userId, int circleId)
         {
             var user = await _db.Users.Include(u => u.Circles).SingleOrDefaultAsync(u => u.Id == userId);
-            return user.AllCircles.Any(c => c.Id == circleId);
+            Debug.Assert(user.Circles.Count(c => c.Circle.Id == circleId) <= 1);
+            return user.Circles.FirstOrDefault(c => c.Circle.Id == circleId);
         }
 
         private static MessageViewModel ToViewModel(Message message)

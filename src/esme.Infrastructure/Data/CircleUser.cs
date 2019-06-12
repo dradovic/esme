@@ -9,5 +9,7 @@ namespace esme.Infrastructure.Data
 
         public Guid UserId { get; set; }
         public ApplicationUser User { get; set; }
+
+        public int NumberOfReadMessages { get; set; }
     }
 }

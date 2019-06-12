@@ -29,9 +29,10 @@ namespace esme.Server.Api
         {
             var userId = _userManager.ParseUserId(User);
             var user = await _db.Users.Include(u => u.Circles).SingleOrDefaultAsync(u => u.Id == userId);
-            return Ok(user.AllCircles.Select(c => new CircleViewModel {
-                Id = c.Id,
-                Name = c.Name,
+            return Ok(user.Circles.Select(c => new CircleViewModel {
+                Id = c.Circle.Id,
+                Name = c.Circle.Name,
+                NumberOfUnreadMessages = c.Circle.NumberOfMessages - c.NumberOfReadMessages,
             })); // FEATURE: da, use AutoMapper
         }
     }

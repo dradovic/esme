@@ -10,28 +10,27 @@ using System.Threading.Tasks;
 
 namespace esme.Admin.App.Pages
 {
-    public abstract class CirclesBase : ComponentBase
+    public abstract class UsersBase : ComponentBase
     {
-        protected CGrid<CircleViewModel> Grid { get; private set; }
+        protected CGrid<UserViewModel> Grid { get; private set; }
         protected Task Task { get; private set; }
 
         [Inject]
-        private ICirclesGridService CirclesGridService { get; set; }
+        private IUsersGridService UsersGridService { get; set; }
 
         protected override async Task OnInitAsync()
         {
-            Action<IGridColumnCollection<CircleViewModel>> columns = c =>
+            Action<IGridColumnCollection<UserViewModel>> columns = c =>
             {
                 c.Add(o => o.Id).Titled("Id").Sortable(true);
-                c.Add(o => o.Name).Titled("Name").Sortable(true);
-                c.Add(o => o.NumberOfUsers).Sortable(true);
-                c.Add(o => o.NumberOfMessages).Sortable(true);
+                c.Add(o => o.UserName).Titled("Name").Sortable(true);
+                c.Add(o => o.Email).Sortable(true);
             };
 
             var query = new QueryDictionary<StringValues>();
             query.Add("grid-page", "1");
 
-            var client = new GridClient<CircleViewModel>(q => CirclesGridService.GetCirclesGridRows(columns, q), query, false, "ordersGrid", columns);
+            var client = new GridClient<UserViewModel>(q => UsersGridService.GetUsersGridRows(columns, q), query, false, "usersGrid", columns);
             Grid = client.Grid;
 
             // Set new items to grid

@@ -25,6 +25,7 @@ namespace esme.Admin.Infrastructure.Services
         {
             var circles = _db.Circles.Select(c => new CircleViewModel
             {
+                Id = c.Id,
                 Name = c.Name,
                 NumberOfUsers = c.Users.Count,
                 NumberOfMessages = c.NumberOfMessages,

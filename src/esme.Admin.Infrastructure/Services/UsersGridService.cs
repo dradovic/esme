@@ -25,6 +25,7 @@ namespace esme.Admin.Infrastructure.Services
         {
             var users = _db.Users.Select(u => new UserViewModel
             {
+                Id = u.Id,
                 UserName = u.UserName,
                 Email = u.Email,
             });

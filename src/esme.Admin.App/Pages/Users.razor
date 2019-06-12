@@ -1,40 +1,12 @@
 ﻿@page "/users"
+@inherits UsersBase
 @using GridBlazor
-@using GridShared
-@using GridShared.Utility
-@using Microsoft.Extensions.Primitives
-@inject IUsersGridService UsersGridService
 
-@if (_task.IsCompleted)
+@if (Task.IsCompleted)
 {
-    <GridComponent T="UserViewModel" Grid="@_grid"></GridComponent>
+    <GridComponent T="UserViewModel" Grid="@Grid"></GridComponent>
 }
 else
 {
     <p><em>Loading...</em></p>
-}
-
-@functions
-    {
-    private CGrid<UserViewModel> _grid;
-    private Task _task;
-
-    protected override async Task OnInitAsync()
-    {
-        Action<IGridColumnCollection<UserViewModel>> columns = c =>
-        {
-            c.Add(o => o.UserName).Titled("Name").Sortable(true);
-            c.Add(o => o.Email).Sortable(true);
-        };
-
-        var query = new QueryDictionary<StringValues>();
-        query.Add("grid-page", "1");
-
-        var client = new GridClient<UserViewModel>(q => UsersGridService.GetUsersGridRows(columns, q), query, false, "ordersGrid", columns);
-        _grid = client.Grid;
-
-        // Set new items to grid
-        _task = client.UpdateGrid();
-        await _task;
-    }
 }

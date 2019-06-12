@@ -1,7 +1,6 @@
 ﻿using esme.Admin.Shared.Services;
 using esme.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,53 +24,53 @@ namespace esme.Admin.Infrastructure.Services
         {
             await DeleteAll();
             var users = await AddUsers();
-            AddData(users);
+            await AddData(users);
             await _db.SaveChangesAsync();
         }
 
-        private void AddData(IEnumerable<ApplicationUser> users)
+        private async Task AddData(IEnumerable<ApplicationUser> users)
         {
+            var openCircle = await _db.Circles.FindAsync(Circle.OpenCircleId);
             foreach (var user in users)
             {
                 _db.Messages.Add(new Message
                 {
-                    CircleId = Circle.OpenCircle.Id,
+                    CircleId = openCircle.Id,
                     Text = "Hello everybody!",
                     SentAt = DateTimeOffset.UtcNow,
                     SentBy = user.Id,
                     SenderName = user.UserName,
                 });
+                openCircle.NumberOfMessages++;
             }
         }
 
         private async Task<IEnumerable<ApplicationUser>> AddUsers()
         {
             var users = new List<ApplicationUser>();
-            var user = new ApplicationUser
+            users.Add(await CreateUser(new ApplicationUser
             {
                 UserName = "Eva",
                 Email = "eva@example.com",
-            };
-            var result = await _userManager.CreateAsync(user, "Eva_2019");
-            if (!result.Succeeded)
-            {
-                string errors = string.Join(", ", result.Errors.Select(e => e.Description));
-                throw new InvalidOperationException($"Could not create sample user: {errors}.");
-            }
-            users.Add(user);
-            user = new ApplicationUser
+            }));
+            users.Add(await CreateUser(new ApplicationUser
             {
                 UserName = "Adam",
                 Email = "adam@example.com",
-            };
-            result = await _userManager.CreateAsync(user, "Adam_2019");
+            }));
+            return users;
+        }
+
+        private async Task<ApplicationUser> CreateUser(ApplicationUser user)
+        {
+            var result = await _userManager.CreateAsync(user, $"{user.UserName}_2019");
             if (!result.Succeeded)
             {
                 string errors = string.Join(", ", result.Errors.Select(e => e.Description));
                 throw new InvalidOperationException($"Could not create sample user: {errors}.");
             }
-            users.Add(user);
-            return users;
+            user.Circles.Add(new CircleUser { UserId = user.Id, CircleId = Circle.OpenCircleId });
+            return user;
         }
 
         private async Task DeleteAll()

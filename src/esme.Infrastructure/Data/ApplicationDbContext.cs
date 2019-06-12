@@ -23,7 +23,11 @@ namespace esme.Infrastructure.Data
                 .HasKey(e => new { e.CircleId, e.UserId });
 
             modelBuilder.Entity<Circle>()
-                .HasData(Circle.OpenCircle);
+                .HasData(new Circle
+                {
+                    Id = Circle.OpenCircleId,
+                    Name = "Open Circle",
+                });
 
             modelBuilder.Entity<Message>()
                 .HasIndex(m => m.CircleId);

@@ -11,25 +11,26 @@ using System.Linq;
 
 namespace esme.Admin.Infrastructure.Services
 {
-    public class UsersGridService : IUsersGridService
+    public class CirclesGridService : ICirclesGridService
     {
         private readonly ApplicationDbContext _db;
 
-        public UsersGridService(ApplicationDbContext db)
+        public CirclesGridService(ApplicationDbContext db)
         {
             _db = db;
         }
 
-        public ItemsDTO<UserViewModel> GetUsersGridRows(Action<IGridColumnCollection<UserViewModel>> columns,
+        public ItemsDTO<CircleViewModel> GetCirclesGridRows(Action<IGridColumnCollection<CircleViewModel>> columns,
                 QueryDictionary<StringValues> query)
         {
-            var users = _db.Users.Select(u => new UserViewModel
+            var circles = _db.Circles.Select(c => new CircleViewModel
             {
-                UserName = u.UserName,
-                Email = u.Email,
+                Name = c.Name,
+                NumberOfUsers = c.Users.Count,
+                NumberOfMessages = c.NumberOfMessages,
             });
-            var server = new GridServer<UserViewModel>(users, new QueryCollection(query),
-                true, "usersGrid", columns, 50)
+            var server = new GridServer<CircleViewModel>(circles, new QueryCollection(query),
+                true, "circlesGrid", columns, 50)
                 .Sortable()
                 .Filterable();
 

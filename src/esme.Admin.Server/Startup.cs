@@ -69,6 +69,7 @@ namespace esme.Admin.Server
             });
             services.AddScoped<ISampleDataService, SampleDataService>();
             services.AddScoped<IUsersGridService, UsersGridService>();
+            services.AddScoped<ICirclesGridService, CirclesGridService>();
 
             services.AddOptions();
         }

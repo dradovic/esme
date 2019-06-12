@@ -1,0 +1,12 @@
+﻿@page "/circles"
+@inherits CirclesBase
+@using GridBlazor
+
+@if (Task.IsCompleted)
+{
+    <GridComponent T="CircleViewModel" Grid="@Grid"></GridComponent>
+}
+else
+{
+    <p><em>Loading...</em></p>
+}

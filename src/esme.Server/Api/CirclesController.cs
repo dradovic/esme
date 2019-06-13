@@ -1,4 +1,5 @@
-﻿using esme.Infrastructure.Data;
+﻿using esme.Infrastructure;
+using esme.Infrastructure.Data;
 using esme.Shared.Circles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -28,9 +29,10 @@ namespace esme.Server.Api
         public async Task<ActionResult<IEnumerable<CircleViewModel>>> Circles()
         {
             var userId = _userManager.ParseUserId(User);
-            var user = await _db.Users.Include(u => u.Memberships)
+            var user = await _db.Users
+                .Include(u => u.Memberships)
                 .ThenInclude(m => m.Circle)
-                .FirstOrDefaultAsync(u => u.Id == userId);
+                .SingleFirstOrDefaultAsync(u => u.Id == userId);
             return Ok(user.Memberships.Select(m => new CircleViewModel {
                 Id = m.Circle.Id,
                 Name = m.Circle.Name,

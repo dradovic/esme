@@ -27,7 +27,7 @@ namespace esme.Client.Pages
         {
             // FIXME: da, disable send button while setup is going on (see BlazorChat sample)?
             await SetupSignalRConnection();
-            await LoadMessages();
+            await ReadMessages();
         }
 
         private async Task SetupSignalRConnection()
@@ -47,13 +47,13 @@ namespace esme.Client.Pages
 
         private async Task OnMessageAdded(int m)
         {
-            await LoadMessages();
+            await ReadMessages();
             StateHasChanged();
         }
 
-        private async Task LoadMessages()
+        private async Task ReadMessages()
         {
-            var messages = await Http.GetJsonAsync<IEnumerable<MessageViewModel>>($"api/my/messages?circleId={Id}");
+            var messages = await Http.PostJsonAsync<IEnumerable<MessageViewModel>>($"api/my/messages/actions/read?circleId={Id}", null);
             Messages = messages.ToList();
         }
 

@@ -1,4 +1,5 @@
-﻿using esme.Infrastructure.Data;
+﻿using esme.Infrastructure;
+using esme.Infrastructure.Data;
 using esme.Shared.Circles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -34,7 +35,7 @@ namespace esme.Server.Api
         public async Task<ActionResult<IEnumerable<MessageViewModel>>> Messages(int circleId)
         {
             var userId = _userManager.ParseUserId(User);
-            var circle = await GetCircle(userId, circleId);
+            var circle = await GetMembershipIncludingCircle(userId, circleId);
             if (circle == null) return NotFound();
 
             var messages = _db.Messages.Where(m => m.CircleId == circleId); // FIXME: da, implement paging
@@ -47,7 +48,7 @@ namespace esme.Server.Api
         public async Task<IActionResult> Messages(int circleId, [FromBody]MessageEditModel model)
         {
             var userId = _userManager.ParseUserId(User);
-            var circle = await GetCircle(userId, circleId);
+            var circle = await GetMembershipIncludingCircle(userId, circleId);
             if (circle == null) return NotFound();
 
             Message message = new Message
@@ -65,11 +66,13 @@ namespace esme.Server.Api
             return Ok();
         }
 
-        private async Task<Membership> GetCircle(Guid userId, int circleId)
+        private async Task<Membership> GetMembershipIncludingCircle(Guid userId, int circleId)
         {
-            var user = await _db.Users.Include(u => u.Memberships).SingleOrDefaultAsync(u => u.Id == userId);
-            Debug.Assert(user.Memberships.Count(c => c.Circle.Id == circleId) <= 1);
-            return user.Memberships.FirstOrDefault(c => c.Circle.Id == circleId);
+            var user = await _db.Users
+                .Include(u => u.Memberships)
+                .ThenInclude(m => m.Circle)
+                .SingleFirstOrDefaultAsync(u => u.Id == userId);
+            return user.Memberships.SingleOrDefault(c => c.CircleId == circleId);
         }
 
         private static MessageViewModel ToViewModel(Message message)

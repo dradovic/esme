@@ -1,23 +1,25 @@
-﻿using esme.Shared.Circles;
+﻿using Blazor.Fluxor;
+using esme.Client.Store.Circles;
+using esme.Shared.Circles;
 using Microsoft.AspNetCore.Components;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace esme.Client.Pages
 {
     public abstract class HomeBase : ComponentBase
     {
-        protected CircleViewModel[] Circles { get; private set; }
+        [Inject]
+        private IDispatcher Dispatcher { get; set; }
 
         [Inject]
-        private HttpClient Http { get; set; }
+        protected IState<CirclesState> CirclesState { get; private set; }
 
         [Inject]
         private IUriHelper UriHelper { get; set; }
 
-        protected override async Task OnInitAsync()
+        protected override void OnInit()
         {
-            Circles = await Http.GetJsonAsync<CircleViewModel[]>("api/my/circles");
+            CirclesState.Subscribe(this);
+            Dispatcher.Dispatch(new FetchCirclesAction());
         }
 
         protected void CircleClick(CircleViewModel circle)

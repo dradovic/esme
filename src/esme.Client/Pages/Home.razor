@@ -1,13 +1,20 @@
 @page "/home"
 @inherits HomeBase
 
-@if (Circles == null)
+@if (CirclesState.Value.ErrorMessage != null)
+{
+    <h1>Error</h1>
+    <p>@CirclesState.Value.ErrorMessage</p>
+}
+
+@if (CirclesState.Value.IsLoading)
 {
     <p>Loading...</p>
 }
-else
+
+@if (CirclesState.Value.Circles != null)
 {
-    @foreach (var circle in Circles)
+    @foreach (var circle in CirclesState.Value.Circles)
     {
         <div>
             <button type="button" class="btn btn-link ml-md-auto" onclick="@(() => CircleClick(circle))">@circle.Name</button>

@@ -2,6 +2,9 @@
 @inherits LayoutComponentBase
 @inject AuthenticationState state
 @inject IUriHelper uriHelper
+@inject Blazor.Fluxor.IStore Store
+
+@Store.Initialize()
 
 @if (IsLoggedIn)
 {

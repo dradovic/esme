@@ -6,6 +6,6 @@ namespace esme.Infrastructure.Data
 {
     public class ApplicationUser : IdentityUser<Guid>
     {
-        public List<CircleUser> Circles { get; set; } = new List<CircleUser>();
+        public List<Membership> Memberships { get; set; } = new List<Membership>();
     }
 }

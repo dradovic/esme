@@ -27,7 +27,7 @@ namespace esme.Admin.Infrastructure.Services
             {
                 Id = c.Id,
                 Name = c.Name,
-                NumberOfUsers = c.Users.Count,
+                NumberOfUsers = c.Memberships.Count,
                 NumberOfMessages = c.NumberOfMessages,
             });
             var server = new GridServer<CircleViewModel>(circles, new QueryCollection(query),

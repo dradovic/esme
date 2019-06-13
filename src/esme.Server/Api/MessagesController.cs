@@ -65,11 +65,11 @@ namespace esme.Server.Api
             return Ok();
         }
 
-        private async Task<CircleUser> GetCircle(Guid userId, int circleId)
+        private async Task<Membership> GetCircle(Guid userId, int circleId)
         {
-            var user = await _db.Users.Include(u => u.Circles).SingleOrDefaultAsync(u => u.Id == userId);
-            Debug.Assert(user.Circles.Count(c => c.Circle.Id == circleId) <= 1);
-            return user.Circles.FirstOrDefault(c => c.Circle.Id == circleId);
+            var user = await _db.Users.Include(u => u.Memberships).SingleOrDefaultAsync(u => u.Id == userId);
+            Debug.Assert(user.Memberships.Count(c => c.Circle.Id == circleId) <= 1);
+            return user.Memberships.FirstOrDefault(c => c.Circle.Id == circleId);
         }
 
         private static MessageViewModel ToViewModel(Message message)

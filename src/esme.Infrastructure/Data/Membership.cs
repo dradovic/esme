@@ -2,7 +2,7 @@
 
 namespace esme.Infrastructure.Data
 {
-    public class CircleUser
+    public class Membership
     {
         public int CircleId { get; set; }
         public Circle Circle { get; set; }

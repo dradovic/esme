@@ -19,7 +19,7 @@ namespace esme.Infrastructure.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<CircleUser>()
+            modelBuilder.Entity<Membership>()
                 .HasKey(e => new { e.CircleId, e.UserId });
 
             modelBuilder.Entity<Circle>()

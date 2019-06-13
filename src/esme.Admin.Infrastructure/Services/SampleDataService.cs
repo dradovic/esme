@@ -69,7 +69,7 @@ namespace esme.Admin.Infrastructure.Services
                 string errors = string.Join(", ", result.Errors.Select(e => e.Description));
                 throw new InvalidOperationException($"Could not create sample user: {errors}.");
             }
-            user.Circles.Add(new CircleUser { UserId = user.Id, CircleId = Circle.OpenCircleId });
+            user.Memberships.Add(new Membership { UserId = user.Id, CircleId = Circle.OpenCircleId });
             return user;
         }
 

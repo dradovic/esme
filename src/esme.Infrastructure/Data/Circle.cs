@@ -12,7 +12,7 @@ namespace esme.Infrastructure.Data
         [Required]
         public string Name { get; set; }
 
-        public List<CircleUser> Users { get; set; }
+        public List<Membership> Memberships { get; set; }
 
         public int NumberOfMessages { get; set; }
     }

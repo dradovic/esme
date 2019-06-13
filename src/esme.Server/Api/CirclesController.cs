@@ -28,8 +28,8 @@ namespace esme.Server.Api
         public async Task<ActionResult<IEnumerable<CircleViewModel>>> Circles()
         {
             var userId = _userManager.ParseUserId(User);
-            var user = await _db.Users.Include(u => u.Circles).SingleOrDefaultAsync(u => u.Id == userId);
-            return Ok(user.Circles.Select(c => new CircleViewModel {
+            var user = await _db.Users.Include(u => u.Memberships).SingleOrDefaultAsync(u => u.Id == userId);
+            return Ok(user.Memberships.Select(c => new CircleViewModel {
                 Id = c.Circle.Id,
                 Name = c.Circle.Name,
                 NumberOfUnreadMessages = c.Circle.NumberOfMessages - c.NumberOfReadMessages,

@@ -1,4 +1,4 @@
-﻿using esme.Admin.Shared.Services;
+using esme.Admin.Shared.Services;
 using esme.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -31,6 +31,7 @@ namespace esme.Admin.Infrastructure.Services
         private async Task AddData(IEnumerable<ApplicationUser> users)
         {
             var openCircle = await _db.Circles.FindAsync(Circle.OpenCircleId);
+            openCircle.NumberOfMessages = 0;
             foreach (var user in users)
             {
                 _db.Messages.Add(new Message

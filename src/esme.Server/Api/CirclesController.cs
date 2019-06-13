@@ -28,11 +28,13 @@ namespace esme.Server.Api
         public async Task<ActionResult<IEnumerable<CircleViewModel>>> Circles()
         {
             var userId = _userManager.ParseUserId(User);
-            var user = await _db.Users.Include(u => u.Memberships).SingleOrDefaultAsync(u => u.Id == userId);
-            return Ok(user.Memberships.Select(c => new CircleViewModel {
-                Id = c.Circle.Id,
-                Name = c.Circle.Name,
-                NumberOfUnreadMessages = c.Circle.NumberOfMessages - c.NumberOfReadMessages,
+            var user = await _db.Users.Include(u => u.Memberships)
+                .ThenInclude(m => m.Circle)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+            return Ok(user.Memberships.Select(m => new CircleViewModel {
+                Id = m.Circle.Id,
+                Name = m.Circle.Name,
+                NumberOfUnreadMessages = m.Circle.NumberOfMessages - m.NumberOfReadMessages,
             })); // FEATURE: da, use AutoMapper
         }
     }

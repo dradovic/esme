@@ -11,6 +11,7 @@ else
     {
         <div>
             <button type="button" class="btn btn-link ml-md-auto" onclick="@(() => CircleClick(circle))">@circle.Name</button>
+            <span class="badge badge-secondary">@circle.NumberOfUnreadMessages</span>
         </div>
     }
 }

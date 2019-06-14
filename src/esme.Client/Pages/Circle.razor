@@ -1,16 +1,23 @@
 ﻿@page "/circle/{Id:int}"
 @inherits CircleBase
 
-@if (Messages == null)
+@if (MessagesState.Value.ErrorMessage != null)
+{
+    <h1>Error</h1>
+    <p>@MessagesState.Value.ErrorMessage</p>
+}
+
+@if (MessagesState.Value.IsLoading)
 {
     <p>Loading...</p>
 }
-else
+
+@if (MessagesState.Value.Messages != null)
 {
-    @foreach (var message in Messages)
+    @foreach (var message in MessagesState.Value.Messages)
     {
         <div>
-            On @message.SentAt.ToString("g") @message.SenderName said:<br /> 
+            On @message.SentAt.ToString("g") @message.SenderName said:<br />
             @message.Text
         </div>
     }

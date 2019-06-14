@@ -8,7 +8,7 @@
 
 @if (IsLoggedIn)
 {
-    <button type="button" class="btn btn-link ml-md-auto" onclick="@LogoutClick">Logout</button>
+    <button type="button" class="btn btn-link ml-md-auto" onclick="@LogoutClick">Logout @state.User.UserName</button>
     @Body
 }
 

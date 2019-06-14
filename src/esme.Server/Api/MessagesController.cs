@@ -62,7 +62,7 @@ namespace esme.Server.Api
             _db.Messages.Add(message);
             circle.Circle.NumberOfMessages++; // FIXME: da, possible concurrent DB update exception?
             await _db.SaveChangesAsync();
-            await _messagesHub.Clients.All.MessageAdded(1); // FIXME: da, do not send to *all* users
+            await _messagesHub.Clients.All.MessageAdded(circleId); // FIXME: da, do not send to *all* users
             return Ok();
         }
 

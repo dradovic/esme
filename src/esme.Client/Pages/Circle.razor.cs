@@ -1,7 +1,5 @@
-﻿using Blazor.Extensions;
-using esme.Shared.Circles;
+﻿using esme.Shared.Circles;
 using Microsoft.AspNetCore.Components;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -20,36 +18,17 @@ namespace esme.Client.Pages
         [Inject]
         private HttpClient Http { get; set; }
 
-        [Inject]
-        private HubConnectionBuilder HubConnectionBuilder { get; set; }
-
         protected override async Task OnInitAsync()
         {
             // FIXME: da, disable send button while setup is going on (see BlazorChat sample)?
-            await SetupSignalRConnection();
             await ReadMessages();
         }
 
-        private async Task SetupSignalRConnection()
-        {
-            var connection = HubConnectionBuilder
-                .WithUrl("/my/hub", // if the Hub is hosted on the server where the blazor is hosted, you can just use the relative path
-                options =>
-                {
-                    options.LogLevel = SignalRLogLevel.Trace; // client log level
-                    options.Transport = HttpTransportType.WebSockets;
-                })
-                .Build();
-
-            connection.On<int>("MessageAdded", OnMessageAdded);
-            await connection.StartAsync();
-        }
-
-        private async Task OnMessageAdded(int m)
-        {
-            await ReadMessages();
-            StateHasChanged();
-        }
+        //private async Task OnMessageAdded(int m)
+        //{
+        //    await ReadMessages();
+        //    StateHasChanged();
+        //}
 
         private async Task ReadMessages()
         {

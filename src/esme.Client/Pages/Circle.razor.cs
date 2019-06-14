@@ -36,7 +36,8 @@ namespace esme.Client.Pages
 
         protected async Task OnSubmit()
         {
-            //await Http.PostJsonAsync($"api/my/messages?circleId={Id}", NewMessage); // FIXME: da, handle failure
+            Dispatcher.Dispatch(new SubmitMessageAction(Id, NewMessage));
+            NewMessage.Text = string.Empty;
         }
     }
 }

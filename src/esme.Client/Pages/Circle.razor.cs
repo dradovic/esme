@@ -2,9 +2,6 @@
 using esme.Client.Store.Messages;
 using esme.Shared.Circles;
 using Microsoft.AspNetCore.Components;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace esme.Client.Pages
 {
@@ -28,13 +25,7 @@ namespace esme.Client.Pages
             Dispatcher.Dispatch(new FetchMessagesAction(Id));
         }
 
-        //private async Task OnMessageAdded(int m)
-        //{
-        //    await ReadMessages();
-        //    StateHasChanged();
-        //}
-
-        protected async Task OnSubmit()
+        protected void OnSubmit()
         {
             Dispatcher.Dispatch(new SubmitMessageAction(Id, NewMessage));
             NewMessage.Text = string.Empty;

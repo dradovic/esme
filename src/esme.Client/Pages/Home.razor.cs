@@ -1,6 +1,7 @@
 ﻿using Blazor.Extensions;
 using Blazor.Fluxor;
 using esme.Client.Store.Circles;
+using esme.Client.Store.Messages;
 using esme.Shared.Circles;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
@@ -51,6 +52,7 @@ namespace esme.Client.Pages
         private Task OnMessageAdded(int circleId)
         {
             Dispatcher.Dispatch(new IncrementUnreadMessagesAction(circleId));
+            Dispatcher.Dispatch(new FetchMessagesAction(circleId));
             return Task.CompletedTask;
         }
     }

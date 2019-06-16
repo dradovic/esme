@@ -1,6 +1,7 @@
 ﻿using esme.Infrastructure;
 using esme.Infrastructure.Data;
 using esme.Shared.Circles;
+using esme.Shared.Events;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -62,7 +63,7 @@ namespace esme.Server.Api
             _db.Messages.Add(message);
             circle.Circle.NumberOfMessages++; // FIXME: da, possible concurrent DB update exception?
             await _db.SaveChangesAsync();
-            await _messagesHub.Clients.All.MessageAdded(circleId); // FIXME: da, do not send to *all* users
+            await _messagesHub.Clients.All.MessagePosted(new MessagePostedEvent { CircleId = circleId }); // FIXME: da, do not send to *all* users
             return Ok();
         }
 

@@ -1,10 +1,9 @@
 ﻿using Blazor.Fluxor;
-using esme.Client.Events;
 using esme.Client.Store.Circles;
 using esme.Shared.Circles;
+using esme.Shared.Events;
 using EventAggregator.Blazor;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 

@@ -1,6 +1,7 @@
 ﻿using Blazor.Extensions;
-using esme.Client.Events;
+using esme.Shared.Events;
 using EventAggregator.Blazor;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace esme.Client.Services
@@ -31,14 +32,14 @@ namespace esme.Client.Services
                     })
                     .Build();
 
-                Connection.On<int>("MessageAdded", OnMessageAdded);
+                Connection.On<MessagePostedEvent>("MessagePosted", OnMessagePosted); // FIXME: da, use nameof?
                 await Connection.StartAsync();
             }
         }
 
-        private async Task OnMessageAdded(int circleId)
+        private async Task OnMessagePosted(MessagePostedEvent messagePostedEvent)
         {
-            await _eventAggregator.PublishAsync(new MessagePostedEvent(circleId)); // FIXME: da, try to directly send this class over SignalR
+            await _eventAggregator.PublishAsync(messagePostedEvent);
         }
     }
 }

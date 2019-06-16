@@ -1,12 +1,20 @@
 ﻿using Blazor.Fluxor;
+using esme.Client.Events;
 using esme.Client.Store.Messages;
 using esme.Shared.Circles;
+using EventAggregator.Blazor;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 
 namespace esme.Client.Pages
 {
-    public abstract class CircleBase : ComponentBase
+    public abstract class CircleBase : ComponentBase, IHandle<MessagePostedEvent>, IDisposable
     {
+        [Inject]
+        private IEventAggregator EventAggregator { get; set; }
+
         [Inject]
         private IDispatcher Dispatcher { get; set; }
 
@@ -21,6 +29,7 @@ namespace esme.Client.Pages
         protected override void OnInit()
         {
             // FIXME: da, disable send button while setup is going on (see BlazorChat sample)?
+            EventAggregator.Subscribe(this);
             MessagesState.Subscribe(this);
             Dispatcher.Dispatch(new FetchMessagesAction(Id));
         }
@@ -30,5 +39,34 @@ namespace esme.Client.Pages
             Dispatcher.Dispatch(new SubmitMessageAction(Id, NewMessage));
             NewMessage.Text = string.Empty;
         }
+
+        public Task HandleAsync(MessagePostedEvent message)
+        {
+            Dispatcher.Dispatch(new FetchMessagesAction(message.CircleId));
+            return Task.CompletedTask;
+        }
+
+        #region IDisposable Support
+
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    EventAggregator.Unsubscribe(this);
+                }
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        #endregion
     }
 }

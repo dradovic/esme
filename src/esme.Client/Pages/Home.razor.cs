@@ -1,15 +1,20 @@
-﻿using Blazor.Extensions;
-using Blazor.Fluxor;
+﻿using Blazor.Fluxor;
+using esme.Client.Events;
 using esme.Client.Store.Circles;
-using esme.Client.Store.Messages;
 using esme.Shared.Circles;
+using EventAggregator.Blazor;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace esme.Client.Pages
 {
-    public abstract class HomeBase : ComponentBase
+    public abstract class HomeBase : ComponentBase, IHandle<MessagePostedEvent>, IDisposable
     {
+        [Inject]
+        private IEventAggregator EventAggregator { get; set; }
+
         [Inject]
         private IDispatcher Dispatcher { get; set; }
 
@@ -19,12 +24,9 @@ namespace esme.Client.Pages
         [Inject]
         private IUriHelper UriHelper { get; set; }
 
-        [Inject]
-        private HubConnectionBuilder HubConnectionBuilder { get; set; }
-
-        protected override async Task OnInitAsync()
+        protected override void OnInit()
         {
-            await SetupSignalRConnection();
+            EventAggregator.Subscribe(this); // FIXME: da, need to unsubscribe?
             CirclesState.Subscribe(this);
             Dispatcher.Dispatch(new FetchCirclesAction());
         }
@@ -34,26 +36,33 @@ namespace esme.Client.Pages
             UriHelper.NavigateTo($"/circle/{circle.Id}");
         }
 
-        private async Task SetupSignalRConnection()
+        public Task HandleAsync(MessagePostedEvent message)
         {
-            var connection = HubConnectionBuilder
-                .WithUrl("/my/hub", // if the Hub is hosted on the server where the blazor is hosted, you can just use the relative path
-                options =>
-                {
-                    options.LogLevel = SignalRLogLevel.Trace; // client log level
-                    options.Transport = HttpTransportType.WebSockets;
-                })
-                .Build();
-
-            connection.On<int>("MessageAdded", OnMessageAdded);
-            await connection.StartAsync();
-        }
-
-        private Task OnMessageAdded(int circleId)
-        {
-            Dispatcher.Dispatch(new IncrementUnreadMessagesAction(circleId));
-            Dispatcher.Dispatch(new FetchMessagesAction(circleId));
+            Dispatcher.Dispatch(new IncrementUnreadMessagesAction(message.CircleId));
             return Task.CompletedTask;
         }
+
+        #region IDisposable Support
+
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    EventAggregator.Unsubscribe(this);
+                }
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        #endregion
     }
 }

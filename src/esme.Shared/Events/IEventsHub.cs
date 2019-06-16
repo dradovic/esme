@@ -2,7 +2,7 @@
 
 namespace esme.Shared.Events
 {
-    public interface IMessagesHub
+    public interface IEventsHub
     {
         Task MessagePosted(MessagePostedEvent messagePostedEvent);
     }

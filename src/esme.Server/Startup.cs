@@ -132,7 +132,7 @@ namespace esme.Server
                 });
             }
 
-            app.UseSignalR(routes => routes.MapHub<MessagesHub>("/my/hub"));
+            app.UseSignalR(routes => routes.MapHub<EventsHub>("/my/hub"));
 
             app.UseBlazor<Client.Startup>();
         }

@@ -32,7 +32,7 @@ namespace esme.Client.Services
                     })
                     .Build();
 
-                Connection.On<MessagePostedEvent>(nameof(IMessagesHub.MessagePosted), OnMessagePosted);
+                Connection.On<MessagePostedEvent>(nameof(IEventsHub.MessagePosted), OnMessagePosted);
                 await Connection.StartAsync();
             }
         }

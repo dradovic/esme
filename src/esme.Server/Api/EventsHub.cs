@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.SignalR;
 namespace esme.Server.Api
 {
     [Authorize]
-    public class MessagesHub : Hub<IMessagesHub>
+    public class EventsHub : Hub<IEventsHub>
     {
     }
 }

@@ -21,13 +21,13 @@ namespace esme.Server.Api
     {
         private readonly ApplicationDbContext _db; // FEATURE: da, use MediatR
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IHubContext<MessagesHub, IMessagesHub> _messagesHub;
+        private readonly IHubContext<EventsHub, IEventsHub> _hub;
 
-        public MessagesController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IHubContext<MessagesHub, IMessagesHub> messagesHub)
+        public MessagesController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IHubContext<EventsHub, IEventsHub> hub)
         {
             _db = db;
             _userManager = userManager;
-            _messagesHub = messagesHub;
+            _hub = hub;
         }
 
         [HttpPost]
@@ -62,7 +62,7 @@ namespace esme.Server.Api
             _db.Messages.Add(message);
             circle.Circle.NumberOfMessages++; // FIXME: da, possible concurrent DB update exception?
             await _db.SaveChangesAsync();
-            await _messagesHub.Clients.All.MessagePosted(new MessagePostedEvent { CircleId = circleId }); // FIXME: da, do not send to *all* users
+            await _hub.Clients.All.MessagePosted(new MessagePostedEvent { CircleId = circleId }); // FIXME: da, do not send to *all* users
             return Ok();
         }
 

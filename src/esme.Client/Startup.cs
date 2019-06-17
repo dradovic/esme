@@ -27,6 +27,7 @@ namespace esme.Client
 
             services.AddScoped<AuthenticationState>();
             services.AddScoped<IAuthorizationApi, AuthorizationApi>();
+            services.AddScoped<MessagesApi>();
             services.AddSingleton<IEventAggregator, EventAggregator.Blazor.EventAggregator>();
             services.AddSingleton<ClientHub>();
         }

@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace esme.Client.Store.Messages
 {
-    public class FetchMessagesSucceededAction : IAction
+    public class FetchInitialMessagesSucceededAction : IAction
     {
-        public FetchMessagesSucceededAction(List<MessageViewModel> messages)
+        public FetchInitialMessagesSucceededAction(List<MessageViewModel> messages)
         {
             Messages = messages;
         }

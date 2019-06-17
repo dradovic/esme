@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -32,15 +33,22 @@ namespace esme.Server.Api
 
         [HttpPost]
         [Route("actions/read")]
-        public async Task<ActionResult<IEnumerable<MessageViewModel>>> Messages(int circleId)
+        public async Task<ActionResult<IEnumerable<MessageViewModel>>> Messages(int circleId, [FromBody]ReadMessagesOptions options)
         {
             var userId = _userManager.ParseUserId(User);
-            var circle = await GetMembershipIncludingCircle(userId, circleId);
-            if (circle == null) return NotFound();
+            var membership = await GetMembershipIncludingCircle(userId, circleId);
+            if (membership == null) return NotFound();
 
-            var messages = _db.Messages.Where(m => m.CircleId == circleId); // FIXME: da, implement paging
-            circle.NumberOfReadMessages = circle.Circle.NumberOfMessages;
+            IEnumerable<Message> messages = _db.Messages
+                .Where(m => m.CircleId == circleId)
+                .OrderBy(m => m.SentAt); // FIXME: da, implement paging
+            if (options == ReadMessagesOptions.Unread)
+            {
+                messages = messages.TakeLast(membership.NumberOfUnreadMessages); // FIXME: da, check generated SQL
+            }
+            membership.NumberOfReadMessages = membership.Circle.NumberOfMessages;
             await _db.SaveChangesAsync();
+            Debug.Assert(membership.NumberOfUnreadMessages == 0);
             return Ok(messages.Select(ToViewModel));
         }
 
@@ -48,8 +56,8 @@ namespace esme.Server.Api
         public async Task<IActionResult> Messages(int circleId, [FromBody]MessageEditModel model)
         {
             var userId = _userManager.ParseUserId(User);
-            var circle = await GetMembershipIncludingCircle(userId, circleId);
-            if (circle == null) return NotFound();
+            var membership = await GetMembershipIncludingCircle(userId, circleId);
+            if (membership == null) return NotFound();
 
             Message message = new Message
             {
@@ -60,7 +68,7 @@ namespace esme.Server.Api
                 SenderName = _userManager.GetUserName(User),
             };
             _db.Messages.Add(message);
-            circle.Circle.NumberOfMessages++; // FIXME: da, possible concurrent DB update exception?
+            membership.Circle.NumberOfMessages++; // FIXME: da, possible concurrent DB update exception?
             await _db.SaveChangesAsync();
             await _hub.Clients.All.MessagePosted(new MessagePostedEvent { CircleId = circleId }); // FIXME: da, do not send to *all* users
             return Ok();

@@ -2,9 +2,9 @@
 
 namespace esme.Client.Store.Messages
 {
-    public class FetchMessagesFailedAction : IAction
+    public class FetchUnreadMessagesFailedAction : IAction
     {
-        public FetchMessagesFailedAction(string errorMessage)
+        public FetchUnreadMessagesFailedAction(string errorMessage)
         {
             ErrorMessage = errorMessage;
         }

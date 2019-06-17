@@ -30,7 +30,7 @@ namespace esme.Client.Pages
             // FIXME: da, disable send button while setup is going on (see BlazorChat sample)?
             EventAggregator.Subscribe(this);
             MessagesState.Subscribe(this);
-            Dispatcher.Dispatch(new FetchMessagesAction(Id));
+            Dispatcher.Dispatch(new FetchInitialMessagesAction(Id));
         }
 
         protected void OnSubmit()
@@ -41,7 +41,7 @@ namespace esme.Client.Pages
 
         public Task HandleAsync(MessagePostedEvent message)
         {
-            Dispatcher.Dispatch(new FetchMessagesAction(message.CircleId));
+            Dispatcher.Dispatch(new FetchUnreadMessagesAction(message.CircleId));
             return Task.CompletedTask;
         }
 

@@ -2,9 +2,9 @@
 
 namespace esme.Client.Store.Messages
 {
-    public class FetchMessagesAction : IAction
+    public class FetchInitialMessagesAction : IAction
     {
-        public FetchMessagesAction(int circleId)
+        public FetchInitialMessagesAction(int circleId)
         {
             CircleId = circleId;
         }

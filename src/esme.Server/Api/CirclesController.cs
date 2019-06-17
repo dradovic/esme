@@ -36,7 +36,7 @@ namespace esme.Server.Api
             return Ok(user.Memberships.Select(m => new CircleViewModel {
                 Id = m.Circle.Id,
                 Name = m.Circle.Name,
-                NumberOfUnreadMessages = m.Circle.NumberOfMessages - m.NumberOfReadMessages,
+                NumberOfUnreadMessages = m.NumberOfUnreadMessages,
             })); // FEATURE: da, use AutoMapper
         }
     }

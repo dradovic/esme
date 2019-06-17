@@ -2,9 +2,9 @@
 
 namespace esme.Client.Store.Messages
 {
-    public class FetchMessagesReducer : Reducer<MessagesState, FetchMessagesAction>
+    public class FetchInitialMessagesReducer : Reducer<MessagesState, FetchInitialMessagesAction>
     {
-        public override MessagesState Reduce(MessagesState state, FetchMessagesAction action)
+        public override MessagesState Reduce(MessagesState state, FetchInitialMessagesAction action)
         {
             return new MessagesState(
                 isLoading: true,

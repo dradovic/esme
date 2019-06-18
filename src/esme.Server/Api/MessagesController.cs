@@ -61,6 +61,7 @@ namespace esme.Server.Api
 
             Message message = new Message
             {
+                Id = model.Id,
                 CircleId = circleId,
                 Text = model.Text, // FIXME: da, validate model for max length
                 SentAt = DateTimeOffset.UtcNow,

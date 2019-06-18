@@ -218,9 +218,7 @@ namespace esme.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("esme.Infrastructure.Data.Message", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("Id");
 
                     b.Property<int>("CircleId");
 

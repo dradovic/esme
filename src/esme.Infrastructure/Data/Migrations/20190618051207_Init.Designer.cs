@@ -10,8 +10,8 @@ using esme.Infrastructure.Data;
 namespace esme.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190608081347_AddSenderName")]
-    partial class AddSenderName
+    [Migration("20190618051207_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -188,6 +188,8 @@ namespace esme.Infrastructure.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
+                    b.Property<int>("NumberOfMessages");
+
                     b.HasKey("Id");
 
                     b.ToTable("Circles");
@@ -196,28 +198,29 @@ namespace esme.Infrastructure.Data.Migrations
                         new
                         {
                             Id = -1,
-                            Name = "Open Circle"
+                            Name = "Open Circle",
+                            NumberOfMessages = 0
                         });
                 });
 
-            modelBuilder.Entity("esme.Infrastructure.Data.CircleUser", b =>
+            modelBuilder.Entity("esme.Infrastructure.Data.Membership", b =>
                 {
                     b.Property<int>("CircleId");
 
                     b.Property<Guid>("UserId");
 
+                    b.Property<int>("NumberOfReadMessages");
+
                     b.HasKey("CircleId", "UserId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("CircleUser");
+                    b.ToTable("Membership");
                 });
 
             modelBuilder.Entity("esme.Infrastructure.Data.Message", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("Id");
 
                     b.Property<int>("CircleId");
 
@@ -290,16 +293,16 @@ namespace esme.Infrastructure.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("esme.Infrastructure.Data.CircleUser", b =>
+            modelBuilder.Entity("esme.Infrastructure.Data.Membership", b =>
                 {
                     b.HasOne("esme.Infrastructure.Data.Circle", "Circle")
-                        .WithMany("Users")
+                        .WithMany("Memberships")
                         .HasForeignKey("CircleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("esme.Infrastructure.Data.ApplicationUser", "User")
-                        .WithMany("Circles")
+                        .WithMany("Memberships")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

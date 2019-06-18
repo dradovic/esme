@@ -36,7 +36,7 @@ namespace esme.Client.Pages
         protected void OnSubmit()
         {
             Dispatcher.Dispatch(new SubmitMessageAction(Id, NewMessage));
-            NewMessage.Text = string.Empty;
+            NewMessage = new MessageEditModel();
         }
 
         public Task HandleAsync(MessagePostedEvent message)

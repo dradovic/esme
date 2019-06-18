@@ -36,6 +36,7 @@ namespace esme.Admin.Infrastructure.Services
             {
                 _db.Messages.Add(new Message
                 {
+                    Id = Guid.NewGuid(),
                     CircleId = openCircle.Id,
                     Text = "Hello everybody!",
                     SentAt = DateTimeOffset.UtcNow,

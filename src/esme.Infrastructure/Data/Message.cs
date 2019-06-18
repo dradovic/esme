@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace esme.Infrastructure.Data
 {
@@ -7,7 +8,8 @@ namespace esme.Infrastructure.Data
     {
         public const int MaximumMessageTextLength = 8192;
 
-        public long Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public Guid Id { get; set; }
 
         public int CircleId { get; set; }
 

@@ -53,7 +53,8 @@ namespace esme.Infrastructure.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: false)
+                    Name = table.Column<string>(nullable: false),
+                    NumberOfMessages = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -64,12 +65,12 @@ namespace esme.Infrastructure.Data.Migrations
                 name: "Messages",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(nullable: false),
                     CircleId = table.Column<int>(nullable: false),
                     Text = table.Column<string>(maxLength: 8192, nullable: true),
                     SentAt = table.Column<DateTimeOffset>(nullable: false),
-                    SentBy = table.Column<Guid>(nullable: false)
+                    SentBy = table.Column<Guid>(nullable: false),
+                    SenderName = table.Column<string>(maxLength: 256, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -183,23 +184,24 @@ namespace esme.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CircleUser",
+                name: "Membership",
                 columns: table => new
                 {
                     CircleId = table.Column<int>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: false)
+                    UserId = table.Column<Guid>(nullable: false),
+                    NumberOfReadMessages = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CircleUser", x => new { x.CircleId, x.UserId });
+                    table.PrimaryKey("PK_Membership", x => new { x.CircleId, x.UserId });
                     table.ForeignKey(
-                        name: "FK_CircleUser_Circles_CircleId",
+                        name: "FK_Membership_Circles_CircleId",
                         column: x => x.CircleId,
                         principalTable: "Circles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CircleUser_AspNetUsers_UserId",
+                        name: "FK_Membership_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -208,8 +210,8 @@ namespace esme.Infrastructure.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Circles",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { -1, "Open Circle" });
+                columns: new[] { "Id", "Name", "NumberOfMessages" },
+                values: new object[] { -1, "Open Circle", 0 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -251,8 +253,8 @@ namespace esme.Infrastructure.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CircleUser_UserId",
-                table: "CircleUser",
+                name: "IX_Membership_UserId",
+                table: "Membership",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -279,7 +281,7 @@ namespace esme.Infrastructure.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "CircleUser");
+                name: "Membership");
 
             migrationBuilder.DropTable(
                 name: "Messages");

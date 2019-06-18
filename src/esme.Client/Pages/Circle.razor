@@ -17,20 +17,10 @@
     @foreach (var message in MessagesState.Value.Messages)
     {
         <div>
-            @if (message.Id > 0)
-            {
-                <p>
-                    On @message.SentAt.ToString("g") @message.SenderName said:<br />
-                    @message.Text
-                </p>
-            }
-            else
-            {
-                <p>
-                    Sending:<br />
-                    @message.Text
-                </p>
-            }
+            <p>
+                On @message.SentAt.ToString("g") @message.SenderName said:<br />
+                @message.Text
+            </p>
         </div>
     }
     <form onsubmit="@OnSubmit">

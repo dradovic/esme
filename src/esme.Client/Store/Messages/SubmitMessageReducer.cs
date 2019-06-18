@@ -1,7 +1,6 @@
 ﻿using Blazor.Fluxor;
 using esme.Shared.Circles;
 using Force.DeepCloner;
-using System.Collections.Generic;
 
 namespace esme.Client.Store.Messages
 {
@@ -12,10 +11,12 @@ namespace esme.Client.Store.Messages
             var newState = state.DeepClone();
             if (newState.Messages != null)
             {
-                newState.Messages.Add(new MessageViewModel
+                MessageViewModel newViewModel = new MessageViewModel
                 {
+                    Id = action.NewMessage.Id,
                     Text = action.NewMessage.Text,
-                });
+                };
+                newState.Messages.Add(newViewModel);
             }
             return newState;
         }

@@ -3,9 +3,9 @@ using esme.Shared.Circles;
 
 namespace esme.Client.Store.Messages
 {
-    public class SubmitMessageAction : IAction
+    public class PostMessageAction : IAction
     {
-        public SubmitMessageAction(int circleId, MessageEditModel newMessage)
+        public PostMessageAction(int circleId, MessageEditModel newMessage)
         {
             CircleId = circleId;
             NewMessage = newMessage;

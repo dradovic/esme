@@ -4,7 +4,9 @@ using esme.Shared.Circles;
 using esme.Shared.Events;
 using EventAggregator.Blazor;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace esme.Client.Pages
@@ -22,6 +24,9 @@ namespace esme.Client.Pages
 
         protected MessageEditModel NewMessage { get; private set; } = new MessageEditModel();
 
+        [Inject]
+        private ILogger<CircleBase> Logger { get; set; }
+
         [Parameter]
         protected int Id { get; set; }
 
@@ -35,13 +40,25 @@ namespace esme.Client.Pages
 
         protected void OnSubmit()
         {
-            Dispatcher.Dispatch(new SubmitMessageAction(Id, NewMessage));
+            Dispatcher.Dispatch(new PostMessageAction(Id, NewMessage));
             NewMessage = new MessageEditModel();
         }
 
-        public Task HandleAsync(MessagePostedEvent message)
+        public Task HandleAsync(MessagePostedEvent messagePostedEvent)
         {
-            Dispatcher.Dispatch(new FetchUnreadMessagesAction(message.CircleId));
+            Logger.LogInformation("messagePostedEvent.MessageId: {0}", messagePostedEvent.MessageId);
+            foreach (var m in MessagesState.Value.Messages)
+            {
+                Logger.LogInformation("existing Id: {0}", m.Id);
+            }
+            if (MessagesState.Value.Messages != null && MessagesState.Value.Messages.Any(m => m.Id == messagePostedEvent.MessageId))
+            {
+                // this is the message that this user has posted, so no need to fetch it
+                Logger.LogInformation("skipping");
+                return Task.CompletedTask;
+            }
+
+            Dispatcher.Dispatch(new FetchUnreadMessagesAction(messagePostedEvent.CircleId));
             return Task.CompletedTask;
         }
 

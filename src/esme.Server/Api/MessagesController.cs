@@ -53,7 +53,7 @@ namespace esme.Server.Api
         }
 
         [HttpPost]
-        public async Task<IActionResult> Messages(int circleId, [FromBody]MessageEditModel model)
+        public async Task<ActionResult<MessageViewModel>> Messages(int circleId, [FromBody]MessageEditModel model)
         {
             var userId = _userManager.ParseUserId(User);
             var membership = await GetMembershipIncludingCircle(userId, circleId);
@@ -70,9 +70,10 @@ namespace esme.Server.Api
             };
             _db.Messages.Add(message);
             membership.Circle.NumberOfMessages++; // FIXME: da, possible concurrent DB update exception?
+            membership.NumberOfReadMessages++; // FIXME: da, possible concurrent DB update exception?
             await _db.SaveChangesAsync();
-            await _hub.Clients.All.MessagePosted(new MessagePostedEvent { CircleId = circleId }); // FIXME: da, do not send to *all* users
-            return Ok();
+            await _hub.Clients.All.MessagePosted(new MessagePostedEvent { CircleId = circleId, MessageId = message.Id }); // FIXME: da, do not send to *all* users
+            return Ok(message);
         }
 
         private async Task<Membership> GetMembershipIncludingCircle(Guid userId, int circleId)

@@ -10,11 +10,13 @@ namespace esme.Client.Services
     {
         private readonly HubConnectionBuilder _connectionBuilder;
         private readonly IEventAggregator _eventAggregator;
+        private readonly ILogger<ClientHub> _logger;
 
-        public ClientHub(HubConnectionBuilder connectionBuilder, IEventAggregator eventAggregator)
+        public ClientHub(HubConnectionBuilder connectionBuilder, IEventAggregator eventAggregator, ILogger<ClientHub> logger)
         {
             _connectionBuilder = connectionBuilder;
             _eventAggregator = eventAggregator;
+            _logger = logger;
         }
 
         private HubConnection Connection { get; set; }
@@ -39,6 +41,7 @@ namespace esme.Client.Services
 
         private async Task OnMessagePosted(MessagePostedEvent messagePostedEvent)
         {
+            _logger.LogInformation("OnMessagePosted.MessageId: {0}", messagePostedEvent.MessageId);
             await _eventAggregator.PublishAsync(messagePostedEvent);
         }
     }

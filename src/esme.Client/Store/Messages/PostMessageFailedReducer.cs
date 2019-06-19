@@ -2,9 +2,9 @@
 
 namespace esme.Client.Store.Messages
 {
-    public class SubmitMessageFailedReducer : Reducer<MessagesState, SubmitMessageFailedAction>
+    public class PostMessageFailedReducer : Reducer<MessagesState, PostMessageFailedAction>
     {
-        public override MessagesState Reduce(MessagesState state, SubmitMessageFailedAction action)
+        public override MessagesState Reduce(MessagesState state, PostMessageFailedAction action)
         {
             return new MessagesState(
                 isLoading: false,

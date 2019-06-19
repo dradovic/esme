@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GridBlazor" Version="0.2.10" />
-    <PackageReference Include="GridMvcCore" Version="2.5.0" />
+    <PackageReference Include="GridBlazor" Version="0.6.0" />
+    <PackageReference Include="GridMvcCore" Version="2.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0-preview6.19307.2" />
   </ItemGroup>
 

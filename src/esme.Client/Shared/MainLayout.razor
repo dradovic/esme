@@ -1,6 +1,6 @@
 ﻿@layout FlowerOfLifeLayout
 @inherits LayoutComponentBase
-@inject AuthenticationState state
+@inject esme.Client.Services.AuthenticationState state
 @inject IUriHelper uriHelper
 @inject Blazor.Fluxor.IStore Store
 
@@ -12,7 +12,7 @@
     @Body
 }
 
-@functions{
+@code{
     protected bool IsLoggedIn;
     protected override async Task OnInitAsync()
     {

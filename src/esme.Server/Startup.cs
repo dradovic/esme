@@ -113,6 +113,7 @@ namespace esme.Server
                 app.UseBlazorDebugging();
             }
 
+            app.UseClientSideBlazorFiles<Client.Startup>();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
@@ -121,6 +122,7 @@ namespace esme.Server
             {
                 //endpoints.MapHub<ChatHub>("/chat");
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapFallbackToClientSideBlazor<Client.Startup>("index.html");
             });
 
             if (env.IsDevelopment())
@@ -134,7 +136,6 @@ namespace esme.Server
 
             app.UseSignalR(routes => routes.MapHub<EventsHub>("/my/hub"));
 
-            app.UseBlazor<Client.Startup>();
         }
     }
 }

@@ -3,6 +3,7 @@ using esme.Shared.Users;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Threading.Tasks;
+using AuthenticationState = esme.Client.Services.AuthenticationState;
 
 namespace esme.Client.Pages
 {

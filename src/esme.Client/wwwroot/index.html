@@ -32,11 +32,13 @@
             anESMEfadeout.beginElement();
         }
     </script>
-    <script src="lib/vmsg/vmsg.js" type="module"></script>
-    <script type="text/javascript">
-        windows.esme.record = function () {
+    <script type="module">
+        import {
+            record
+        } from "/lib/vmsg/vmsg.js";
+        window.esme_record = function () {
             record({
-                wasmURL: "lib/vmsg/vmsg.wasm"
+                wasmURL: "/lib/vmsg/vmsg.wasm"
             }).then(blob => {
                 console.log("Recorded MP3", blob);
                 var url = URL.createObjectURL(blob);

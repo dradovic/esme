@@ -26,6 +26,9 @@
     <form onsubmit="@OnSubmit">
         <textarea required autofocus @bind="NewMessage.Text"></textarea> @*FIXME: da, specify maxlength*@
         <div class="col-sm-4 offset-sm-4 mb-2">
+            <button class="btn btn-lg btn-secondary btn-block" @onclick="@Record">Record</button>
+        </div>
+        <div class="col-sm-4 offset-sm-4 mb-2">
             <button class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
         </div>
     </form>

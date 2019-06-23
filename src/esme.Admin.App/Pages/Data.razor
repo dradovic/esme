@@ -1,6 +1,6 @@
 ﻿@page "/data"
-@inject ISampleDataService SampleDataService
+@inherits DataBase
 
-<button onclick=@SampleDataService.ResetAllWithSampleData>
+<button disabled="@IsDisabled" onclick=@ResetAllWithSampleData>
     Reset with Sample Data
 </button>

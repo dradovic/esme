@@ -28,12 +28,13 @@ namespace esme.Client.Services
 
         public async Task<UserViewModel> Login(LoginParameters loginParameters)
         {
-            var stringContent = new StringContent(Json.Serialize(loginParameters), Encoding.UTF8, "application/json");
-            var result = await _httpClient.PostAsync("api/authorization/login", stringContent);
-            if (result.StatusCode == System.Net.HttpStatusCode.BadRequest) throw new Exception(await result.Content.ReadAsStringAsync());
-            result.EnsureSuccessStatusCode();
+            //var stringContent = new StringContent(Json.Serialize(loginParameters), Encoding.UTF8, "application/json");
+            var result = await _httpClient.PostJsonAsync<UserViewModel>("api/authorization/login", loginParameters);
+            //if (result.StatusCode == HttpStatusCode.BadRequest) throw new Exception(await result.Content.ReadAsStringAsync());
+            //result.EnsureSuccessStatusCode();
 
-            return Json.Deserialize<UserViewModel>(await result.Content.ReadAsStringAsync());
+            //return Json.Deserialize<UserViewModel>(await result.Content.ReadAsStringAsync());
+            return result;
         }
 
         public async Task Logout()
@@ -44,12 +45,13 @@ namespace esme.Client.Services
 
         public async Task<UserViewModel> Register(SignupParameters signupParameters)
         {
-            var stringContent = new StringContent(Json.Serialize(signupParameters), Encoding.UTF8, "application/json");
-            var result = await _httpClient.PostAsync("api/authorization/register", stringContent);
-            if (result.StatusCode == HttpStatusCode.BadRequest) throw new Exception(await result.Content.ReadAsStringAsync());
-            result.EnsureSuccessStatusCode();
+            //var stringContent = new StringContent(Json.Serialize(signupParameters), Encoding.UTF8, "application/json");
+            var result = await _httpClient.PostJsonAsync<UserViewModel>("api/authorization/register", signupParameters);
+            //if (result.StatusCode == HttpStatusCode.BadRequest) throw new Exception(await result.Content.ReadAsStringAsync());
+            //result.EnsureSuccessStatusCode();
 
-            return Json.Deserialize<UserViewModel>(await result.Content.ReadAsStringAsync());
+            //return Json.Deserialize<UserViewModel>(await result.Content.ReadAsStringAsync());
+            return result;
         }
 
         public async Task<UserViewModel> TryGetUser()

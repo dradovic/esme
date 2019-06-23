@@ -1,18 +1,19 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GridBlazor" Version="0.2.10" />
-    <PackageReference Include="GridMvcCore" Version="2.5.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0-preview5-19227-01" />
+    <PackageReference Include="GridBlazor" Version="0.6.0" />
+    <PackageReference Include="GridMvcCore" Version="2.8.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0-preview6.19307.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\esme.Admin.Shared\esme.Admin.Shared.csproj" />
     <ProjectReference Include="..\esme.Infrastructure\esme.Infrastructure.csproj" />
+    <ProjectReference Include="..\esme.Shared\esme.Shared.csproj" />
   </ItemGroup>
 
 </Project>

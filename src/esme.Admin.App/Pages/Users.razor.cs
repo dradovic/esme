@@ -18,13 +18,17 @@ namespace esme.Admin.App.Pages
         [Inject]
         private IUsersGridService UsersGridService { get; set; }
 
+        [Inject]
+        private IUsersService UsersService { get; set; }
+
         protected override async Task OnInitAsync()
         {
             Action<IGridColumnCollection<UserViewModel>> columns = c =>
             {
                 c.Add(o => o.Id).Titled("Id").Sortable(true);
                 c.Add(o => o.UserName).Titled("Name").Sortable(true);
-                c.Add(o => o.Email).Sortable(true);
+                c.Add(o => o.Email).Titled("Email").Sortable(true);
+                c.Add().Titled("Ambassador").Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(u => $"<button onclick=\"@GrantAmbassador({u.Id})\">Nominate</button>");
             };
 
             var query = new QueryDictionary<StringValues>();
@@ -36,6 +40,11 @@ namespace esme.Admin.App.Pages
             // Set new items to grid
             Task = client.UpdateGrid();
             await Task;
+        }
+
+        protected void GrantAmbassador(Guid userId)
+        {
+            UsersService.GrantAmbassador(userId);
         }
     }
 }

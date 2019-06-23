@@ -67,6 +67,8 @@ namespace esme.Admin.Server
                     WasmMediaTypeNames.Application.Wasm,
                 });
             });
+
+            services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<ISampleDataService, SampleDataService>();
             services.AddScoped<IUsersGridService, UsersGridService>();
             services.AddScoped<ICirclesGridService, CirclesGridService>();

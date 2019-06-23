@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\esme.Admin.Shared\esme.Admin.Shared.csproj" />
     <ProjectReference Include="..\esme.Infrastructure\esme.Infrastructure.csproj" />
+    <ProjectReference Include="..\esme.Shared\esme.Shared.csproj" />
   </ItemGroup>
 
 </Project>

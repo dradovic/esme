@@ -7,6 +7,7 @@
     <base href="/" />
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/site.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="lib/vmsg/vmsg.css">
 </head>
 <body style="height:100vh">
     <app>
@@ -29,6 +30,21 @@
         window.endAnimation = function () {
             const anESMEfadeout = document.getElementById("anESMEfadeout");
             anESMEfadeout.beginElement();
+        }
+    </script>
+    <script src="lib/vmsg/vmsg.js" type="module"></script>
+    <script type="text/javascript">
+        windows.esme.record = function () {
+            record({
+                wasmURL: "lib/vmsg/vmsg.wasm"
+            }).then(blob => {
+                console.log("Recorded MP3", blob);
+                var url = URL.createObjectURL(blob);
+                var preview = document.createElement('audio');
+                preview.controls = true;
+                preview.src = url;
+                document.body.appendChild(preview);
+            });
         }
     </script>
 </body>

@@ -120,8 +120,8 @@ namespace esme.Server
 
             app.UseEndpoints(endpoints =>
             {
-                //endpoints.MapHub<ChatHub>("/chat");
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapHub<EventsHub>("/my/hub");
                 endpoints.MapFallbackToClientSideBlazor<Client.Startup>("index.html");
             });
 
@@ -133,9 +133,6 @@ namespace esme.Server
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Test API V1");
                 });
             }
-
-            app.UseSignalR(routes => routes.MapHub<EventsHub>("/my/hub"));
-
         }
     }
 }

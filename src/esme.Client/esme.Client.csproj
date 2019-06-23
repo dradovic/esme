@@ -14,7 +14,7 @@
   <ItemGroup>
     <PackageReference Include="Blazor.Extensions.Logging" Version="0.1.11" />
     <PackageReference Include="Blazor.Extensions.SignalR" Version="0.1.9" />
-    <PackageReference Include="Blazor.Fluxor" Version="0.23.1-pre" />
+    <PackageReference Include="Blazor.Fluxor" Version="0.24.0-pre" />
     <PackageReference Include="DeepCloner" Version="0.10.2" />
     <PackageReference Include="EventAggregator.Blazor" Version="1.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview6.19307.2" />

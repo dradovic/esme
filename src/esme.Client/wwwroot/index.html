@@ -35,16 +35,14 @@
         import {
             Recorder
         } from "/lib/vmsg/vmsg.js";
-        window.esme_startRecording = function () {
+        window.esme_startRecording = async function () {
             if (!window.esme_recorder) {
                 window.esme_recorder = new Recorder({
                     wasmURL: "/lib/vmsg/vmsg.wasm"
                 });
-                window.esme_recorder.init().then(() => window.esme_recorder.startRecording()); // FIXME: da, use await?
+                await window.esme_recorder.init();
             }
-            else {
-                window.esme_recorder.startRecording();
-            }
+            window.esme_recorder.startRecording();
         }
         window.esme_stopRecording = async function () {
             await window.esme_recorder.stopRecording();

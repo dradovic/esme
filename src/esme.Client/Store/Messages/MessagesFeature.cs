@@ -6,9 +6,6 @@ namespace esme.Client.Store.Messages
     {
         public override string GetName() => "Messages";
 
-        protected override MessagesState GetInitialState() => new MessagesState(
-            isLoading: false,
-            errorMessage: null,
-            messages: null);
+        protected override MessagesState GetInitialState() => new MessagesState();
     }
 }

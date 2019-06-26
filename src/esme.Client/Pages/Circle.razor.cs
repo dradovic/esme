@@ -5,7 +5,6 @@ using esme.Shared.Events;
 using EventAggregator.Blazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
-using Microsoft.JSInterop;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,9 +24,6 @@ namespace esme.Client.Pages
 
         protected MessageEditModel NewMessage { get; private set; } = new MessageEditModel();
 
-        [Inject]
-        private IJSRuntime JSRuntime { get; set; }
-
         [Parameter]
         protected int Id { get; set; }
 
@@ -39,9 +35,14 @@ namespace esme.Client.Pages
             Dispatcher.Dispatch(new FetchInitialMessagesAction(Id));
         }
 
-        protected async Task Record()
+        protected void StartRecording()
         {
-            await JSRuntime.InvokeAsync<object>("esme_record");
+            Dispatcher.Dispatch(new StartRecordingAction());
+        }
+
+        protected void StopRecording()
+        {
+            Dispatcher.Dispatch(new StopRecordingAction());
         }
 
         protected void OnSubmit()

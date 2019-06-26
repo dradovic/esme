@@ -1,5 +1,6 @@
 ﻿@page "/circle/{Id:int}"
 @inherits CircleBase
+@using Store.Messages
 
 @if (MessagesState.Value.ErrorMessage != null)
 {
@@ -7,7 +8,7 @@
     <p>@MessagesState.Value.ErrorMessage</p>
 }
 
-@if (MessagesState.Value.IsLoading)
+@if (MessagesState.Value.State == State.IsLoading)
 {
     <p>Loading...</p>
 }
@@ -26,7 +27,23 @@
     <form onsubmit="@OnSubmit">
         <textarea required autofocus @bind="NewMessage.Text"></textarea> @*FIXME: da, specify maxlength*@
         <div class="col-sm-4 offset-sm-4 mb-2">
-            <button class="btn btn-lg btn-secondary btn-block" @onclick="@Record">Record</button>
+            @if (MessagesState.Value.State == State.RecordingAvailable)
+            {
+                <div>@MessagesState.Value.RecordingUrl</div>
+                <audio @src="MessageState.Value.RecordingUrl" autoplay="true">Play</audio>
+            }
+            else if (MessagesState.Value.State == State.Default)
+            {
+                <button class="btn btn-lg btn-secondary btn-block" @onclick="@StartRecording">
+                    Record
+                </button>
+            }
+            else if (MessagesState.Value.State == State.IsRecording)
+            {
+                <button class="btn btn-lg btn-secondary btn-block" @onclick="@StopRecording">
+                    Stop
+                </button>
+            }
         </div>
         <div class="col-sm-4 offset-sm-4 mb-2">
             <button class="btn btn-lg btn-primary btn-block" type="submit">Send</button>

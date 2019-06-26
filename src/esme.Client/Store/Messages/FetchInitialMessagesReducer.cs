@@ -6,10 +6,10 @@ namespace esme.Client.Store.Messages
     {
         public override MessagesState Reduce(MessagesState state, FetchInitialMessagesAction action)
         {
-            return new MessagesState(
-                isLoading: true,
-                errorMessage: null,
-                messages: null);
+            return new MessagesState
+            {
+                State = State.IsLoading
+            };
         }
     }
 }

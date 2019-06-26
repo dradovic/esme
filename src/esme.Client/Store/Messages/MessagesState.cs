@@ -1,20 +1,31 @@
 ﻿using esme.Shared.Circles;
+using Force.DeepCloner;
 using System;
 using System.Collections.Generic;
 
 namespace esme.Client.Store.Messages
 {
+    public enum State
+    {
+        Default,
+        IsLoading,
+        IsRecording,
+        StopRecording,
+        RecordingAvailable,
+    }
+
     public class MessagesState
     {
-        public bool IsLoading { get; }
-        public string ErrorMessage { get; }
-        public List<MessageViewModel> Messages { get; private set; }
+        public State State { get; set; }
+        public string ErrorMessage { get; set; }
+        public List<MessageViewModel> Messages { get; set; }
+        public string RecordingUrl { get; set; }
 
-        public MessagesState(bool isLoading, string errorMessage, List<MessageViewModel> messages)
+        public MessagesState TransitionTo(State newState)
         {
-            IsLoading = isLoading;
-            ErrorMessage = errorMessage;
-            Messages = messages;
+            var result = this.DeepClone();
+            result.State = newState;
+            return result;
         }
 
         public void Merge(IEnumerable<MessageViewModel> messages)

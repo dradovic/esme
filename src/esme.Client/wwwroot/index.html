@@ -34,19 +34,22 @@
     </script>
     <script type="module">
         import {
-            record
+            Recorder
         } from "/lib/vmsg/vmsg.js";
-        window.esme_record = function () {
-            record({
-                wasmURL: "/lib/vmsg/vmsg.wasm"
-            }).then(blob => {
-                console.log("Recorded MP3", blob);
-                var url = URL.createObjectURL(blob);
-                var preview = document.createElement('audio');
-                preview.controls = true;
-                preview.src = url;
-                document.body.appendChild(preview);
-            });
+        window.esme_startRecording = function () {
+            if (!window.esme_recorder) {
+                window.esme_recorder = new Recorder({
+                    wasmURL: "/lib/vmsg/vmsg.wasm"
+                });
+                window.esme_recorder.init().then(() => window.esme_recorder.startRecording()); // FIXME: da, use await?
+            }
+            else {
+                window.esme_recorder.startRecording();
+            }
+        }
+        window.esme_stopRecording = async function () {
+            await window.esme_recorder.stopRecording();
+            return window.esme_recorder.blobURL;
         }
     </script>
 </body>

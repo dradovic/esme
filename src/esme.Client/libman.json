@@ -5,7 +5,7 @@
     {
       "provider": "unpkg",
       "library": "vmsg@0.3.6",
-      "files": [ "vmsg.js", "vmsg.wasm", "vmsg.css" ],
+      "files": [ "vmsg.js", "vmsg.wasm" ],
       "destination": "wwwroot/lib/vmsg"
     }
   ]

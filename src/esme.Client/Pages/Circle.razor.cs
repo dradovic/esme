@@ -6,7 +6,9 @@ using EventAggregator.Blazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace esme.Client.Pages
@@ -27,6 +29,10 @@ namespace esme.Client.Pages
         [Parameter]
         protected int Id { get; set; }
 
+        private Stopwatch _recordingWatch;
+        private Timer _timer;
+        protected string RecordingTime { get; private set; }
+
         protected override void OnInit()
         {
             // FIXME: da, disable send button while setup is going on (see BlazorChat sample)?
@@ -38,11 +44,19 @@ namespace esme.Client.Pages
         protected void StartRecording()
         {
             Dispatcher.Dispatch(new StartRecordingAction());
+            _recordingWatch = Stopwatch.StartNew();
+            _timer = new Timer(new TimerCallback(_ =>
+            {
+                RecordingTime = _recordingWatch.Elapsed.ToString("mm':'ss");
+                StateHasChanged();
+            }), null, 0, 1000);
         }
 
         protected void StopRecording()
         {
             Dispatcher.Dispatch(new StopRecordingAction());
+            _recordingWatch.Stop();
+            _timer.Dispose();
         }
 
         protected void OnSubmit()

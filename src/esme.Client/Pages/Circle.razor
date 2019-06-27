@@ -40,7 +40,7 @@
             else if (MessagesState.Value.State == State.IsRecording)
             {
                 <button class="btn btn-lg btn-secondary btn-block" @onclick="@StopRecording">
-                    Stop
+                    @RecordingTime
                 </button>
             }
         </div>

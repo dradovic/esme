@@ -9,3 +9,16 @@
 .form-control {
     opacity: 0.75
 }
+
+/* override vmsg.css */
+.vmsg-slider-wrapper {
+    visibility: hidden;
+}
+
+.vmsg-record-row {
+    margin-top: 38px;
+}
+
+.vmsg-popup {
+    height: 50px;
+}

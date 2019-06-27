@@ -24,9 +24,6 @@ namespace esme.Client.Pages
 
         protected MessageEditModel NewMessage { get; private set; } = new MessageEditModel();
 
-        [Inject]
-        private ILogger<CircleBase> Logger { get; set; }
-
         [Parameter]
         protected int Id { get; set; }
 
@@ -38,6 +35,16 @@ namespace esme.Client.Pages
             Dispatcher.Dispatch(new FetchInitialMessagesAction(Id));
         }
 
+        protected void StartRecording()
+        {
+            Dispatcher.Dispatch(new StartRecordingAction());
+        }
+
+        protected void StopRecording()
+        {
+            Dispatcher.Dispatch(new StopRecordingAction());
+        }
+
         protected void OnSubmit()
         {
             Dispatcher.Dispatch(new PostMessageAction(Id, NewMessage));
@@ -46,15 +53,9 @@ namespace esme.Client.Pages
 
         public Task HandleAsync(MessagePostedEvent messagePostedEvent)
         {
-            Logger.LogInformation("messagePostedEvent.MessageId: {0}", messagePostedEvent.MessageId);
-            foreach (var m in MessagesState.Value.Messages)
-            {
-                Logger.LogInformation("existing Id: {0}", m.Id);
-            }
             if (MessagesState.Value.Messages != null && MessagesState.Value.Messages.Any(m => m.Id == messagePostedEvent.MessageId))
             {
                 // this is the message that this user has posted, so no need to fetch it
-                Logger.LogInformation("skipping");
                 return Task.CompletedTask;
             }
 

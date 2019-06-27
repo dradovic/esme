@@ -23,4 +23,8 @@
     <ProjectReference Include="..\esme.Shared\esme.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\" />
+  </ItemGroup>
+
 </Project>

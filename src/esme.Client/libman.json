@@ -1,0 +1,12 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "provider": "unpkg",
+      "library": "vmsg@0.3.6",
+      "files": [ "vmsg.js", "vmsg.wasm" ],
+      "destination": "wwwroot/lib/vmsg"
+    }
+  ]
+}

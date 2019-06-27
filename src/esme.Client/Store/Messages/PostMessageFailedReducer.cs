@@ -6,10 +6,9 @@ namespace esme.Client.Store.Messages
     {
         public override MessagesState Reduce(MessagesState state, PostMessageFailedAction action)
         {
-            return new MessagesState(
-                isLoading: false,
-                errorMessage: action.ErrorMessage,
-                messages: null);
+            var newState = state.TransitionTo(State.Default);
+            newState.ErrorMessage = action.ErrorMessage;
+            return newState;
         }
     }
 }

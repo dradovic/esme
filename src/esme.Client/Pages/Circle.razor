@@ -1,4 +1,4 @@
-﻿@page "/circle/{Id:int}"
+﻿@page "/circle/{CircleId:int}"
 @inherits CircleBase
 @using Store.Messages
 
@@ -18,14 +18,18 @@
     @foreach (var message in MessagesState.Value.Messages)
     {
         <div>
+            @* FIXME: da, introduce Balloon *@
             <p>
                 On @message.SentAt.ToString("g") @message.SenderName said:<br />
-                @message.Text
+                @message.Content
             </p>
         </div>
     }
     <form onsubmit="@OnSubmit">
-        <textarea required autofocus @bind="NewMessage.Text"></textarea> @*FIXME: da, specify maxlength*@
+        @if (MessagesState.Value.State == State.Default)
+        {
+            <textarea required autofocus @bind="NewMessage.Text"></textarea> @*FIXME: da, specify maxlength*@
+        }
         <div class="col-sm-4 offset-sm-4 mb-2">
             @if (MessagesState.Value.State == State.RecordingAvailable)
             {

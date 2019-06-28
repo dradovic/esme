@@ -3,15 +3,15 @@ using esme.Shared.Circles;
 
 namespace esme.Client.Store.Messages
 {
-    public class PostMessageAction : IAction
+    public class PostTextMessageAction : IAction
     {
-        public PostMessageAction(int circleId, MessageEditModel newMessage)
+        public PostTextMessageAction(int circleId, TextMessageEditModel newMessage)
         {
             CircleId = circleId;
             NewMessage = newMessage;
         }
 
         public int CircleId { get; }
-        public MessageEditModel NewMessage { get; }
+        public TextMessageEditModel NewMessage { get; }
     }
 }

@@ -24,10 +24,10 @@ namespace esme.Client.Pages
         [Inject]
         protected IState<MessagesState> MessagesState { get; private set; }
 
-        protected MessageEditModel NewMessage { get; private set; } = new MessageEditModel();
+        protected TextMessageEditModel NewMessage { get; private set; } = new TextMessageEditModel();
 
         [Parameter]
-        protected int Id { get; set; }
+        protected int CircleId { get; set; }
 
         private Stopwatch _recordingWatch;
         private Timer _timer;
@@ -38,7 +38,7 @@ namespace esme.Client.Pages
             // FIXME: da, disable send button while setup is going on (see BlazorChat sample)?
             EventAggregator.Subscribe(this);
             MessagesState.Subscribe(this);
-            Dispatcher.Dispatch(new FetchInitialMessagesAction(Id));
+            Dispatcher.Dispatch(new FetchInitialMessagesAction(CircleId));
         }
 
         protected void StartRecording()
@@ -61,8 +61,15 @@ namespace esme.Client.Pages
 
         protected void OnSubmit()
         {
-            Dispatcher.Dispatch(new PostMessageAction(Id, NewMessage));
-            NewMessage = new MessageEditModel();
+            if (MessagesState.Value.State == State.Default)
+            {
+                Dispatcher.Dispatch(new PostTextMessageAction(CircleId, NewMessage));
+                NewMessage = new TextMessageEditModel(); // start over
+            }
+            else if (MessagesState.Value.State == State.RecordingAvailable)
+            {
+                Dispatcher.Dispatch(new PostVoiceMessageAction(CircleId, MessagesState.Value.RecordingUrl));
+            }
         }
 
         public Task HandleAsync(MessagePostedEvent messagePostedEvent)

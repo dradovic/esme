@@ -3,9 +3,9 @@ using esme.Shared.Circles;
 
 namespace esme.Client.Store.Messages
 {
-    public class PostMessageSucceededAction : IAction
+    public class PostTextMessageSucceededAction : IAction
     {
-        public PostMessageSucceededAction(MessageViewModel postedMessage)
+        public PostTextMessageSucceededAction(MessageViewModel postedMessage)
         {
             PostedMessage = postedMessage;
         }

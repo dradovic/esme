@@ -7,25 +7,25 @@ using System.Threading.Tasks;
 
 namespace esme.Client.Store.Messages
 {
-    public class PostMessageEffect : Effect<PostMessageAction>
+    public class PostTextMessageEffect : Effect<PostTextMessageAction>
     {
         private readonly HttpClient _httpClient;
 
-        public PostMessageEffect(HttpClient httpClient)
+        public PostTextMessageEffect(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        protected override async Task HandleAsync(PostMessageAction action, IDispatcher dispatcher)
+        protected override async Task HandleAsync(PostTextMessageAction action, IDispatcher dispatcher)
         {
             try
             {
                 var postedMessage = await _httpClient.PostJsonAsync<MessageViewModel>($"api/my/messages?circleId={action.CircleId}", action.NewMessage);
-                dispatcher.Dispatch(new PostMessageSucceededAction(postedMessage));
+                dispatcher.Dispatch(new PostTextMessageSucceededAction(postedMessage));
             }
             catch (Exception x)
             {
-                dispatcher.Dispatch(new PostMessageFailedAction(errorMessage: x.Message));
+                dispatcher.Dispatch(new PostTextMessageFailedAction(errorMessage: x.Message));
             }
         }
     }

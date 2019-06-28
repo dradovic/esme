@@ -1,24 +1,26 @@
 ﻿using Blazor.Fluxor;
 using esme.Shared.Circles;
-using Force.DeepCloner;
 
 namespace esme.Client.Store.Messages
 {
-    public class PostMessageReducer : Reducer<MessagesState, PostMessageAction>
+    public abstract class PostMessageReducer<TAction>
     {
-        public override MessagesState Reduce(MessagesState state, PostMessageAction action)
+        public MessagesState Reduce(MessagesState state, IAction action)
         {
-            var newState = state.DeepClone();
+            var newState = state.TransitionTo(State.Default);
             if (newState.Messages != null)
             {
-                MessageViewModel newViewModel = new MessageViewModel
-                {
-                    Id = action.NewMessage.Id,
-                    Text = action.NewMessage.Text,
-                };
-                newState.Messages.Add(newViewModel);
+                MessageViewModel newViewModel = CreateViewModel((TAction)action);
+                newState.Messages.Add(newViewModel); // append to messages
             }
             return newState;
         }
+
+        public bool ShouldReduceStateForAction(IAction action)
+        {
+            return action.GetType() == typeof(TAction);
+        }
+
+        protected abstract MessageViewModel CreateViewModel(TAction action);
     }
 }

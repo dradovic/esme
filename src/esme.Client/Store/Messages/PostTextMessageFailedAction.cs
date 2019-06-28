@@ -2,9 +2,9 @@
 
 namespace esme.Client.Store.Messages
 {
-    public class PostMessageFailedAction : IAction
+    public class PostTextMessageFailedAction : IAction
     {
-        public PostMessageFailedAction(string errorMessage)
+        public PostTextMessageFailedAction(string errorMessage)
         {
             ErrorMessage = errorMessage;
         }

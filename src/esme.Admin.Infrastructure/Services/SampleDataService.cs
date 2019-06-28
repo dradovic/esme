@@ -1,5 +1,6 @@
 using esme.Admin.Shared.Services;
 using esme.Infrastructure.Data;
+using esme.Shared.Circles;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,8 @@ namespace esme.Admin.Infrastructure.Services
                 {
                     Id = Guid.NewGuid(),
                     CircleId = openCircle.Id,
-                    Text = "Hello everybody!",
+                    ContentType = ContentType.Text,
+                    Content = "Hello everybody!",
                     SentAt = DateTimeOffset.UtcNow,
                     SentBy = user.Id,
                     SenderName = user.UserName,

@@ -53,7 +53,7 @@ namespace esme.Server.Api
         }
 
         [HttpPost]
-        public async Task<ActionResult<MessageViewModel>> Messages(int circleId, [FromBody]MessageEditModel model)
+        public async Task<ActionResult<MessageViewModel>> Messages(int circleId, [FromBody]TextMessageEditModel model)
         {
             if (!ModelState.IsValid) return BadRequest(); // FIXME: da, should be automatic for [ApiController] (see https://docs.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-3.0)
 
@@ -65,7 +65,8 @@ namespace esme.Server.Api
             {
                 Id = model.Id,
                 CircleId = circleId,
-                Text = model.Text, // FIXME: da, validate model for max length
+                ContentType = ContentType.Text,
+                Content = model.Text, // FIXME: da, validate model for max length
                 SentAt = DateTimeOffset.UtcNow,
                 SentBy = userId,
                 SenderName = _userManager.GetUserName(User),
@@ -92,7 +93,8 @@ namespace esme.Server.Api
             return new MessageViewModel
             {
                 Id = message.Id,
-                Text = message.Text,
+                ContentType = message.ContentType,
+                Content = message.Content,
                 SentAt = message.SentAt,
                 SenderName = message.SenderName,
             };

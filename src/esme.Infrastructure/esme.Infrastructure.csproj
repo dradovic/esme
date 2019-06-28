@@ -15,4 +15,8 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="3.0.0-preview-18579-0056" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\esme.Shared\esme.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

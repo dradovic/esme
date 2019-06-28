@@ -1,4 +1,5 @@
-﻿using System;
+﻿using esme.Shared.Circles;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,8 +14,10 @@ namespace esme.Infrastructure.Data
 
         public int CircleId { get; set; }
 
+        public ContentType ContentType { get; set; }
+
         [MaxLength(MaximumMessageTextLength)]
-        public string Text { get; set; }
+        public string Content { get; set; }
 
         public DateTimeOffset SentAt { get; set; }
 

@@ -1,5 +1,7 @@
 ﻿using esme.Infrastructure;
 using esme.Infrastructure.Data;
+using esme.Infrastructure.Services;
+using esme.Shared;
 using esme.Shared.Circles;
 using esme.Shared.Events;
 using Microsoft.AspNetCore.Authorization;
@@ -15,24 +17,27 @@ using System.Threading.Tasks;
 
 namespace esme.Server.Api
 {
-    [Route("api/my/[action]")]
     [ApiController] // FIXME: da, decorate on assembly level
     [Authorize]
     public class MessagesController : ControllerBase
     {
         private readonly ApplicationDbContext _db; // FEATURE: da, use MediatR
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly AzureBlobStorage _storage;
         private readonly IHubContext<EventsHub, IEventsHub> _hub;
 
-        public MessagesController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IHubContext<EventsHub, IEventsHub> hub)
+        public MessagesController(ApplicationDbContext db, UserManager<ApplicationUser> userManager,
+            AzureBlobStorage storage,
+            IHubContext<EventsHub, IEventsHub> hub)
         {
             _db = db;
             _userManager = userManager;
+            _storage = storage;
             _hub = hub;
         }
 
         [HttpPost]
-        [Route("actions/read")]
+        [Route(Urls.PostReadMessages)]
         public async Task<ActionResult<IEnumerable<MessageViewModel>>> Messages(int circleId, [FromBody]ReadMessagesOptions options)
         {
             var userId = _userManager.ParseUserId(User);
@@ -53,7 +58,23 @@ namespace esme.Server.Api
         }
 
         [HttpPost]
-        public async Task<ActionResult<MessageViewModel>> Messages(int circleId, [FromBody]TextMessageEditModel model)
+        [Route(Urls.PostTextMessage)]
+        public Task<ActionResult<MessageViewModel>> Messages(int circleId, [FromBody]TextMessageEditModel model)
+        {
+            return Messages(circleId, model.Id, ContentType.Text, () => Task.FromResult(model.Text) );
+        }
+
+        [HttpPost]
+        [Route(Urls.PostVoiceMessage)]
+        public Task<ActionResult<MessageViewModel>> Messages(int circleId, [FromBody]VoiceMessageEditModel model)
+        {
+            return Messages(circleId, model.Id, ContentType.Voice, async () => {
+                var blobUri = await _storage.StoreBytesAsync(circleId, $"{model.Id}.mp3", model.Recording, "messages/voice");
+                return blobUri.AbsoluteUri;
+            });
+        }
+
+        private async Task<ActionResult<MessageViewModel>> Messages(int circleId, Guid messageId, ContentType contentType, Func<Task<string>> getContent)
         {
             if (!ModelState.IsValid) return BadRequest(); // FIXME: da, should be automatic for [ApiController] (see https://docs.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-3.0)
 
@@ -61,12 +82,13 @@ namespace esme.Server.Api
             var membership = await GetMembershipIncludingCircle(userId, circleId);
             if (membership == null) return NotFound();
 
+            var content = await getContent();
             Message message = new Message
             {
-                Id = model.Id,
+                Id = messageId,
                 CircleId = circleId,
-                ContentType = ContentType.Text,
-                Content = model.Text, // FIXME: da, validate model for max length
+                ContentType = contentType,
+                Content = content,
                 SentAt = DateTimeOffset.UtcNow,
                 SentBy = userId,
                 SenderName = _userManager.GetUserName(User),

@@ -1,4 +1,5 @@
-﻿using esme.Shared.Circles;
+﻿using esme.Shared;
+using esme.Shared.Circles;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace esme.Client.Services
 {
-    public class MessagesApi
+    public class MessagesApi // FIXME: da, move all API calls to this class
     {
         private readonly HttpClient _httpClient;
 
@@ -17,7 +18,7 @@ namespace esme.Client.Services
 
         public async Task<IEnumerable<MessageViewModel>> ReadMessages(int circleId, ReadMessagesOptions options)
         {
-            return await _httpClient.PostJsonAsync<IEnumerable<MessageViewModel>>($"api/my/messages/actions/read?circleId={circleId}", options);
+            return await _httpClient.PostJsonAsync<IEnumerable<MessageViewModel>>(Urls.GetPostReadMessages(circleId), options);
         }
     }
 }

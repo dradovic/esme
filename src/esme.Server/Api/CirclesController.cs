@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace esme.Server.Api
 {
-    [Route("api/my/[action]")]
+    [Route("api/my/[action]")] // FIXME: da, move to Urls
     [ApiController] // FIXME: da, decorate on assembly level
     [Authorize]
     public class CirclesController : ControllerBase

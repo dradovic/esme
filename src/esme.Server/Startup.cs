@@ -1,4 +1,5 @@
 using esme.Infrastructure.Data;
+using esme.Infrastructure.Services;
 using esme.Server.Api;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -100,6 +101,8 @@ namespace esme.Server
                     WasmMediaTypeNames.Application.Wasm,
                 });
             });
+
+            services.AddScoped<AzureBlobStorage>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

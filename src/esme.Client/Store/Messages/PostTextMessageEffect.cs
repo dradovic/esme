@@ -1,4 +1,5 @@
 ﻿using Blazor.Fluxor;
+using esme.Shared;
 using esme.Shared.Circles;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -20,8 +21,8 @@ namespace esme.Client.Store.Messages
         {
             try
             {
-                var postedMessage = await _httpClient.PostJsonAsync<MessageViewModel>($"api/my/messages?circleId={action.CircleId}", action.NewMessage);
-                dispatcher.Dispatch(new PostTextMessageSucceededAction(postedMessage));
+                var postedMessage = await _httpClient.PostJsonAsync<MessageViewModel>(Urls.GetPostTextMessageUrl(action.CircleId), action.NewMessage);
+                dispatcher.Dispatch(new PostMessageSucceededAction(postedMessage));
             }
             catch (Exception x)
             {

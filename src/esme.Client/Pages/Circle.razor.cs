@@ -66,8 +66,13 @@ namespace esme.Client.Pages
                 Dispatcher.Dispatch(new PostTextMessageAction(CircleId, NewMessage));
                 NewMessage = new TextMessageEditModel(); // start over
             }
-            else if (MessagesState.Value.State == State.RecordingAvailable)
+            else if (MessagesState.Value.State == State.IsRecording ||
+                MessagesState.Value.State == State.RecordingAvailable)
             {
+                if (MessagesState.Value.State == State.IsRecording)
+                {
+                    Dispatcher.Dispatch(new StopRecordingAction());
+                }
                 Dispatcher.Dispatch(new PostVoiceMessageAction(CircleId, MessagesState.Value.RecordingUrl));
             }
         }

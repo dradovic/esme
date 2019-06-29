@@ -103,6 +103,9 @@ namespace esme.Server
             });
 
             services.AddScoped<AzureBlobStorage>();
+
+            services.AddOptions();
+            services.Configure<AzureBlobStorageOptions>(_configuration.GetSection("AzureBlobStorage"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

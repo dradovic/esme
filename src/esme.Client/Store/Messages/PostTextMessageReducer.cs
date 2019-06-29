@@ -9,9 +9,9 @@ namespace esme.Client.Store.Messages
         {
             return new MessageViewModel
             {
-                Id = action.NewMessage.Id,
+                Id = action.Message.Id,
                 ContentType = ContentType.Text,
-                Content = action.NewMessage.Text,
+                Content = action.Message.Text,
             };
         }
     }

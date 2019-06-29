@@ -42,7 +42,7 @@ namespace esme.Client.Store.Messages
             int index = Messages.FindIndex(m => m.Id == message.Id);
             if (index >= 0)
             {
-                Messages[index] = message;
+                Messages[index].Merge(message);
             }
             else
             {

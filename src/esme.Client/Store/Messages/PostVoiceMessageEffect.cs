@@ -21,11 +21,8 @@ namespace esme.Client.Store.Messages
         {
             try
             {
-                var recording = await _httpClient.GetByteArrayAsync(action.RecordingUrl); // read the recording from the browser's blob storage
-                var postedMessage = await _httpClient.PostJsonAsync<MessageViewModel>(Urls.GetPostVoiceMessageUrl(action.CircleId), new VoiceMessageEditModel
-                {
-                    Recording = recording
-                });
+                action.Message.Recording = await _httpClient.GetByteArrayAsync(action.RecordingUrl); // read the recording from the browser's blob storage
+                var postedMessage = await _httpClient.PostJsonAsync<MessageViewModel>(Urls.GetPostVoiceMessageUrl(action.CircleId), action.Message);
                 dispatcher.Dispatch(new PostMessageSucceededAction(postedMessage));
             }
             catch (Exception x)

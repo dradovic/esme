@@ -5,13 +5,13 @@ namespace esme.Client.Store.Messages
 {
     public class PostTextMessageAction : IAction
     {
-        public PostTextMessageAction(int circleId, TextMessageEditModel newMessage)
+        public PostTextMessageAction(int circleId, TextMessageEditModel message)
         {
             CircleId = circleId;
-            NewMessage = newMessage;
+            Message = message;
         }
 
         public int CircleId { get; }
-        public TextMessageEditModel NewMessage { get; }
+        public TextMessageEditModel Message { get; }
     }
 }

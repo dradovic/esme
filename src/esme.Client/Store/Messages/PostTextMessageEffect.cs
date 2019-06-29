@@ -21,7 +21,7 @@ namespace esme.Client.Store.Messages
         {
             try
             {
-                var postedMessage = await _httpClient.PostJsonAsync<MessageViewModel>(Urls.GetPostTextMessageUrl(action.CircleId), action.NewMessage);
+                var postedMessage = await _httpClient.PostJsonAsync<MessageViewModel>(Urls.GetPostTextMessageUrl(action.CircleId), action.Message);
                 dispatcher.Dispatch(new PostMessageSucceededAction(postedMessage));
             }
             catch (Exception x)

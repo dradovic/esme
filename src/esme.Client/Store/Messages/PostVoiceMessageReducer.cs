@@ -10,7 +10,7 @@ namespace esme.Client.Store.Messages
         {
             return new MessageViewModel
             {
-                Id = Guid.NewGuid(),
+                Id = action.Message.Id,
                 ContentType = ContentType.Voice,
                 Content = action.RecordingUrl,
             };

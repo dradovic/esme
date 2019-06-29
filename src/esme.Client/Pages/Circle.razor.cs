@@ -73,7 +73,7 @@ namespace esme.Client.Pages
                 {
                     Dispatcher.Dispatch(new StopRecordingAction());
                 }
-                Dispatcher.Dispatch(new PostVoiceMessageAction(CircleId, MessagesState.Value.RecordingUrl));
+                Dispatcher.Dispatch(new PostVoiceMessageAction(CircleId, MessagesState.Value.RecordingUrl, new VoiceMessageEditModel()));
             }
         }
 

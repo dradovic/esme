@@ -47,8 +47,8 @@ namespace esme.Client.Pages
         {
             if (_postVoiceMessageWhenAvailable && MessagesState.Value.State == State.RecordingAvailable)
             {
-                PostVoiceMessage();
                 _postVoiceMessageWhenAvailable = false;
+                PostVoiceMessage();
             }
         }
 
@@ -84,8 +84,8 @@ namespace esme.Client.Pages
             }
             else if (MessagesState.Value.State == State.IsRecording)
             {
-                StopRecording();
                 _postVoiceMessageWhenAvailable = true;
+                StopRecording();
             }
             else if (MessagesState.Value.State == State.RecordingAvailable)
             {

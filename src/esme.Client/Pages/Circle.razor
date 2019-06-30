@@ -18,11 +18,7 @@
     @foreach (var message in MessagesState.Value.Messages)
     {
         <div>
-            @* FIXME: da, introduce Balloon *@
-            <p>
-                On @message.SentAt.ToString("g") @message.SenderName said:<br />
-                @message.Content
-            </p>
+            <Balloon Message="@message" />
         </div>
     }
     <form onsubmit="@OnSubmit">

@@ -1,0 +1,7 @@
+﻿@inherits BalloonBase
+@using Store.Messages
+
+<p>
+    On @Message.SentAt.ToString("g") @Message.SenderName said:<br />
+    @Message.Content
+</p>

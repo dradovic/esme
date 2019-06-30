@@ -33,12 +33,23 @@ namespace esme.Client.Pages
         private Timer _timer;
         protected string RecordingTime { get; private set; }
 
+        private bool _postVoiceMessageWhenAvailable;
+
         protected override void OnInit()
         {
             // FIXME: da, disable send button while setup is going on (see BlazorChat sample)?
             EventAggregator.Subscribe(this);
             MessagesState.Subscribe(this);
             Dispatcher.Dispatch(new FetchInitialMessagesAction(CircleId));
+        }
+
+        protected override void OnAfterRender()
+        {
+            if (_postVoiceMessageWhenAvailable && MessagesState.Value.State == State.RecordingAvailable)
+            {
+                PostVoiceMessage();
+                _postVoiceMessageWhenAvailable = false;
+            }
         }
 
         protected void StartRecording()
@@ -59,6 +70,11 @@ namespace esme.Client.Pages
             _timer.Dispose();
         }
 
+        private void PostVoiceMessage()
+        {
+            Dispatcher.Dispatch(new PostVoiceMessageAction(CircleId, MessagesState.Value.RecordingUrl, new VoiceMessageEditModel()));
+        }
+
         protected void OnSubmit()
         {
             if (MessagesState.Value.State == State.Default)
@@ -66,14 +82,14 @@ namespace esme.Client.Pages
                 Dispatcher.Dispatch(new PostTextMessageAction(CircleId, NewMessage));
                 NewMessage = new TextMessageEditModel(); // start over
             }
-            else if (MessagesState.Value.State == State.IsRecording ||
-                MessagesState.Value.State == State.RecordingAvailable)
+            else if (MessagesState.Value.State == State.IsRecording)
             {
-                if (MessagesState.Value.State == State.IsRecording)
-                {
-                    Dispatcher.Dispatch(new StopRecordingAction());
-                }
-                Dispatcher.Dispatch(new PostVoiceMessageAction(CircleId, MessagesState.Value.RecordingUrl, new VoiceMessageEditModel()));
+                StopRecording();
+                _postVoiceMessageWhenAvailable = true;
+            }
+            else if (MessagesState.Value.State == State.RecordingAvailable)
+            {
+                PostVoiceMessage();
             }
         }
 

@@ -43,7 +43,14 @@ namespace esme.Infrastructure.Services
         private async Task<CloudBlockBlob> GetBlockBlobReference(int circleId, string location, string fileName)
         {
             var messagesContainer = GetMessagesContainer(circleId);
-            await messagesContainer.CreateIfNotExistsAsync();
+            bool containerExisted = await messagesContainer.ExistsAsync();
+            await messagesContainer.CreateIfNotExistsAsync(); // always call this to eliminate race conditions
+            if (!containerExisted)
+            {
+                var permissions = await messagesContainer.GetPermissionsAsync();
+                permissions.PublicAccess = BlobContainerPublicAccessType.Blob;
+                await messagesContainer.SetPermissionsAsync(permissions);
+            }
             return messagesContainer.GetBlockBlobReference(location + "/" + fileName);
         }
     }

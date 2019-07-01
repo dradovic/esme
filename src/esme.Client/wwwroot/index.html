@@ -49,5 +49,11 @@
             return window.esme_recorder.blobURL;
         }
     </script>
+    <script>
+        window.esme_scroll_messages = function () {
+            const messages = document.getElementById("messages");
+            messages.scrollTop = messages.scrollHeight;
+        }
+    </script>
 </body>
 </html>

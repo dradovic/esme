@@ -16,7 +16,7 @@
 
 @if (MessagesState.Value.Messages != null)
 {
-    <div class="messages-container">
+    <div id="messages" class="messages-container">
         @foreach (var item in MessagesWithDateLabels())
         {
             var dateLabel = item as string;

@@ -4,7 +4,7 @@ using esme.Shared.Circles;
 using esme.Shared.Events;
 using EventAggregator.Blazor;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Logging;
+using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,6 +25,9 @@ namespace esme.Client.Pages
         [Inject]
         protected IState<MessagesState> MessagesState { get; private set; }
 
+        [Inject]
+        private IJSRuntime JSRuntime { get; set; }
+
         protected TextMessageEditModel NewMessage { get; private set; } = new TextMessageEditModel();
 
         [Parameter]
@@ -44,13 +47,15 @@ namespace esme.Client.Pages
             Dispatcher.Dispatch(new FetchInitialMessagesAction(CircleId));
         }
 
-        protected override void OnAfterRender()
+        protected override async Task OnAfterRenderAsync()
         {
             if (_postVoiceMessageWhenAvailable && MessagesState.Value.State == State.RecordingAvailable)
             {
                 _postVoiceMessageWhenAvailable = false;
                 PostVoiceMessage();
+                return;
             }
+            await JSRuntime.InvokeAsync<object>("esme_scroll_messages");
         }
 
         protected void StartRecording()

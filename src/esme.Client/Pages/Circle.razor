@@ -1,6 +1,7 @@
 ﻿@page "/circle/{CircleId:int}"
 @inherits CircleBase
 @using Store.Messages
+@using esme.Shared.Circles
 
 @if (MessagesState.Value.ErrorMessage != null)
 {
@@ -15,9 +16,19 @@
 
 @if (MessagesState.Value.Messages != null)
 {
-    @foreach (var message in MessagesState.Value.Messages)
+    @foreach (var item in MessagesWithDateLabels())
     {
-        <Balloon Message="@message" />
+        var dateLabel = item as string;
+        if (dateLabel != null)
+        {
+            <div>@dateLabel</div>
+        }
+
+        var message = item as MessageViewModel;
+        if (message != null)
+        {
+            <Balloon Message="@message" />
+        }
     }
     <form onsubmit="@OnSubmit">
         @if (MessagesState.Value.State == State.Default)

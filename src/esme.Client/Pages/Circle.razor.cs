@@ -1,4 +1,4 @@
-﻿using Blazor.Fluxor;
+using Blazor.Fluxor;
 using esme.Client.Store.Messages;
 using esme.Shared.Circles;
 using esme.Shared.Events;
@@ -6,6 +6,7 @@ using EventAggregator.Blazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -103,6 +104,11 @@ namespace esme.Client.Pages
 
             Dispatcher.Dispatch(new FetchUnreadMessagesAction(messagePostedEvent.CircleId));
             return Task.CompletedTask;
+        }
+
+        protected IEnumerable<object> MessagesWithDateLabels()
+        {
+            return MessagesState.Value.Messages.WithDateLabels();
         }
 
         #region IDisposable Support

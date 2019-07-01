@@ -1,7 +1,7 @@
 ﻿@inherits BalloonBase
 @using Store.Messages
 
-<p>
+<div class="@(IsMine ? "my-balloon" : "their-balloon")">
     On @Message.SentAt.ToString("g") @Message.SenderName said:<br />
     @Message.Content
-</p>
+</div>

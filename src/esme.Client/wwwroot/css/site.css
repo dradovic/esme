@@ -1,4 +1,5 @@
-﻿.form-check-input {
+﻿/* login */
+.form-check-input {
     margin-top: 0.42rem
 }
 
@@ -9,6 +10,29 @@
 .form-control {
     opacity: 0.75
 }
+
+/* messages */
+.my-balloon {
+    background-color: rgba(134, 196, 145,0.2);
+    margin-left: 40px;
+    margin-bottom: 20px;
+}
+
+.their-balloon {
+    background-color: rgba(255,215,0,0.2);
+    margin-right: 40px;
+    margin-bottom: 20px;
+}
+
+/* circle */
+.circle-form-item {
+    margin-bottom: 20px;
+}
+
+.circle-form-button {
+    margin-bottom: 10px;
+}
+
 
 /* override vmsg.css */
 .vmsg-slider-wrapper {

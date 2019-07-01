@@ -11,6 +11,10 @@
     opacity: 0.75
 }
 
+audio {
+    outline: 0; /* prevent selection rectangles */
+}
+
 /* messages */
 .messages-container {
     max-height: 66vh;

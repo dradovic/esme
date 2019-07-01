@@ -12,6 +12,12 @@
 }
 
 /* messages */
+.messages-container {
+    max-height: 66vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 .balloon {
     margin-bottom: 20px;
     border-radius: 10px;

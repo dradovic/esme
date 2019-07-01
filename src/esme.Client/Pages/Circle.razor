@@ -16,22 +16,24 @@
 
 @if (MessagesState.Value.Messages != null)
 {
-    @foreach (var item in MessagesWithDateLabels())
-    {
-        var dateLabel = item as string;
-        if (dateLabel != null)
+    <div class="messages-container">
+        @foreach (var item in MessagesWithDateLabels())
         {
-            <div class="balloon date-balloon">
-                <small>@dateLabel</small>
-            </div>
-        }
+            var dateLabel = item as string;
+            if (dateLabel != null)
+            {
+                <div class="balloon date-balloon">
+                    <small>@dateLabel</small>
+                </div>
+            }
 
-        var message = item as MessageViewModel;
-        if (message != null)
-        {
-            <Balloon Message="@message" />
+            var message = item as MessageViewModel;
+            if (message != null)
+            {
+                <Balloon Message="@message" />
+            }
         }
-    }
+    </div>
     <form onsubmit="@OnSubmit">
         @if (MessagesState.Value.State == State.Default)
         {

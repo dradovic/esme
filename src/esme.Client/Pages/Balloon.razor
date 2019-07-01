@@ -1,7 +1,19 @@
 ﻿@inherits BalloonBase
 @using Store.Messages
+@using esme.Shared.Circles
 
 <div class="@(IsMine ? "my-balloon" : "their-balloon")">
-    On @Message.SentAt.ToString("g") @Message.SenderName said:<br />
-    @Message.Content
+    <div class="text-left balloon-text">
+        <small>
+            On @Message.SentAt.ToString("g") @(IsMine ? "I" : Message.SenderName) said:
+        </small>
+    </div>
+    @if (Message.ContentType == ContentType.Text)
+    {
+    <TextMessage Text="@Message.Content" />
+    }
+    @if (Message.ContentType == ContentType.Voice)
+    {
+    <VoiceMessage RecordingUrl="@Message.Content" />
+    }
 </div>

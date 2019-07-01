@@ -24,6 +24,10 @@
     margin-bottom: 20px;
 }
 
+.balloon-text {
+    padding-left: 10px
+}
+
 /* circle */
 .circle-form-item {
     margin-bottom: 20px;

@@ -26,5 +26,7 @@ namespace esme.Shared.Circles
             SentAt = updatedMessage.SentAt;
             SenderName = updatedMessage.SenderName;
         }
+
+        public bool IsBeingSent => SenderName == null;
     }
 }

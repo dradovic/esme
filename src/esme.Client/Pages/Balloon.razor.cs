@@ -1,6 +1,5 @@
 ﻿using esme.Shared.Circles;
 using Microsoft.AspNetCore.Components;
-using esme.Client.Services;
 using AuthenticationState = esme.Client.Services.AuthenticationState; // FIXME: da, eliminate ours and use the provided one
 
 namespace esme.Client.Pages
@@ -17,7 +16,8 @@ namespace esme.Client.Pages
         {
             get
             {
-                return Message.SenderName == AuthenticationState.User.UserName; // FIXME: da, rather check eq of Id
+                return Message.SenderName == AuthenticationState.User.UserName || // FIXME: da, rather check eq of Id
+                    Message.IsBeingSent;
             }
         }
     }

@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GridBlazor" Version="0.6.2" />
+    <PackageReference Include="GridBlazor" Version="0.6.3-alpha3" />
   </ItemGroup>
 
 </Project>

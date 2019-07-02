@@ -28,7 +28,7 @@ namespace esme.Admin.App.Pages
                 c.Add(o => o.Id).Titled("Id").Sortable(true);
                 c.Add(o => o.UserName).Titled("Name").Sortable(true);
                 c.Add(o => o.Email).Titled("Email").Sortable(true);
-                c.Add().Titled("Ambassador").Encoded(false).Sanitized(false).SetWidth(30).RenderComponentAs(typeof(GrantAmbassadorButton));
+                c.Add().Titled("Ambassador").Encoded(false).Sanitized(false).SetWidth(30).RenderComponentAs<GrantAmbassadorButton>();
             };
 
             var query = new QueryDictionary<StringValues>();

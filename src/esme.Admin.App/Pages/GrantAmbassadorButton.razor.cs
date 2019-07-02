@@ -1,13 +1,14 @@
 ﻿using esme.Admin.Shared.Services;
 using esme.Admin.Shared.ViewModels;
+using GridShared.Columns;
 using Microsoft.AspNetCore.Components;
 
 namespace esme.Admin.App.Pages
 {
-    public abstract class GrantAmbassadorButtonBase : ComponentBase
+    public abstract class GrantAmbassadorButtonBase : ComponentBase, ICustomGridComponent<UserViewModel>
     {
         [Parameter]
-        protected UserViewModel Item { get; set; }
+        public UserViewModel Item { get; private set; }
 
         [Inject]
         private IUsersService UsersService { get; set; }

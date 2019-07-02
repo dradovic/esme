@@ -22,7 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		.travis.yml = .travis.yml
 		global.json = global.json
-		README.txt = README.txt
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "esme.Admin.App", "src\esme.Admin.App\esme.Admin.App.csproj", "{19BBD184-273F-48EF-AC56-8918E2B2F23E}"
@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "esme.Admin.Shared", "src\es
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "esme.Admin.Infrastructure", "src\esme.Admin.Infrastructure\esme.Admin.Infrastructure.csproj", "{1A89085F-59C6-42B6-9FC9-A7E072852C0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "esme.Client.Tests", "test\esme.Client.Tests\esme.Client.Tests.csproj", "{6DE7D4CD-AB3B-4813-ADFC-52FF073ACD20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "esme.Client.Tests", "test\esme.Client.Tests\esme.Client.Tests.csproj", "{6DE7D4CD-AB3B-4813-ADFC-52FF073ACD20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

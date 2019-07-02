@@ -20,7 +20,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{32A69C7F-CFD9-4C40-A512-52A4B3056790}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		.travis.yml = .travis.yml
 		global.json = global.json
+		README.txt = README.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "esme.Admin.App", "src\esme.Admin.App\esme.Admin.App.csproj", "{19BBD184-273F-48EF-AC56-8918E2B2F23E}"

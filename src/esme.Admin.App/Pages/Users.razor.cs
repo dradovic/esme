@@ -18,9 +18,6 @@ namespace esme.Admin.App.Pages
         [Inject]
         private IUsersGridService UsersGridService { get; set; }
 
-        [Inject]
-        private IUsersService UsersService { get; set; }
-
         protected override async Task OnInitAsync()
         {
             Action<IGridColumnCollection<UserViewModel>> columns = c =>

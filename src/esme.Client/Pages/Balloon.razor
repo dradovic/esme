@@ -3,17 +3,32 @@
 
 <div class="balloon @(IsMine ? "my-balloon" : "their-balloon")">
     <div class="text-left balloon-text">
-        <small>
-            <span class="text-left">@(IsMine ? "Me" : Message.SenderName)</span>
-            <span class="float-right" style="padding-right:10px">@Message.SentAt.LocalDateTime.ToShortTimeString()</span>
-        </small>
+        <span class="text-left">
+            <small>
+                @(IsMine ? "Me" : Message.SenderName)
+            </small>
+        </span>
+        @if (Message.SentAt.Ticks == 0)
+        {
+            <div class="float-right" style="padding-right: 5px">
+                <div class="spinner-grow spinner-grow-sm text-secondary"></div>
+            </div>
+        }
+        else
+        {
+            <span class="float-right" style="padding-right:10px">
+                <small>
+                    @(Message.SentAt.LocalDateTime.ToShortTimeString())
+                </small>
+            </span>
+        }
     </div>
     @if (Message.ContentType == ContentType.Text)
     {
-    <TextMessage Text="@Message.Content" />
+        <TextMessage Text="@Message.Content" />
     }
     @if (Message.ContentType == ContentType.Voice)
     {
-    <VoiceMessage RecordingUrl="@Message.Content" />
+        <VoiceMessage RecordingUrl="@Message.Content" />
     }
 </div>

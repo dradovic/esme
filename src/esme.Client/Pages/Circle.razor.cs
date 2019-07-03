@@ -111,11 +111,6 @@ namespace esme.Client.Pages
             return Task.CompletedTask;
         }
 
-        protected IEnumerable<object> MessagesWithDateLabels()
-        {
-            return MessagesState.Value.Messages.WithDateLabels();
-        }
-
         #region IDisposable Support
 
         private bool _disposedValue = false;

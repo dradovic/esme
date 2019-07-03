@@ -17,19 +17,30 @@
 @if (MessagesState.Value.Messages != null)
 {
     <div id="messages" class="messages-container">
-        @foreach (var item in MessagesWithDateLabels())
-        {
-            var dateLabel = item as string;
-            if (dateLabel != null)
+        @{
+            DateTime? previousDate = null;
+            foreach (var message in MessagesState.Value.Messages)
             {
-                <div class="balloon date-balloon">
-                    <small>@dateLabel</small>
-                </div>
-            }
+                DateTime sentAtDate = message.SentAt.Date;
+                if (previousDate == null || sentAtDate.Date > previousDate)
+                {
+                    <div class="balloon date-balloon">
+                        @if (sentAtDate == DateTime.Today.AddDays(-1))
+                        {
+                            <small>Yesterday</small>
+                        }
+                        else if (sentAtDate == DateTime.Today)
+                        {
+                            <small>Today</small>
+                        }
+                        else
+                        {
+                            <small>sentAtDate.Date.ToShortDateString()</small>
+                        }
+                    </div>
+                }
+                previousDate = sentAtDate.Date;
 
-            var message = item as MessageViewModel;
-            if (message != null)
-            {
                 <Balloon Message="@message" />
             }
         }

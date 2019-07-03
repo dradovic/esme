@@ -38,7 +38,7 @@ namespace esme.Server.Api
 
         [HttpPost]
         [Route(Urls.PostReadMessages)]
-        public async Task<ActionResult<IEnumerable<MessageViewModel>>> Messages(int circleId, [FromBody]ReadMessagesOptions options)
+        public async Task<ActionResult<IEnumerable<MessageViewModel>>> Messages(Guid circleId, [FromBody]ReadMessagesOptions options)
         {
             var userId = _userManager.ParseUserId(User);
             var membership = await GetMembershipIncludingCircle(userId, circleId);
@@ -59,14 +59,14 @@ namespace esme.Server.Api
 
         [HttpPost]
         [Route(Urls.PostTextMessage)]
-        public Task<ActionResult<MessageViewModel>> Messages(int circleId, [FromBody]TextMessageEditModel model)
+        public Task<ActionResult<MessageViewModel>> Messages(Guid circleId, [FromBody]TextMessageEditModel model)
         {
             return Messages(circleId, model.Id, ContentType.Text, () => Task.FromResult(model.Text) );
         }
 
         [HttpPost]
         [Route(Urls.PostVoiceMessage)]
-        public Task<ActionResult<MessageViewModel>> Messages(int circleId, [FromBody]VoiceMessageEditModel model)
+        public Task<ActionResult<MessageViewModel>> Messages(Guid circleId, [FromBody]VoiceMessageEditModel model)
         {
             return Messages(circleId, model.Id, ContentType.Voice, async () => {
                 var blobUri = await _storage.StoreBytesAsync(circleId, $"{model.Id}.mp3", model.Recording, "messages/voice");
@@ -74,7 +74,7 @@ namespace esme.Server.Api
             });
         }
 
-        private async Task<ActionResult<MessageViewModel>> Messages(int circleId, Guid messageId, ContentType contentType, Func<Task<string>> getContent)
+        private async Task<ActionResult<MessageViewModel>> Messages(Guid circleId, Guid messageId, ContentType contentType, Func<Task<string>> getContent)
         {
             if (!ModelState.IsValid) return BadRequest(); // FIXME: da, should be automatic for [ApiController] (see https://docs.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-3.0)
 
@@ -101,7 +101,7 @@ namespace esme.Server.Api
             return Ok(message);
         }
 
-        private async Task<Membership> GetMembershipIncludingCircle(Guid userId, int circleId)
+        private async Task<Membership> GetMembershipIncludingCircle(Guid userId, Guid circleId)
         {
             var user = await _db.Users
                 .Include(u => u.Memberships)

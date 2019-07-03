@@ -10,14 +10,14 @@ using esme.Infrastructure.Data;
 namespace esme.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190618051207_Init")]
+    [Migration("20190703210933_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.0-preview5.19227.1")
+                .HasAnnotation("ProductVersion", "3.0.0-preview6.19304.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -181,9 +181,7 @@ namespace esme.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("esme.Infrastructure.Data.Circle", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("Id");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -197,7 +195,7 @@ namespace esme.Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = -1,
+                            Id = new Guid("00000000-0000-0000-0000-000000000001"),
                             Name = "Open Circle",
                             NumberOfMessages = 0
                         });
@@ -205,7 +203,7 @@ namespace esme.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("esme.Infrastructure.Data.Membership", b =>
                 {
-                    b.Property<int>("CircleId");
+                    b.Property<Guid>("CircleId");
 
                     b.Property<Guid>("UserId");
 
@@ -222,7 +220,12 @@ namespace esme.Infrastructure.Data.Migrations
                 {
                     b.Property<Guid>("Id");
 
-                    b.Property<int>("CircleId");
+                    b.Property<Guid>("CircleId");
+
+                    b.Property<string>("Content")
+                        .HasMaxLength(8192);
+
+                    b.Property<byte>("ContentType");
 
                     b.Property<string>("SenderName")
                         .IsRequired()
@@ -231,9 +234,6 @@ namespace esme.Infrastructure.Data.Migrations
                     b.Property<DateTimeOffset>("SentAt");
 
                     b.Property<Guid>("SentBy");
-
-                    b.Property<string>("Text")
-                        .HasMaxLength(8192);
 
                     b.HasKey("Id");
 

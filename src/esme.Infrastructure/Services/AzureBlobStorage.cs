@@ -20,27 +20,27 @@ namespace esme.Infrastructure.Services
             _options = options.Value;
         }
 
-        public async Task<Uri> StoreBytesAsync(int circleId, string fileName, byte[] file, string location)
+        public async Task<Uri> StoreBytesAsync(Guid circleId, string fileName, byte[] file, string location)
         {
             var blob = await GetBlockBlobReference(circleId, location, fileName);
             await blob.UploadFromByteArrayAsync(file, 0, file.Length);
             return blob.Uri;
         }
 
-        public async Task DeleteContainerAsync(int circleId)
+        public async Task DeleteContainerAsync(Guid circleId)
         {
             var messagesContainer = GetMessagesContainer(circleId);
             await messagesContainer.DeleteIfExistsAsync();
         }
 
-        private CloudBlobContainer GetMessagesContainer(int circleId)
+        private CloudBlobContainer GetMessagesContainer(Guid circleId)
         {
             var storageAccount = CloudStorageAccount.Parse(_options.ConnectionString);
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-            return blobClient.GetContainerReference("Circle" + circleId); // FIXME: da, use Guids for Circles too?
+            return blobClient.GetContainerReference("Circle" + circleId);
         }
 
-        private async Task<CloudBlockBlob> GetBlockBlobReference(int circleId, string location, string fileName)
+        private async Task<CloudBlockBlob> GetBlockBlobReference(Guid circleId, string location, string fileName)
         {
             var messagesContainer = GetMessagesContainer(circleId);
             bool containerExisted = await messagesContainer.ExistsAsync();

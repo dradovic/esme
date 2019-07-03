@@ -1,6 +1,7 @@
 ﻿using esme.Shared;
 using esme.Shared.Circles;
 using Microsoft.AspNetCore.Components;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace esme.Client.Services
             _httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<MessageViewModel>> ReadMessages(int circleId, ReadMessagesOptions options)
+        public async Task<IEnumerable<MessageViewModel>> ReadMessages(Guid circleId, ReadMessagesOptions options)
         {
             return await _httpClient.PostJsonAsync<IEnumerable<MessageViewModel>>(Urls.GetPostReadMessages(circleId), options);
         }

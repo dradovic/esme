@@ -1,14 +1,15 @@
 ﻿using Blazor.Fluxor;
+using System;
 
 namespace esme.Client.Store.Messages
 {
     public class FetchInitialMessagesAction : IAction
     {
-        public FetchInitialMessagesAction(int circleId)
+        public FetchInitialMessagesAction(Guid circleId)
         {
             CircleId = circleId;
         }
 
-        public int CircleId { get; }
+        public Guid CircleId { get; }
     }
 }

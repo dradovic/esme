@@ -85,7 +85,7 @@ namespace esme.Admin.Infrastructure.Services
 
         private void DeleteAllData()
         {
-            foreach (var circle in _db.Circles.Where(c => c.Id >= 0))
+            foreach (var circle in _db.Circles.Where(c => c.Id != Circle.OpenCircleId))
             {
                 _db.Circles.Remove(circle);
             }

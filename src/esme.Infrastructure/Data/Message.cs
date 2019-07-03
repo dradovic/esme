@@ -10,7 +10,7 @@ namespace esme.Infrastructure.Data
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public Guid Id { get; set; }
 
-        public int CircleId { get; set; }
+        public Guid CircleId { get; set; }
 
         public ContentType ContentType { get; set; }
 

@@ -1,13 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace esme.Infrastructure.Data
 {
     public class Circle
     {
-        public const int OpenCircleId = -1;
+        public static readonly Guid OpenCircleId = Guid.Parse("00000000-0000-0000-0000-000000000001");
 
-        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public Guid Id { get; set; }
 
         [Required]
         public string Name { get; set; }

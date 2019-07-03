@@ -179,9 +179,7 @@ namespace esme.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("esme.Infrastructure.Data.Circle", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("Id");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -195,7 +193,7 @@ namespace esme.Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = -1,
+                            Id = new Guid("00000000-0000-0000-0000-000000000001"),
                             Name = "Open Circle",
                             NumberOfMessages = 0
                         });
@@ -203,7 +201,7 @@ namespace esme.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("esme.Infrastructure.Data.Membership", b =>
                 {
-                    b.Property<int>("CircleId");
+                    b.Property<Guid>("CircleId");
 
                     b.Property<Guid>("UserId");
 
@@ -220,7 +218,7 @@ namespace esme.Infrastructure.Data.Migrations
                 {
                     b.Property<Guid>("Id");
 
-                    b.Property<int>("CircleId");
+                    b.Property<Guid>("CircleId");
 
                     b.Property<string>("Content")
                         .HasMaxLength(8192);

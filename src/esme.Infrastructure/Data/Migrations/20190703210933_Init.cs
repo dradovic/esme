@@ -51,8 +51,7 @@ namespace esme.Infrastructure.Data.Migrations
                 name: "Circles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     NumberOfMessages = table.Column<int>(nullable: false)
                 },
@@ -66,8 +65,9 @@ namespace esme.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    CircleId = table.Column<int>(nullable: false),
-                    Text = table.Column<string>(maxLength: 8192, nullable: true),
+                    CircleId = table.Column<Guid>(nullable: false),
+                    ContentType = table.Column<byte>(nullable: false),
+                    Content = table.Column<string>(maxLength: 8192, nullable: true),
                     SentAt = table.Column<DateTimeOffset>(nullable: false),
                     SentBy = table.Column<Guid>(nullable: false),
                     SenderName = table.Column<string>(maxLength: 256, nullable: false)
@@ -187,7 +187,7 @@ namespace esme.Infrastructure.Data.Migrations
                 name: "Membership",
                 columns: table => new
                 {
-                    CircleId = table.Column<int>(nullable: false),
+                    CircleId = table.Column<Guid>(nullable: false),
                     UserId = table.Column<Guid>(nullable: false),
                     NumberOfReadMessages = table.Column<int>(nullable: false)
                 },
@@ -211,7 +211,7 @@ namespace esme.Infrastructure.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Circles",
                 columns: new[] { "Id", "Name", "NumberOfMessages" },
-                values: new object[] { -1, "Open Circle", 0 });
+                values: new object[] { new Guid("00000000-0000-0000-0000-000000000001"), "Open Circle", 0 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

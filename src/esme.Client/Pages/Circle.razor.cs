@@ -31,7 +31,7 @@ namespace esme.Client.Pages
         protected TextMessageEditModel NewMessage { get; private set; } = new TextMessageEditModel();
 
         [Parameter]
-        protected int CircleId { get; set; }
+        protected Guid CircleId { get; set; }
 
         private Stopwatch _recordingWatch;
         private Timer _timer;

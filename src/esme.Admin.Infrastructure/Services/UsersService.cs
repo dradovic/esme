@@ -22,11 +22,23 @@ namespace esme.Admin.Infrastructure.Services
             _db = db;
         }
 
+        public async Task<bool> IsAmbassador(Guid userId)
+        {
+            var user = await FindUserById(userId);
+            return await _userManager.IsInRoleAsync(user, ApplicationRoles.Ambassador);
+        }
+
         public async Task GrantAmbassador(Guid userId)
         {
             await CreateRoleIfNotExists(ApplicationRoles.Ambassador);
-            var user = await _db.Users.Where(u => u.Id == userId).SingleOrDefaultAsync();
+            var user = await FindUserById(userId);
             await _userManager.AddToRoleAsync(user, ApplicationRoles.Ambassador);
+        }
+
+        public async Task DenyAmbassador(Guid userId)
+        {
+            var user = await FindUserById(userId);
+            await _userManager.RemoveFromRoleAsync(user, ApplicationRoles.Ambassador);
         }
 
         private async Task CreateRoleIfNotExists(string roleName)
@@ -40,5 +52,11 @@ namespace esme.Admin.Infrastructure.Services
                 await _roleManager.CreateAsync(role);
             }
         }
+
+        private async Task<ApplicationUser> FindUserById(Guid userId)
+        {
+            return await _db.Users.Where(u => u.Id == userId).SingleOrDefaultAsync();
+        }
+
     }
 }

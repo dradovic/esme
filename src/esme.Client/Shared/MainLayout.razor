@@ -1,49 +1,32 @@
-﻿@layout FlowerOfLifeLayout
-@inherits LayoutComponentBase
-@inject esme.Client.Services.AuthenticationState state
-@inject IUriHelper uriHelper
+﻿@inherits MainLayoutBase
+@using Store.Application
 @inject Blazor.Fluxor.IStore Store
 
 @Store.Initialize()
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">esme</a>
+@if (ApplicationState.Value.State == State.Entered)
+{
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">esme</a>
 
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/home">Circles<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/invite">Invite</a>
-            </li>
-        </ul>
-        @if (IsLoggedIn)
-        {
-            <button type="button" class="btn btn-link" onclick="@LogoutClick">Logout @state.User.UserName</button>
-        }
-    </div>
-</nav>
-
-<div class=" col-sm-4 offset-sm-4 mb-2">
-    @Body
-</div>
-
-@code{
-    protected bool IsLoggedIn;
-    protected override async Task OnInitAsync()
-    {
-        IsLoggedIn = await state.IsLoggedIn();
-        if (!IsLoggedIn)
-        {
-            uriHelper.NavigateTo("/login");
-        }
-    }
-
-    async Task LogoutClick()
-    {
-        await state.Logout();
-        uriHelper.NavigateTo("/login");
-    }
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/home">Circles<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/invite">Invite</a>
+                </li>
+            </ul>
+            @if (IsLoggedIn)
+            {
+                <button type="button" class="btn btn-link" onclick="@Logout">Logout @AuthenticationState.User.UserName</button>
+            }
+        </div>
+    </nav>
 }
+
+<FlowerOfLife>
+    @Body
+</FlowerOfLife>

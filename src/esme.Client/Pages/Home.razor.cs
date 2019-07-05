@@ -3,12 +3,14 @@ using esme.Client.Store.Circles;
 using esme.Shared.Circles;
 using esme.Shared.Events;
 using EventAggregator.Blazor;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Threading.Tasks;
 
 namespace esme.Client.Pages
 {
+    [Authorize]
     public abstract class HomeBase : ComponentBase, IHandle<MessagePostedEvent>, IDisposable
     {
         [Inject]

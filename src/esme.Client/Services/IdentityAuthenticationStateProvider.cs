@@ -1,19 +1,32 @@
 ﻿using esme.Shared.Users;
+using Microsoft.AspNetCore.Components;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace esme.Client.Services
 {
-    public class AuthenticationState
+    public class IdentityAuthenticationStateProvider : AuthenticationStateProvider
     {
         private readonly IAuthorizationApi _authorizationApi;
         private readonly ClientHub _hub;
 
         public UserViewModel User { get; private set; }
 
-        public AuthenticationState(IAuthorizationApi authorizationApi, ClientHub hub)
+        public IdentityAuthenticationStateProvider(IAuthorizationApi authorizationApi, ClientHub hub)
         {
             _authorizationApi = authorizationApi;
             _hub = hub;
+        }
+
+        public override async Task<AuthenticationState> GetAuthenticationStateAsync()
+        {
+            var identity = new ClaimsIdentity();
+            if (User != null || await IsLoggedIn())
+            {
+                var claims = new[] { new Claim(ClaimTypes.Name, User.UserName) }; // .Concat(User.ExposedClaims.Select(c => new Claim(c.Key, c.Value))); FIXME: da, add all claims
+                identity = new ClaimsIdentity(claims, "Server authentication");
+            }
+            return new AuthenticationState(new ClaimsPrincipal(identity));
         }
 
         public async Task<bool> IsLoggedIn()
@@ -44,6 +57,7 @@ namespace esme.Client.Services
         private async Task SetUser(UserViewModel user)
         {
             User = user;
+            NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
             if (User != null)
             {
                 await _hub.SetupConnection();

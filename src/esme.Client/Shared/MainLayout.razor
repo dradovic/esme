@@ -19,10 +19,11 @@
                     <a class="nav-link" href="/invite">Invite</a>
                 </li>
             </ul>
-            @if (IsLoggedIn)
-            {
-                <button type="button" class="btn btn-link" onclick="@Logout">Logout @AuthenticationState.User.UserName</button>
-            }
+            <AuthorizeView>
+                <Authorized>
+                    <button type="button" class="btn btn-link" onclick="@Logout">Logout @context.User.Identity.Name</button>
+                </Authorized>
+            </AuthorizeView>
         </div>
     </nav>
 }

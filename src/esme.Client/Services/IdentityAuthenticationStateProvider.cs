@@ -21,19 +21,16 @@ namespace esme.Client.Services
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             var identity = new ClaimsIdentity();
-            if (User != null || await IsLoggedIn())
+            if (User == null)
+            {
+                User = await _authorizationApi.FetchUser();
+            }
+            if (User.IsAuthenticated)
             {
                 var claims = new[] { new Claim(ClaimTypes.Name, User.UserName) }; // .Concat(User.ExposedClaims.Select(c => new Claim(c.Key, c.Value))); FIXME: da, add all claims
                 identity = new ClaimsIdentity(claims, "Server authentication");
             }
             return new AuthenticationState(new ClaimsPrincipal(identity));
-        }
-
-        public async Task<bool> IsLoggedIn()
-        {
-            var user = await _authorizationApi.TryGetUser();
-            await SetUser(user);
-            return User != null;
         }
 
         public async Task Login(LoginParameters loginParameters)

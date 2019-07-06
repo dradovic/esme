@@ -14,7 +14,7 @@ namespace esme.Client.Services
         Task<UserViewModel> Login(LoginParameters loginParameters);
         Task<UserViewModel> Register(SignupParameters signupParameters);
         Task Logout();
-        Task<UserViewModel> TryGetUser();
+        Task<UserViewModel> FetchUser();
     }
 
     public class AuthorizationApi : IAuthorizationApi
@@ -42,17 +42,9 @@ namespace esme.Client.Services
             return await _httpClient.PostJsonAsync<UserViewModel>("api/authorization/register", signupParameters);
         }
 
-        public async Task<UserViewModel> TryGetUser()
+        public async Task<UserViewModel> FetchUser()
         {
-            try
-            {
-                var result = await _httpClient.GetJsonAsync<UserViewModel>("api/authorization/me");
-                return result;
-            }
-            catch (HttpRequestException)
-            {
-                return null;
-            }
+            return await _httpClient.GetJsonAsync<UserViewModel>("api/authorization/me");
         }
     }
 }

@@ -5,5 +5,9 @@
 <CascadingAuthenticationState>
     <Router AppAssembly=typeof(Program).Assembly>
         <NotFoundContent>Sorry, nothing to be found here.</NotFoundContent>
+        <NotAuthorizedContent>
+            <RedirectToLogin />
+            You do not have access to this content.
+        </NotAuthorizedContent>
     </Router>
 </CascadingAuthenticationState>

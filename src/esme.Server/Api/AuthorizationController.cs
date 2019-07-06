@@ -38,7 +38,7 @@ namespace esme.Server.Api
 
             await _signInManager.SignInAsync(user, parameters.RememberMe);
 
-            return Ok(BuildUserInfo(user));
+            return Ok(GetCurrentUser());
         }
 
         [AllowAnonymous]
@@ -68,23 +68,19 @@ namespace esme.Server.Api
             return Ok();
         }
 
+        [AllowAnonymous] // this is ok since the client will just get information about itself
         [HttpGet]
-        public async Task<ActionResult<UserViewModel>> Me()
+        public ActionResult<UserViewModel> Me()
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User); // FIXME: da, only get id and username to avoid DB roundtrip
-            if (user == null) // happens for example when user was deleted
-            {
-                return NotFound();
-            }
-            return BuildUserInfo(user);
+            return GetCurrentUser();
         }
 
-        // FIXME: da, use AutoMapper instead
-        private UserViewModel BuildUserInfo(ApplicationUser user)
+        private UserViewModel GetCurrentUser()
         {
             return new UserViewModel
             {
-                UserName = user.UserName
+                UserName = User.Identity.Name,
+                IsAuthenticated = User.Identity.IsAuthenticated,
             };
         }
     }

@@ -1,32 +1,26 @@
 ﻿@inherits MainLayoutBase
-@using Store.Application
 @inject Blazor.Fluxor.IStore Store
 
 @Store.Initialize()
 
-@if (ApplicationState.Value.State == State.Entered)
-{
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">esme</a>
-
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/home">Circles<span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/invite">Invite</a>
-                </li>
-            </ul>
-            <AuthorizeView>
-                <Authorized>
-                    <button type="button" class="btn btn-link" onclick="@Logout">Logout @context.User.Identity.Name</button>
-                </Authorized>
-            </AuthorizeView>
-        </div>
-    </nav>
-}
+<AuthorizeView>
+    <Authorized>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">ESME</a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/home">Circles<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/invite">Invite</a>
+                    </li>
+                </ul>
+                <button type="button" class="btn btn-link" onclick="@Logout">Logout @context.User.Identity.Name</button>
+            </div>
+        </nav>
+    </Authorized>
+</AuthorizeView>
 
 <FlowerOfLife>
     @Body

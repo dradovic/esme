@@ -1,10 +1,6 @@
 ﻿using esme.Shared.Users;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using System;
-using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace esme.Client.Services

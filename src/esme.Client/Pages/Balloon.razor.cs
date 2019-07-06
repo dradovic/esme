@@ -11,11 +11,11 @@ namespace esme.Client.Pages
         [Inject]
         private AuthenticationState AuthenticationState { get; set; }
 
-        protected bool IsMine // FIXME: da, implement with <AuthorizeView> where {user.Identity.Name} is available
+        protected bool IsMine // FIXME: da, compute on back-end and send to client
         {
             get
             {
-                return Message.SenderName == AuthenticationState.User.Identity.Name || // FIXME: da, rather check eq of Id
+                return Message.SenderName == AuthenticationState.User.Identity.Name ||
                     Message.IsBeingSent;
             }
         }

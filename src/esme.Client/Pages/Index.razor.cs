@@ -1,6 +1,4 @@
-﻿using Blazor.Fluxor;
-using esme.Client.Store.Application;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
 using System.Threading.Tasks;
@@ -9,9 +7,6 @@ namespace esme.Client.Pages
 {
     public abstract class IndexBase : ComponentBase, IDisposable
     {
-        [Inject]
-        private IDispatcher Dispatcher { get; set; }
-
         [Inject]
         private IJSRuntime JSRuntime { get; set; }
 
@@ -25,7 +20,6 @@ namespace esme.Client.Pages
 
         protected void Enter()
         {
-            Dispatcher.Dispatch(new EnterAction());
             UriHelper.NavigateTo("/home");
         }
 

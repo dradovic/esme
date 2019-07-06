@@ -24,7 +24,7 @@ namespace esme.Server.Api
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Login(LoginParameters parameters)
+        public async Task<ActionResult<UserViewModel>> Login(LoginParameters parameters)
         {
             // FIXME: da, test if !ModelState.IsValid with current configuration
             if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(state => state.Errors)
@@ -38,12 +38,16 @@ namespace esme.Server.Api
 
             await _signInManager.SignInAsync(user, parameters.RememberMe);
 
-            return Ok(GetCurrentUser());
+            return Ok(new UserViewModel
+            {
+                IsAuthenticated = true,
+                UserName = user.UserName,
+            });
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Signup(SignupParameters parameters)
+        public async Task<ActionResult<UserViewModel>> Signup(SignupParameters parameters)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(state => state.Errors)
                 .Select(error => error.ErrorMessage)
@@ -71,11 +75,6 @@ namespace esme.Server.Api
         [AllowAnonymous] // this is ok since the client will just get information about itself
         [HttpGet]
         public ActionResult<UserViewModel> Me()
-        {
-            return GetCurrentUser();
-        }
-
-        private UserViewModel GetCurrentUser()
         {
             return new UserViewModel
             {

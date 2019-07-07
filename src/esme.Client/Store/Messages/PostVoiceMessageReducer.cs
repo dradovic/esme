@@ -1,5 +1,4 @@
-﻿using System;
-using Blazor.Fluxor;
+﻿using Blazor.Fluxor;
 using esme.Shared.Circles;
 
 namespace esme.Client.Store.Messages
@@ -13,6 +12,7 @@ namespace esme.Client.Store.Messages
                 Id = action.Message.Id,
                 ContentType = ContentType.Voice,
                 Content = action.RecordingUrl,
+                SentByMe = true,
             };
         }
     }

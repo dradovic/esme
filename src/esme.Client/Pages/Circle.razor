@@ -15,7 +15,7 @@
 
 @if (MessagesState.Value.Messages != null)
 {
-    <div id="messages" class="messages-container">
+    <div class="messages-container">
         @{
             DateTime? previousDate = null;
             foreach (var message in MessagesState.Value.Messages)

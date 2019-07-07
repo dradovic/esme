@@ -56,7 +56,7 @@ namespace esme.Client.Pages
                 PostVoiceMessage();
                 return;
             }
-            await JSRuntime.InvokeAsync<object>("esme_scroll_messages");
+            await JSRuntime.InvokeAsync<object>("esme_scroll_to_last_message");
         }
 
         protected void StartRecording()

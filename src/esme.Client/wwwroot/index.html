@@ -52,9 +52,8 @@
         }
     </script>
     <script>
-        window.esme_scroll_messages = function () {
-            const messages = document.getElementById("messages");
-            if (messages !== null) messages.scrollTop = messages.scrollHeight;
+        window.esme_scroll_to_last_message = function () {
+            window.scrollTo(0, document.body.scrollHeight);
         }
     </script>
 </body>

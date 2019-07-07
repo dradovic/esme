@@ -7,8 +7,8 @@ namespace esme.Client.Services
 {
     public interface IAuthorizationApi
     {
-        Task<UserViewModel> Login(LoginParameters loginParameters);
-        Task<UserViewModel> Register(SignupParameters signupParameters);
+        Task Login(LoginParameters loginParameters);
+        Task Register(SignupParameters signupParameters);
         Task Logout();
         Task<UserViewModel> FetchUser();
     }
@@ -22,9 +22,9 @@ namespace esme.Client.Services
             _httpClient = httpClient;
         }
 
-        public async Task<UserViewModel> Login(LoginParameters loginParameters)
+        public async Task Login(LoginParameters loginParameters)
         {
-            return await _httpClient.PostJsonAsync<UserViewModel>("api/authorization/login", loginParameters);
+            await _httpClient.PostJsonAsync("api/authorization/login", loginParameters);
         }
 
         public async Task Logout()
@@ -33,9 +33,9 @@ namespace esme.Client.Services
             result.EnsureSuccessStatusCode();
         }
 
-        public async Task<UserViewModel> Register(SignupParameters signupParameters)
+        public async Task Register(SignupParameters signupParameters)
         {
-            return await _httpClient.PostJsonAsync<UserViewModel>("api/authorization/register", signupParameters);
+            await _httpClient.PostJsonAsync("api/authorization/register", signupParameters);
         }
 
         public async Task<UserViewModel> FetchUser()

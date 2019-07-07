@@ -24,7 +24,7 @@ namespace esme.Server.Api
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult<UserViewModel>> Login(LoginParameters parameters)
+        public async Task<IActionResult> Login(LoginParameters parameters)
         {
             // FIXME: da, test if !ModelState.IsValid with current configuration
             if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(state => state.Errors)
@@ -33,21 +33,17 @@ namespace esme.Server.Api
 
             var user = await _userManager.FindByNameAsync(parameters.UserName);
             if (user == null) return BadRequest("Invalid user or password"); // FIXME: da, i18n
-            var singInResult = await _signInManager.CheckPasswordSignInAsync(user, parameters.Password, false);
-            if (!singInResult.Succeeded) return BadRequest("Invalid user or password"); // FIXME: da, i18n
+            var checkPasswordResult = await _signInManager.CheckPasswordSignInAsync(user, parameters.Password, false);
+            if (!checkPasswordResult.Succeeded) return BadRequest("Invalid user or password"); // FIXME: da, i18n
 
             await _signInManager.SignInAsync(user, parameters.RememberMe);
 
-            return Ok(new UserViewModel
-            {
-                IsAuthenticated = true,
-                UserName = user.UserName,
-            });
+            return Ok();
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult<UserViewModel>> Signup(SignupParameters parameters)
+        public async Task<IActionResult> Signup(SignupParameters parameters)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(state => state.Errors)
                 .Select(error => error.ErrorMessage)

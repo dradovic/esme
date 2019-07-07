@@ -35,14 +35,14 @@ namespace esme.Client.Services
 
         public async Task Login(LoginParameters loginParameters)
         {
-            var user = await _authorizationApi.Login(loginParameters);
-            await SetUser(user);
+            await _authorizationApi.Login(loginParameters);
+            await SetUser(null);
         }
 
         public async Task Signup(SignupParameters registerParameters)
         {
-            var user = await _authorizationApi.Register(registerParameters);
-            await SetUser(user);
+            await _authorizationApi.Register(registerParameters);
+            await SetUser(null);
         }
 
         public async Task Logout()

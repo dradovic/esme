@@ -12,9 +12,12 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="/home">Circles<span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/invite">Invite</a>
-                    </li>
+                    @if (context.User.IsInRole(ApplicationRoles.Ambassador))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="/invite">Invite</a>
+                        </li>
+                    }
                 </ul>
                 <button type="button" class="btn btn-link" onclick="@Logout">Logout @context.User.Identity.Name</button>
             </div>

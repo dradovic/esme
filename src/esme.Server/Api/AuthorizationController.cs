@@ -76,6 +76,7 @@ namespace esme.Server.Api
             {
                 UserName = User.Identity.Name,
                 IsAuthenticated = User.Identity.IsAuthenticated,
+                Claims = User.Claims.ToDictionary(c => c.Type, c => c.Value)
             };
         }
     }

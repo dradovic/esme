@@ -1,5 +1,6 @@
 ﻿using esme.Shared.Users;
 using Microsoft.AspNetCore.Components;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -27,7 +28,8 @@ namespace esme.Client.Services
             }
             if (User.IsAuthenticated)
             {
-                var claims = new[] { new Claim(ClaimTypes.Name, User.UserName) }; // .Concat(User.ExposedClaims.Select(c => new Claim(c.Key, c.Value))); FIXME: da, add all claims
+                var claims = new[] { new Claim(ClaimTypes.Name, User.UserName) }
+                    .Concat(User.Claims.Select(c => new Claim(c.Key, c.Value)));
                 identity = new ClaimsIdentity(claims, "Server authentication");
             }
             return new AuthenticationState(new ClaimsPrincipal(identity));

@@ -1,11 +1,11 @@
 ﻿@inherits BalloonBase
 @using esme.Shared.Circles
 
-<div class="balloon @(IsMine ? "my-balloon" : "their-balloon")">
+<div class="balloon @(Message.SentByMe ? "my-balloon" : "their-balloon")">
     <div class="text-left balloon-text">
         <span class="text-left">
             <small>
-                @(IsMine ? "Me" : Message.SenderName)
+                @(Message.SentByMe ? "Me" : Message.SenderName)
             </small>
         </span>
         @if (Message.SentAt.Ticks == 0)

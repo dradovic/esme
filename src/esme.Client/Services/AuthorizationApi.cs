@@ -1,20 +1,16 @@
 ﻿using esme.Shared.Users;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using System;
-using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace esme.Client.Services
 {
     public interface IAuthorizationApi
     {
-        Task<UserViewModel> Login(LoginParameters loginParameters);
-        Task<UserViewModel> Register(SignupParameters signupParameters);
+        Task Login(LoginParameters loginParameters);
+        Task Register(SignupParameters signupParameters);
         Task Logout();
-        Task<UserViewModel> TryGetUser();
+        Task<UserViewModel> FetchUser();
     }
 
     public class AuthorizationApi : IAuthorizationApi
@@ -26,15 +22,9 @@ namespace esme.Client.Services
             _httpClient = httpClient;
         }
 
-        public async Task<UserViewModel> Login(LoginParameters loginParameters)
+        public async Task Login(LoginParameters loginParameters)
         {
-            //var stringContent = new StringContent(Json.Serialize(loginParameters), Encoding.UTF8, "application/json");
-            var result = await _httpClient.PostJsonAsync<UserViewModel>("api/authorization/login", loginParameters);
-            //if (result.StatusCode == HttpStatusCode.BadRequest) throw new Exception(await result.Content.ReadAsStringAsync());
-            //result.EnsureSuccessStatusCode();
-
-            //return Json.Deserialize<UserViewModel>(await result.Content.ReadAsStringAsync());
-            return result;
+            await _httpClient.PostJsonAsync("api/authorization/login", loginParameters);
         }
 
         public async Task Logout()
@@ -43,28 +33,14 @@ namespace esme.Client.Services
             result.EnsureSuccessStatusCode();
         }
 
-        public async Task<UserViewModel> Register(SignupParameters signupParameters)
+        public async Task Register(SignupParameters signupParameters)
         {
-            //var stringContent = new StringContent(Json.Serialize(signupParameters), Encoding.UTF8, "application/json");
-            var result = await _httpClient.PostJsonAsync<UserViewModel>("api/authorization/register", signupParameters);
-            //if (result.StatusCode == HttpStatusCode.BadRequest) throw new Exception(await result.Content.ReadAsStringAsync());
-            //result.EnsureSuccessStatusCode();
-
-            //return Json.Deserialize<UserViewModel>(await result.Content.ReadAsStringAsync());
-            return result;
+            await _httpClient.PostJsonAsync("api/authorization/register", signupParameters);
         }
 
-        public async Task<UserViewModel> TryGetUser()
+        public async Task<UserViewModel> FetchUser()
         {
-            try
-            {
-                var result = await _httpClient.GetJsonAsync<UserViewModel>("api/authorization/me");
-                return result;
-            }
-            catch (HttpRequestException)
-            {
-                return null;
-            }
+            return await _httpClient.GetJsonAsync<UserViewModel>("api/authorization/me");
         }
     }
 }

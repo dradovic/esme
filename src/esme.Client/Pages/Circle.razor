@@ -1,7 +1,6 @@
 ﻿@page "/circle/{CircleId:guid}"
 @inherits CircleBase
 @using Store.Messages
-@using esme.Shared.Circles
 
 @if (MessagesState.Value.ErrorMessage != null)
 {
@@ -35,7 +34,7 @@
                         }
                         else
                         {
-                            <small>sentAtDate.Date.ToShortDateString()</small>
+                            <small>@sentAtDate.Date.ToShortDateString()</small>
                         }
                     </div>
                 }

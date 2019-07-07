@@ -17,9 +17,7 @@ audio {
 
 /* messages */
 .messages-container {
-    max-height: 66vh;
-    overflow-y: auto;
-    overflow-x: hidden;
+    padding-bottom: 200px;
 }
 
 .balloon {
@@ -47,13 +45,8 @@ audio {
 
 /* circle */
 .circle-form-item {
-    margin-bottom: 20px;
-}
-
-.circle-form-button {
     margin-bottom: 10px;
 }
-
 
 /* override vmsg.css */
 .vmsg-slider-wrapper {

@@ -1,4 +1,4 @@
-﻿@page "/circle/{CircleId:guid}"
+@page "/circle/{CircleId:guid}"
 @inherits CircleBase
 @using Store.Messages
 
@@ -44,32 +44,38 @@
             }
         }
     </div>
-    <form onsubmit="@OnSubmit">
-        @if (MessagesState.Value.State == State.Default)
-        {
-            <textarea required autofocus @bind="NewMessage.Text" rows="3" style="width: 100%" class="circle-form-item"></textarea> @*FIXME: da, specify maxlength*@
-        }
-        <div>
-            @if (MessagesState.Value.State == State.RecordingAvailable)
-            {
-                <audio src="@MessagesState.Value.RecordingUrl" type="audio/mpeg" controls class="circle-form-button" />
-            }
-            else if (MessagesState.Value.State == State.Default)
-            {
-                <button class="btn btn-lg btn-secondary btn-block circle-form-button" @onclick="@StartRecording">
-                    Record
-                </button>
-            }
-            else if (MessagesState.Value.State == State.IsRecording)
-            {
-                <button class="btn btn-lg btn-secondary btn-block circle-form-button" @onclick="@StopRecording">
-                    @RecordingTime
-                </button>
-            }
-        </div>
-        <div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
-        </div>
-    </form>
 }
 
+<footer class="fixed-bottom">
+    <div class="container text-center">
+        <div class="col-sm-4 offset-sm-4 mb-2">
+            <form onsubmit="@OnSubmit">
+                @if (MessagesState.Value.State == State.Default)
+                {
+                    <textarea required autofocus @bind="NewMessage.Text" rows="3" style="width: 100%" class="circle-form-item"></textarea> @*FIXME: da, specify maxlength*@
+                }
+                <div>
+                    @if (MessagesState.Value.State == State.RecordingAvailable)
+                    {
+                        <audio src="@MessagesState.Value.RecordingUrl" type="audio/mpeg" controls class="circle-form-item" />
+                    }
+                    else if (MessagesState.Value.State == State.Default)
+                    {
+                        <button class="btn btn-lg btn-secondary btn-block circle-form-item" @onclick="@StartRecording">
+                            Record
+                        </button>
+                    }
+                    else if (MessagesState.Value.State == State.IsRecording)
+                    {
+                        <button class="btn btn-lg btn-secondary btn-block circle-form-item" @onclick="@StopRecording">
+                            @RecordingTime
+                        </button>
+                    }
+                </div>
+                <div>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</footer>

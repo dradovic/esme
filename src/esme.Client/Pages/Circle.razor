@@ -52,22 +52,22 @@
             <form onsubmit="@OnSubmit">
                 @if (MessagesState.Value.State == State.Default)
                 {
-                    <textarea required autofocus @bind="NewMessage.Text" rows="3" style="width: 100%" class="circle-form-item"></textarea> @*FIXME: da, specify maxlength*@
+                    <textarea required autofocus @bind="NewMessage.Text" rows="3" style="width: 100%" class="form-item"></textarea> @*FIXME: da, specify maxlength*@
                 }
                 <div>
                     @if (MessagesState.Value.State == State.RecordingAvailable)
                     {
-                        <audio src="@MessagesState.Value.RecordingUrl" type="audio/mpeg" controls class="circle-form-item" />
+                        <audio src="@MessagesState.Value.RecordingUrl" type="audio/mpeg" controls class="form-item" />
                     }
                     else if (MessagesState.Value.State == State.Default)
                     {
-                        <button class="btn btn-lg btn-secondary btn-block circle-form-item" @onclick="@StartRecording">
+                        <button class="btn btn-lg btn-secondary btn-block form-item" @onclick="@StartRecording">
                             Record
                         </button>
                     }
                     else if (MessagesState.Value.State == State.IsRecording)
                     {
-                        <button class="btn btn-lg btn-secondary btn-block circle-form-item" @onclick="@StopRecording">
+                        <button class="btn btn-lg btn-secondary btn-block form-item" @onclick="@StopRecording">
                             @RecordingTime
                         </button>
                     }

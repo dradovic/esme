@@ -1,10 +1,14 @@
 ﻿/* login */
+.form-item {
+    margin-bottom: 10px;
+}
+
 .form-check-input {
-    margin-top: 0.42rem
+    margin-top: 0.42rem;
 }
 
 .form-check-label {
-    margin-left: 20px
+    margin-left: 20px;
 }
 
 .form-control {
@@ -41,11 +45,6 @@ audio {
 
 .balloon-text {
     padding-left: 10px
-}
-
-/* circle */
-.circle-form-item {
-    margin-bottom: 10px;
 }
 
 /* override vmsg.css */

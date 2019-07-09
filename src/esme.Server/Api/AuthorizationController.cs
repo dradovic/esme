@@ -33,12 +33,12 @@ namespace esme.Server.Api
 
             var user = await _userManager.FindByNameAsync(parameters.UserName);
             if (user == null) return BadRequest("Invalid user or password"); // FIXME: da, i18n
-            var singInResult = await _signInManager.CheckPasswordSignInAsync(user, parameters.Password, false);
-            if (!singInResult.Succeeded) return BadRequest("Invalid user or password"); // FIXME: da, i18n
+            var checkPasswordResult = await _signInManager.CheckPasswordSignInAsync(user, parameters.Password, false);
+            if (!checkPasswordResult.Succeeded) return BadRequest("Invalid user or password"); // FIXME: da, i18n
 
             await _signInManager.SignInAsync(user, parameters.RememberMe);
 
-            return Ok(BuildUserInfo(user));
+            return Ok();
         }
 
         [AllowAnonymous]
@@ -68,23 +68,15 @@ namespace esme.Server.Api
             return Ok();
         }
 
+        [AllowAnonymous] // this is ok since the client will just get information about itself
         [HttpGet]
-        public async Task<ActionResult<UserViewModel>> Me()
-        {
-            var user = await _userManager.GetUserAsync(HttpContext.User); // FIXME: da, only get id and username to avoid DB roundtrip
-            if (user == null) // happens for example when user was deleted
-            {
-                return NotFound();
-            }
-            return BuildUserInfo(user);
-        }
-
-        // FIXME: da, use AutoMapper instead
-        private UserViewModel BuildUserInfo(ApplicationUser user)
+        public ActionResult<UserViewModel> Me()
         {
             return new UserViewModel
             {
-                UserName = user.UserName
+                UserName = User.Identity.Name,
+                IsAuthenticated = User.Identity.IsAuthenticated,
+                Claims = User.Claims.ToDictionary(c => c.Type, c => c.Value)
             };
         }
     }

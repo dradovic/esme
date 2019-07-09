@@ -40,7 +40,7 @@ namespace esme.Server.Api
         [Route(Urls.PostReadMessages)]
         public async Task<ActionResult<IEnumerable<MessageViewModel>>> Messages(Guid circleId, [FromBody]ReadMessagesOptions options)
         {
-            var userId = _userManager.ParseUserId(User);
+            Guid userId = _userManager.ParseUserId(User);
             var membership = await GetMembershipIncludingCircle(userId, circleId);
             if (membership == null) return NotFound();
 
@@ -54,7 +54,15 @@ namespace esme.Server.Api
             membership.NumberOfReadMessages = membership.Circle.NumberOfMessages;
             await _db.SaveChangesAsync();
             Debug.Assert(membership.NumberOfUnreadMessages == 0);
-            return Ok(messages.Select(ToViewModel));
+            return Ok(messages.Select(m => new MessageViewModel
+            {
+                Id = m.Id,
+                ContentType = m.ContentType,
+                Content = m.Content,
+                SentAt = m.SentAt,
+                SentByMe = m.SentBy == userId,
+                SenderName = m.SenderName,
+            }));
         }
 
         [HttpPost]
@@ -108,18 +116,6 @@ namespace esme.Server.Api
                 .ThenInclude(m => m.Circle)
                 .SingleFirstOrDefaultAsync(u => u.Id == userId);
             return user.Memberships.SingleOrDefault(c => c.CircleId == circleId);
-        }
-
-        private static MessageViewModel ToViewModel(Message message)
-        {
-            return new MessageViewModel
-            {
-                Id = message.Id,
-                ContentType = message.ContentType,
-                Content = message.Content,
-                SentAt = message.SentAt,
-                SenderName = message.SenderName,
-            };
         }
     }
 }

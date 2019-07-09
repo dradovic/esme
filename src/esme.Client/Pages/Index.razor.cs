@@ -10,9 +10,17 @@ namespace esme.Client.Pages
         [Inject]
         private IJSRuntime JSRuntime { get; set; }
 
+        [Inject]
+        private IUriHelper UriHelper { get; set; }
+
         protected override async Task OnAfterRenderAsync()
         {
             await JSRuntime.InvokeAsync<string>("startAnimation");
+        }
+
+        protected void Enter()
+        {
+            UriHelper.NavigateTo("/home");
         }
 
         public void Dispose()

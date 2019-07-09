@@ -1,33 +1,33 @@
-﻿@layout FlowerOfLifeLayout
-@inherits LayoutComponentBase
-@inject esme.Client.Services.AuthenticationState state
-@inject IUriHelper uriHelper
+﻿@inherits MainLayoutBase
 @inject Blazor.Fluxor.IStore Store
 
 @Store.Initialize()
 
-@if (IsLoggedIn)
-{
-    <button type="button" class="btn btn-link ml-md-auto" onclick="@LogoutClick">Logout @state.User.UserName</button>
-    <div class=" col-sm-4 offset-sm-4 mb-2">
-        @Body
-    </div>
-}
+<AuthorizeView>
+    <Authorized>
+        <nav class="navbar fixed-top navbar-expand-lg">
+            <a class="navbar-brand" href="/home">ESME</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/home">Circles<span class="sr-only">(current)</span></a>
+                    </li>
+                    @if (context.User.IsInRole(ApplicationRoles.Ambassador))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="/invite">Invite</a>
+                        </li>
+                    }
+                </ul>
+                <button type="button" class="btn btn-link" onclick="@Logout">Logout @context.User.Identity.Name</button>
+            </div>
+        </nav>
+    </Authorized>
+</AuthorizeView>
 
-@code{
-    protected bool IsLoggedIn;
-    protected override async Task OnInitAsync()
-    {
-        IsLoggedIn = await state.IsLoggedIn();
-        if (!IsLoggedIn)
-        {
-            uriHelper.NavigateTo("/login");
-        }
-    }
-
-    async Task LogoutClick()
-    {
-        await state.Logout();
-        uriHelper.NavigateTo("/login");
-    }
-}
+<FlowerOfLife>
+    @Body
+</FlowerOfLife>

@@ -1,7 +1,7 @@
-﻿@inherits LayoutComponentBase
+﻿@inherits FlowerOfLifeBase
 
 <div class="d-flex align-items-center h-100">
-    <svg style="z-index:-1;position:absolute;" width="100%" height="100%" viewBox="0 0 310 310">
+    <svg style="z-index:-1;position:fixed;" width="100%" height="100%" viewBox="0 0 310 310">
         <defs>
             <radialGradient id="myGradient" gradientUnits="userSpaceOnUse">
                 <stop offset="0%" stop-color="white">
@@ -148,6 +148,8 @@
     </svg>
 
     <div class="container text-center">
-        @Body
+        <div class="col-sm-4 offset-sm-4 mb-2">
+            @ChildContent
+        </div>
     </div>
 </div>

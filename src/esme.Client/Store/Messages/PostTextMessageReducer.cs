@@ -12,6 +12,7 @@ namespace esme.Client.Store.Messages
                 Id = action.Message.Id,
                 ContentType = ContentType.Text,
                 Content = action.Message.Text,
+                SentByMe = true,
             };
         }
     }

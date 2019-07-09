@@ -3,7 +3,6 @@ using esme.Shared.Users;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Threading.Tasks;
-using AuthenticationState = esme.Client.Services.AuthenticationState;
 
 namespace esme.Client.Pages
 {
@@ -13,7 +12,7 @@ namespace esme.Client.Pages
         protected string Error { get; private set; }
 
         [Inject]
-        private AuthenticationState State { get; set; }
+        private IdentityAuthenticationStateProvider AuthenticationStateProvider { get; set; }
 
         [Inject]
         private IUriHelper UriHelper { get; set; }
@@ -23,7 +22,7 @@ namespace esme.Client.Pages
             Error = null;
             try
             {
-                await State.Login(LoginParameters);
+                await AuthenticationStateProvider.Login(LoginParameters);
                 UriHelper.NavigateTo("/home");
             }
             catch (Exception x)

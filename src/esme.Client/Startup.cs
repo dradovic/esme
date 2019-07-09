@@ -1,6 +1,7 @@
 using Blazor.Fluxor;
 using esme.Client.Services;
 using EventAggregator.Blazor;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,7 +18,9 @@ namespace esme.Client
 
             //services.AddTransient<HubConnectionBuilder>();
 
-            services.AddScoped<AuthenticationState>();
+            services.AddAuthorizationCore();
+            services.AddScoped<IdentityAuthenticationStateProvider>();
+            services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<IdentityAuthenticationStateProvider>());
             services.AddScoped<IAuthorizationApi, AuthorizationApi>();
             services.AddScoped<MessagesApi>();
             services.AddSingleton<IEventAggregator, EventAggregator.Blazor.EventAggregator>();

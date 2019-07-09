@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width">
     <title>esme</title>
     <base href="/" />
-    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="css/site.css" rel="stylesheet" />
 </head>
 <body style="height:100vh">
@@ -19,6 +19,8 @@
         </div>
     </app>
     <script src="_framework/blazor.webassembly.js"></script>
+    <script src="/lib/jquery/jquery.slim.min.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         window.startAnimation = function () {
             const an1 = document.getElementById("an1");
@@ -50,9 +52,8 @@
         }
     </script>
     <script>
-        window.esme_scroll_messages = function () {
-            const messages = document.getElementById("messages");
-            messages.scrollTop = messages.scrollHeight;
+        window.esme_scroll_to_last_message = function () {
+            window.scrollTo(0, document.body.scrollHeight);
         }
     </script>
 </body>

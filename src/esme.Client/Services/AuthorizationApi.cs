@@ -24,6 +24,7 @@ namespace esme.Client.Services
 
         public async Task Login(LoginParameters loginParameters)
         {
+            // FIXME: da, receive error message from server and display that as an error (ex. "wrong password")
             await _httpClient.PostJsonAsync("api/authorization/login", loginParameters);
         }
 

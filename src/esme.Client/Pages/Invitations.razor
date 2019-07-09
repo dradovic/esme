@@ -1,0 +1,24 @@
+@page "/invitations"
+@inherits InvitationsBase
+
+@if (InvitationsState.Value.ErrorMessage != null)
+{
+    <h1>Error</h1>
+    <p>@InvitationsState.Value.ErrorMessage</p>
+}
+
+@if (InvitationsState.Value.IsLoading)
+{
+    <p>Loading...</p>
+}
+
+@if (InvitationsState.Value.Invitations != null)
+{
+    foreach (var invitation in InvitationsState.Value.Invitations)
+    {
+        <div>
+            <div>@invitation.To</div>
+            <div>@invitation.SentAt</div>
+        </div>
+    }
+}

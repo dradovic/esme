@@ -6,7 +6,6 @@
 <AuthorizeView>
     <Authorized>
         <nav class="navbar fixed-top navbar-expand-lg">
-            <a class="navbar-brand" href="/home">ESME</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -18,7 +17,7 @@
                     @if (context.User.IsInRole(ApplicationRoles.Ambassador))
                     {
                         <li class="nav-item">
-                            <a class="nav-link" href="/invite">Invite</a>
+                            <a class="nav-link" href="/invitations">Invitations</a>
                         </li>
                     }
                 </ul>

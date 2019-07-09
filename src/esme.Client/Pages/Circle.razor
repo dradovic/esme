@@ -47,35 +47,33 @@
 }
 
 <footer class="fixed-bottom">
-    <div class="container text-center">
-        <div class="col-sm-4 offset-sm-4 mb-2">
-            <form onsubmit="@OnSubmit">
-                @if (MessagesState.Value.State == State.Default)
+    <div class="@Classes.MainContainer">
+        <form onsubmit="@OnSubmit">
+            @if (MessagesState.Value.State == State.Default)
+            {
+                <textarea required autofocus @bind="NewMessage.Text" rows="3" style="width: 100%" class="form-item"></textarea> @*FIXME: da, specify maxlength*@
+            }
+            <div>
+                @if (MessagesState.Value.State == State.RecordingAvailable)
                 {
-                    <textarea required autofocus @bind="NewMessage.Text" rows="3" style="width: 100%" class="form-item"></textarea> @*FIXME: da, specify maxlength*@
+                    <audio src="@MessagesState.Value.RecordingUrl" type="audio/mpeg" controls class="form-item" />
                 }
-                <div>
-                    @if (MessagesState.Value.State == State.RecordingAvailable)
-                    {
-                        <audio src="@MessagesState.Value.RecordingUrl" type="audio/mpeg" controls class="form-item" />
-                    }
-                    else if (MessagesState.Value.State == State.Default)
-                    {
-                        <button class="btn btn-lg btn-secondary btn-block form-item" @onclick="@StartRecording">
-                            Record
-                        </button>
-                    }
-                    else if (MessagesState.Value.State == State.IsRecording)
-                    {
-                        <button class="btn btn-lg btn-secondary btn-block form-item" @onclick="@StopRecording">
-                            @RecordingTime
-                        </button>
-                    }
-                </div>
-                <div>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
-                </div>
-            </form>
-        </div>
+                else if (MessagesState.Value.State == State.Default)
+                {
+                    <button class="btn btn-lg btn-secondary btn-block form-item" @onclick="@StartRecording">
+                        Record
+                    </button>
+                }
+                else if (MessagesState.Value.State == State.IsRecording)
+                {
+                    <button class="btn btn-lg btn-secondary btn-block form-item" @onclick="@StopRecording">
+                        @RecordingTime
+                    </button>
+                }
+            </div>
+            <div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
+            </div>
+        </form>
     </div>
 </footer>

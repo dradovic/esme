@@ -51,7 +51,9 @@
         <form onsubmit="@OnSubmit">
             @if (MessagesState.Value.State == State.Default)
             {
-                <textarea required autofocus @bind="NewMessage.Text" rows="3" style="width: 100%" class="form-item"></textarea> @*FIXME: da, specify maxlength*@
+                <div class="form-item">
+                    <textarea required autofocus @bind="NewMessage.Text" rows="3" class="form-control"></textarea> @*FIXME: da, specify maxlength*@
+                </div>
             }
             <div>
                 @if (MessagesState.Value.State == State.RecordingAvailable)

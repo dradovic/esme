@@ -9,16 +9,14 @@
     <NotAuthorized>
         <form onsubmit="@OnSubmit">
             <div class="form-item">
-                <label for="inputUsername" class="sr-only">User Name</label>
-                <input id="inputUsername" class="form-control" placeholder="Username" required autofocus @bind="LoginParameters.UserName" />
+                <input class="form-control" placeholder="Username" required autofocus @bind="LoginParameters.UserName" />
             </div>
             <div class="form-item">
-                <label for="inputPassword" class="sr-only">Password</label>
-                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required @bind="LoginParameters.Password" />
+                <input type="password" class="form-control" placeholder="Password" required @bind="LoginParameters.Password" />
             </div>
             <div class="form-item" style="text-align: left">
-                <label class="form-check-label" for="inputRememberMe">
-                    <input type="checkbox" id="inputRememberMe" class="form-check-input" @bind="LoginParameters.RememberMe" />
+                <label class="form-check-label" for="loginRememberMe">
+                    <input type="checkbox" id="loginRememberMe" class="form-check-input" @bind="LoginParameters.RememberMe" />
                     Remember Me
                 </label>
             </div>

@@ -25,9 +25,11 @@
         @if (InvitationsState.Value.IsLoadedWithoutErrors)
         {
             <form onsubmit="@OnSubmit">
-                <input type="text" required autofocus @bind="NewInvitation.To" class="form-item" />
+                <div class="form-item">
+                    <input type="text" placeholder="email@address" required autofocus @bind="NewInvitation.To" class="form-control" />
+                </div>
                 <div>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Send Invitation</button>
                 </div>
             </form>
         }

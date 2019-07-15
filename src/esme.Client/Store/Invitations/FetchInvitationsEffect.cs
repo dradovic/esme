@@ -2,6 +2,7 @@
 using esme.Shared.Invitations;
 using Microsoft.AspNetCore.Components;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -21,7 +22,7 @@ namespace esme.Client.Store.Invitations
             try
             {
                 var invitations = await _httpClient.GetJsonAsync<InvitationViewModel[]>("api/my/invitations");
-                dispatcher.Dispatch(new FetchInvitationsSucceededAction(invitations));
+                dispatcher.Dispatch(new FetchInvitationsSucceededAction(invitations.ToList()));
             }
             catch (Exception x)
             {

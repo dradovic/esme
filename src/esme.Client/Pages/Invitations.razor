@@ -1,24 +1,35 @@
 @page "/invitations"
 @inherits InvitationsBase
 
+@if (InvitationsState.Value.IsLoading)
+{
+    <p>Loading...</p>
+}
+
+@foreach (var invitation in InvitationsState.Value.Invitations)
+{
+    <div>
+        <div>@invitation.To</div>
+        <div>@invitation.SentAt</div>
+    </div>
+}
+
 @if (InvitationsState.Value.ErrorMessage != null)
 {
     <h1>Error</h1>
     <p>@InvitationsState.Value.ErrorMessage</p>
 }
 
-@if (InvitationsState.Value.IsLoading)
-{
-    <p>Loading...</p>
-}
-
-@if (InvitationsState.Value.Invitations != null)
-{
-    foreach (var invitation in InvitationsState.Value.Invitations)
-    {
-        <div>
-            <div>@invitation.To</div>
-            <div>@invitation.SentAt</div>
-        </div>
-    }
-}
+<footer class="fixed-bottom">
+    <div class="@Classes.MainContainer">
+        @if (InvitationsState.Value.IsLoadedWithoutErrors)
+        {
+            <form onsubmit="@OnSubmit">
+                <input type="text" required autofocus @bind="NewInvitation.To" class="form-item" />
+                <div>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
+                </div>
+            </form>
+        }
+    </div>
+</footer>

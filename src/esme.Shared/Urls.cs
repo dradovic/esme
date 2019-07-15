@@ -8,6 +8,8 @@ namespace esme.Shared
         public const string PostTextMessage = "api/my/messages/text";
         public const string PostVoiceMessage = "api/my/messages/voice";
 
+        public const string PostInvitation = "api/my/invitations";
+
         public static string GetPostReadMessages(Guid circleId) => $"{PostReadMessages}?circleId={circleId}";
         public static string GetPostTextMessageUrl(Guid circleId) => $"{PostTextMessage}?circleId={circleId}";
         public static string GetPostVoiceMessageUrl(Guid circleId) => $"{PostVoiceMessage}?circleId={circleId}";

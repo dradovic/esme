@@ -1,4 +1,6 @@
 ﻿using Blazor.Fluxor;
+using esme.Shared.Invitations;
+using System.Collections.Generic;
 
 namespace esme.Client.Store.Invitations
 {
@@ -9,7 +11,7 @@ namespace esme.Client.Store.Invitations
         protected override InvitationsState GetInitialState() => new InvitationsState(
             isLoading: false,
             errorMessage: null,
-            invitations: null);
+            invitations: new List<InvitationViewModel>());
 
     }
 }

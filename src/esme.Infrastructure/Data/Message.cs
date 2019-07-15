@@ -14,6 +14,7 @@ namespace esme.Infrastructure.Data
 
         public ContentType ContentType { get; set; }
 
+        [Required]
         [MaxLength(TextMessageEditModel.MaximumMessageTextLength)]
         public string Content { get; set; }
 
@@ -21,7 +22,8 @@ namespace esme.Infrastructure.Data
 
         public Guid SentBy { get; set; }
 
-        [Required, MaxLength(256)]
+        [Required]
+        [MaxLength(256)]
         public string SenderName { get; set; }
     }
 }

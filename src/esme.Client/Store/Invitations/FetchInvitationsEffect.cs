@@ -1,4 +1,5 @@
 ﻿using Blazor.Fluxor;
+using esme.Shared;
 using esme.Shared.Invitations;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -21,7 +22,7 @@ namespace esme.Client.Store.Invitations
         {
             try
             {
-                var invitations = await _httpClient.GetJsonAsync<InvitationViewModel[]>("api/my/invitations");
+                var invitations = await _httpClient.GetJsonAsync<InvitationViewModel[]>(Urls.GetInvitations);
                 dispatcher.Dispatch(new FetchInvitationsSucceededAction(invitations.ToList()));
             }
             catch (Exception x)

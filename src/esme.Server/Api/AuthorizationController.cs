@@ -1,4 +1,5 @@
 ﻿using esme.Infrastructure.Data;
+using esme.Shared;
 using esme.Shared.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -8,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace esme.Server.Api
 {
-    [Route("api/[controller]/[action]")]
     [ApiController]
     [Authorize]
     public class AuthorizationController : ControllerBase
@@ -24,6 +24,7 @@ namespace esme.Server.Api
 
         [AllowAnonymous]
         [HttpPost]
+        [Route(Urls.PostLogin)]
         public async Task<IActionResult> Login(LoginParameters parameters)
         {
             // FIXME: da, test if !ModelState.IsValid with current configuration
@@ -43,6 +44,7 @@ namespace esme.Server.Api
 
         [AllowAnonymous]
         [HttpPost]
+        [Route(Urls.PostSignup)]
         public async Task<IActionResult> Signup(SignupParameters parameters)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(state => state.Errors)
@@ -62,6 +64,7 @@ namespace esme.Server.Api
         }
 
         [HttpPost]
+        [Route(Urls.PostLogout)]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
@@ -70,6 +73,7 @@ namespace esme.Server.Api
 
         [AllowAnonymous] // this is ok since the client will just get information about itself
         [HttpGet]
+        [Route(Urls.GetMe)]
         public ActionResult<UserViewModel> Me()
         {
             return new UserViewModel

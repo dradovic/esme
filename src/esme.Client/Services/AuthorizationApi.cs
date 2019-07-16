@@ -1,4 +1,5 @@
-﻿using esme.Shared.Users;
+﻿using esme.Shared;
+using esme.Shared.Users;
 using Microsoft.AspNetCore.Components;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ namespace esme.Client.Services
     public interface IAuthorizationApi
     {
         Task Login(LoginParameters loginParameters);
-        Task Register(SignupParameters signupParameters);
+        Task Signup(SignupParameters signupParameters);
         Task Logout();
         Task<UserViewModel> FetchUser();
     }
@@ -25,23 +26,23 @@ namespace esme.Client.Services
         public async Task Login(LoginParameters loginParameters)
         {
             // FIXME: da, receive error message from server and display that as an error (ex. "wrong password")
-            await _httpClient.PostJsonAsync("api/authorization/login", loginParameters);
+            await _httpClient.PostJsonAsync(Urls.PostLogin, loginParameters);
         }
 
         public async Task Logout()
         {
-            var result = await _httpClient.PostAsync("api/authorization/logout", null);
+            var result = await _httpClient.PostAsync(Urls.PostLogout, null);
             result.EnsureSuccessStatusCode();
         }
 
-        public async Task Register(SignupParameters signupParameters)
+        public async Task Signup(SignupParameters signupParameters)
         {
-            await _httpClient.PostJsonAsync("api/authorization/register", signupParameters);
+            await _httpClient.PostJsonAsync(Urls.PostSignup, signupParameters);
         }
 
         public async Task<UserViewModel> FetchUser()
         {
-            return await _httpClient.GetJsonAsync<UserViewModel>("api/authorization/me");
+            return await _httpClient.GetJsonAsync<UserViewModel>(Urls.GetMe);
         }
     }
 }

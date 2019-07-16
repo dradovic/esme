@@ -1,9 +1,12 @@
-﻿using esme.Infrastructure.Data;
+using esme.Infrastructure;
+using esme.Infrastructure.Data;
+using esme.Infrastructure.Services;
 using esme.Shared;
 using esme.Shared.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,11 +18,18 @@ namespace esme.Server.Api
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ApplicationDbContext _db;
+        private readonly InvitationService _invitationService;
+        private readonly ILogger<AuthorizationController> _logger;
 
-        public AuthorizationController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AuthorizationController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
+            ApplicationDbContext db, InvitationService invitationService, ILogger<AuthorizationController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _db = db;
+            _invitationService = invitationService;
+            _logger = logger;
         }
 
         [AllowAnonymous]
@@ -27,15 +37,12 @@ namespace esme.Server.Api
         [Route(Urls.PostLogin)]
         public async Task<IActionResult> Login(LoginParameters parameters)
         {
-            // FIXME: da, test if !ModelState.IsValid with current configuration
-            if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(state => state.Errors)
-                .Select(error => error.ErrorMessage)
-                .FirstOrDefault());
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var user = await _userManager.FindByNameAsync(parameters.UserName);
-            if (user == null) return BadRequest("Invalid user or password"); // FIXME: da, i18n
+            if (user == null) return BadRequest("Invalid user or password");
             var checkPasswordResult = await _signInManager.CheckPasswordSignInAsync(user, parameters.Password, false);
-            if (!checkPasswordResult.Succeeded) return BadRequest("Invalid user or password"); // FIXME: da, i18n
+            if (!checkPasswordResult.Succeeded) return BadRequest("Invalid user or password");
 
             await _signInManager.SignInAsync(user, parameters.RememberMe);
 
@@ -47,14 +54,17 @@ namespace esme.Server.Api
         [Route(Urls.PostSignup)]
         public async Task<IActionResult> Signup(SignupParameters parameters)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(state => state.Errors)
-                .Select(error => error.ErrorMessage)
-                .FirstOrDefault()); // FIXME: da, copy-paste from Login
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var user = new ApplicationUser();
-            user.UserName = parameters.UserName;
-            var result = await _userManager.CreateAsync(user, parameters.Password);
-            if (!result.Succeeded) return BadRequest(result.Errors.FirstOrDefault()?.Description);
+            var invitation = await _db.Invitations.SingleFirstOrDefaultAsync(i => i.To == parameters.Email);
+            if (invitation == null)
+            {
+                _logger.LogWarning($"Signup attempt with invalid invitation e-mail: {parameters.Email}."); // FIXME: da, rather throw security event with request origin details (IP, port, ...)
+                return NotFound("Invitation not found.");
+            }
+
+            await _invitationService.AcceptInvitation(invitation, parameters);
+            await _db.SaveChangesAsync();
 
             return await Login(new LoginParameters
             {

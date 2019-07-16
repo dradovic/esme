@@ -48,12 +48,12 @@ namespace esme.Server.Api
             var invitation = new Invitation
             {
                 Id = model.Id,
-                To = model.To, // FIXME: da, make sure To does not already have an invitation
+                To = model.To, // FIXME: da, make sure To does not already have an invitation and invitation e-mail gets sent only once
                 SentAt = DateTimeOffset.UtcNow,
             };
             user.Invitations.Add(invitation);
-            await _invitationService.SendInvitation(invitation, confirmationCode => 
-                Url.Action(nameof(AuthorizationController.Signup), nameof(AuthorizationController), new { invitationId = invitation.Id, confirmationCode }));
+            string baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}"; // see: https://stackoverflow.com/a/47051481/331281
+            await _invitationService.SendInvitation(invitation, confirmationCode => $"{baseUrl}/{invitation.To}/{confirmationCode}");
             await _db.SaveChangesAsync();
             return Ok(ToViewModel(invitation));
         }

@@ -6,7 +6,7 @@ namespace esme.Shared
     {
         public const string PostLogin = "api/authorization/login";
         public const string PostSignup = "api/authorization/signup";
-        public const string PostLogout = "api/authorization/signup";
+        public const string PostLogout = "api/authorization/logout";
         public const string GetMe = "api/authorization/me";
 
         public const string PostReadMessages = "api/my/messages/actions/read";

@@ -10,7 +10,7 @@ using esme.Infrastructure.Data;
 namespace esme.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190703210933_Init")]
+    [Migration("20190716213930_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -201,6 +201,29 @@ namespace esme.Infrastructure.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("esme.Infrastructure.Data.Invitation", b =>
+                {
+                    b.Property<Guid>("Id");
+
+                    b.Property<DateTimeOffset?>("AcceptedAt");
+
+                    b.Property<Guid?>("ApplicationUserId");
+
+                    b.Property<DateTimeOffset>("SentAt");
+
+                    b.Property<string>("To")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("To")
+                        .IsUnique();
+
+                    b.ToTable("Invitations");
+                });
+
             modelBuilder.Entity("esme.Infrastructure.Data.Membership", b =>
                 {
                     b.Property<Guid>("CircleId");
@@ -223,6 +246,7 @@ namespace esme.Infrastructure.Data.Migrations
                     b.Property<Guid>("CircleId");
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasMaxLength(8192);
 
                     b.Property<byte>("ContentType");
@@ -291,6 +315,13 @@ namespace esme.Infrastructure.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("esme.Infrastructure.Data.Invitation", b =>
+                {
+                    b.HasOne("esme.Infrastructure.Data.ApplicationUser", null)
+                        .WithMany("Invitations")
+                        .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("esme.Infrastructure.Data.Membership", b =>

@@ -67,7 +67,7 @@ namespace esme.Infrastructure.Data.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     CircleId = table.Column<Guid>(nullable: false),
                     ContentType = table.Column<byte>(nullable: false),
-                    Content = table.Column<string>(maxLength: 8192, nullable: true),
+                    Content = table.Column<string>(maxLength: 8192, nullable: false),
                     SentAt = table.Column<DateTimeOffset>(nullable: false),
                     SentBy = table.Column<Guid>(nullable: false),
                     SenderName = table.Column<string>(maxLength: 256, nullable: false)
@@ -184,6 +184,27 @@ namespace esme.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Invitations",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    To = table.Column<string>(nullable: false),
+                    SentAt = table.Column<DateTimeOffset>(nullable: false),
+                    AcceptedAt = table.Column<DateTimeOffset>(nullable: true),
+                    ApplicationUserId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Invitations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Invitations_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Membership",
                 columns: table => new
                 {
@@ -253,6 +274,17 @@ namespace esme.Infrastructure.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Invitations_ApplicationUserId",
+                table: "Invitations",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invitations_To",
+                table: "Invitations",
+                column: "To",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Membership_UserId",
                 table: "Membership",
                 column: "UserId");
@@ -279,6 +311,9 @@ namespace esme.Infrastructure.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Invitations");
 
             migrationBuilder.DropTable(
                 name: "Membership");

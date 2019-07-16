@@ -15,6 +15,8 @@ namespace esme.Infrastructure.Data
 
         public DbSet<Message> Messages { get; set; }
 
+        public DbSet<Invitation> Invitations { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -31,6 +33,10 @@ namespace esme.Infrastructure.Data
 
             modelBuilder.Entity<Message>()
                 .HasIndex(m => m.CircleId);
+
+            modelBuilder.Entity<Invitation>()
+                .HasIndex(i => i.To)
+                .IsUnique();
         }
     }
 }

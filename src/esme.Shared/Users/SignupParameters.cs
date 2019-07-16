@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace esme.Shared.Users
 {
@@ -11,7 +12,9 @@ namespace esme.Shared.Users
         public string Password { get; set; }
 
         [Required]
-        [Compare(nameof(Password), ErrorMessage = "Passwords do not match")]
-        public string PasswordConfirm { get; set; }
+        public string Email { get; set; }
+
+        [Required]
+        public string ConfirmationCode { get; set; }
     }
 }

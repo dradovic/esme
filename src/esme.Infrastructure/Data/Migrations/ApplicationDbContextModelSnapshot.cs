@@ -216,7 +216,10 @@ namespace esme.Infrastructure.Data.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("Invitation");
+                    b.HasIndex("To")
+                        .IsUnique();
+
+                    b.ToTable("Invitations");
                 });
 
             modelBuilder.Entity("esme.Infrastructure.Data.Membership", b =>

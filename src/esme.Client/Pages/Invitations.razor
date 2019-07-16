@@ -24,14 +24,16 @@
     <div class="@Classes.MainContainer">
         @if (InvitationsState.Value.IsLoadedWithoutErrors)
         {
-            <form onsubmit="@OnSubmit">
+            <EditForm Model="@NewInvitation" OnValidSubmit="@OnSubmit">
+                <DataAnnotationsValidator />
                 <div class="form-item">
-                    <input type="text" placeholder="email@address" required autofocus @bind="NewInvitation.To" class="form-control" />
+                    <InputText placeholder="email@address" autofocus @bind-Value="NewInvitation.To" class="form-control" />
+                    <ValidationMessage For="@(() => NewInvitation.To)" />
                 </div>
                 <div>
                     <button class="btn btn-lg btn-primary btn-block" type="submit">Send Invitation</button>
                 </div>
-            </form>
+            </EditForm>
         }
     </div>
 </footer>

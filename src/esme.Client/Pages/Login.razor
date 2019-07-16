@@ -9,6 +9,7 @@
     <NotAuthorized>
         <form onsubmit="@OnSubmit">
             <div class="form-item">
+                @* FIXME: da, have consistent form validation (see Invitations) *@
                 <input class="form-control" placeholder="Username" required autofocus @bind="LoginParameters.UserName" />
             </div>
             <div class="form-item">

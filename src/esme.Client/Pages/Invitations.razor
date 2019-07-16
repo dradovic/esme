@@ -6,13 +6,32 @@
     <p>Loading...</p>
 }
 
-@foreach (var invitation in InvitationsState.Value.Invitations)
-{
-    <div>
-        <div>@invitation.To</div>
-        <div>@invitation.SentAt</div>
-    </div>
-}
+<div class="messages-container">
+    @{
+        bool? previousAccepted = null;
+        foreach (var invitation in InvitationsState.Value.Invitations)
+        {
+            if (previousAccepted == null || (!previousAccepted.Value && invitation.IsAccepted))
+            {
+                <div class="balloon date-balloon">
+                    @if (previousAccepted == null)
+                    {
+                        <small>Pending</small>
+                    }
+                    else
+                    {
+                        <small>Accepted</small>
+                    }
+                </div>
+            }
+            previousAccepted = invitation.IsAccepted;
+
+            <Invitation Invitation="@invitation" />
+        }
+    }
+</div>
+
+
 
 @if (InvitationsState.Value.ErrorMessage != null)
 {

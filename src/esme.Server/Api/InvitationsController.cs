@@ -31,12 +31,7 @@ namespace esme.Server.Api
         public async Task<ActionResult<IEnumerable<InvitationViewModel>>> Invitations()
         {
             var user = await GetUserIncludingInvitations();
-            return Ok(user.Invitations.Select(i => new InvitationViewModel
-            {
-                Id = i.Id,
-                To = i.To,
-                SentAt = i.SentAt,
-            }));
+            return Ok(user.Invitations.Select(ToViewModel));
         }
 
         [HttpPost]
@@ -54,7 +49,7 @@ namespace esme.Server.Api
             };
             user.Invitations.Add(invitation);
             await _db.SaveChangesAsync();
-            return Ok(invitation);
+            return Ok(ToViewModel(invitation));
         }
 
         private async Task<ApplicationUser> GetUserIncludingInvitations()
@@ -63,6 +58,17 @@ namespace esme.Server.Api
             return await _db.Users
                 .Include(u => u.Invitations)
                 .SingleFirstOrDefaultAsync(u => u.Id == userId);
+        }
+
+        private static InvitationViewModel ToViewModel(Invitation invitation)
+        {
+            return new InvitationViewModel
+            {
+                Id = invitation.Id,
+                To = invitation.To,
+                SentAt = invitation.SentAt,
+                IsAccepted = invitation.AcceptedAt.HasValue,
+            };
         }
     }
 }

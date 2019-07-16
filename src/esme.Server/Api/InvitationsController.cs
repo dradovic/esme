@@ -1,5 +1,6 @@
 ﻿using esme.Infrastructure;
 using esme.Infrastructure.Data;
+using esme.Infrastructure.Services;
 using esme.Shared;
 using esme.Shared.Invitations;
 using Microsoft.AspNetCore.Authorization;
@@ -19,11 +20,14 @@ namespace esme.Server.Api
     {
         private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly InvitationService _invitationService;
 
-        public InvitationsController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
+        public InvitationsController(ApplicationDbContext db, UserManager<ApplicationUser> userManager,
+            InvitationService invitationService)
         {
             _db = db;
             _userManager = userManager;
+            _invitationService = invitationService;
         }
 
         [HttpGet]
@@ -44,10 +48,12 @@ namespace esme.Server.Api
             var invitation = new Invitation
             {
                 Id = model.Id,
-                To = model.To,
+                To = model.To, // FIXME: da, make sure To does not already have an invitation
                 SentAt = DateTimeOffset.UtcNow,
             };
             user.Invitations.Add(invitation);
+            await _invitationService.SendInvitation(invitation, confirmationCode => 
+                Url.Action(nameof(AuthorizationController.Signup), nameof(AuthorizationController), new { invitationId = invitation.Id, confirmationCode }));
             await _db.SaveChangesAsync();
             return Ok(ToViewModel(invitation));
         }

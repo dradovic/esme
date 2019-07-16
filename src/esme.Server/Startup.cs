@@ -103,6 +103,8 @@ namespace esme.Server
             });
 
             services.AddScoped<AzureBlobStorage>();
+            services.AddScoped<InvitationService>();
+            services.AddScoped<MailingService>();
 
             services.AddOptions();
             services.Configure<AzureBlobStorageOptions>(_configuration.GetSection("AzureBlobStorage"));

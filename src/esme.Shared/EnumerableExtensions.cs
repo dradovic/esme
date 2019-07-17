@@ -12,5 +12,11 @@ namespace esme.Shared
             Debug.Assert(source.Count(predicate) <= 1);
             return source.FirstOrDefault(predicate);
         }
+
+        public static TSource SingleFirst<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            Debug.Assert(source.Count(predicate) <= 1);
+            return source.First(predicate);
+        }
     }
 }

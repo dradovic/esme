@@ -20,7 +20,7 @@ namespace esme.Client.Store.Invitations
         {
             var postedInvitation = await _httpClient.PostAsync<InvitationViewModel>(Urls.PostInvitation, action.Invitation, errorMessage =>
             {
-                dispatcher.Dispatch(new PostInvitationFailedAction(errorMessage));
+                dispatcher.Dispatch(new PostInvitationFailedAction(action.Invitation, errorMessage));
             });
             dispatcher.Dispatch(new PostInvitationSucceededAction(postedInvitation));
         }

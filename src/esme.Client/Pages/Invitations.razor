@@ -31,8 +31,6 @@
     }
 </div>
 
-
-
 @if (InvitationsState.Value.ErrorMessage != null)
 {
     <h1>Error</h1>
@@ -41,7 +39,7 @@
 
 <footer class="fixed-bottom">
     <div class="@Classes.MainContainer">
-        @if (InvitationsState.Value.IsLoadedWithoutErrors)
+        @if (!InvitationsState.Value.IsLoading)
         {
             <EditForm Model="@NewInvitation" OnValidSubmit="@OnSubmit">
                 <DataAnnotationsValidator />

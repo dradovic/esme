@@ -17,8 +17,6 @@ namespace esme.Client.Store.Invitations
         public string ErrorMessage { get; set; }
         public List<InvitationViewModel> Invitations { get; set; }
 
-        public bool IsLoadedWithoutErrors => !IsLoading && ErrorMessage == null;
-
         internal void Merge(InvitationViewModel invitation)
         {
             if (Invitations == null) Invitations = new List<InvitationViewModel>();

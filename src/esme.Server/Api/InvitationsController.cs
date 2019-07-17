@@ -3,10 +3,13 @@ using esme.Infrastructure.Data;
 using esme.Infrastructure.Services;
 using esme.Shared;
 using esme.Shared.Invitations;
+using esme.Shared.Users;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,19 +18,21 @@ using System.Threading.Tasks;
 namespace esme.Server.Api
 {
     [ApiController] // FIXME: da, decorate on assembly level
-    [Authorize]
+    [Authorize(Roles = ApplicationRoles.Ambassador)]
     public class InvitationsController : ControllerBase
     {
         private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly InvitationService _invitationService;
+        private readonly IWebHostEnvironment _environment;
 
         public InvitationsController(ApplicationDbContext db, UserManager<ApplicationUser> userManager,
-            InvitationService invitationService)
+            InvitationService invitationService, IWebHostEnvironment environment)
         {
             _db = db;
             _userManager = userManager;
             _invitationService = invitationService;
+            _environment = environment;
         }
 
         [HttpGet]
@@ -42,7 +47,13 @@ namespace esme.Server.Api
         [Route(Urls.PostInvitation)]
         public async Task<ActionResult<InvitationViewModel>> Invitations([FromBody] InvitationEditModel model)
         {
-            if (!ModelState.IsValid) return BadRequest(); // FIXME: da, should be automatic for [ApiController] (see https://docs.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-3.0)
+            if (!ModelState.IsValid) return BadRequest(ModelState); // FIXME: da, should be automatic for [ApiController] (see https://docs.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-3.0)
+
+            if (await _db.Users.AnyAsync(u => u.Email == model.To) || 
+                await _db.Invitations.AnyAsync(i => i.To == model.To))
+            {
+                return BadRequest("This user has already been invited.");
+            }
 
             var user = await GetUserIncludingInvitations();
             var invitation = new Invitation
@@ -52,7 +63,7 @@ namespace esme.Server.Api
                 SentAt = DateTimeOffset.UtcNow,
             };
             user.Invitations.Add(invitation);
-            string baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}"; // see: https://stackoverflow.com/a/47051481/331281
+            string baseUrl = _environment.IsProduction() ? Urls.AppUrl : $"{Request.Scheme}://{Request.Host}{Request.PathBase}"; // see: https://stackoverflow.com/a/47051481/331281
             await _invitationService.SendInvitation(invitation, confirmationCode => $"{baseUrl}/{invitation.To}/{confirmationCode}");
             await _db.SaveChangesAsync();
             return Ok(ToViewModel(invitation));

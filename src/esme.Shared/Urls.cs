@@ -4,6 +4,8 @@ namespace esme.Shared
 {
     public static class Urls
     {
+        public static string AppUrl = "https://esme.community";
+
         public const string PostLogin = "api/authorization/login";
         public const string PostSignup = "api/authorization/signup";
         public const string PostLogout = "api/authorization/logout";

@@ -41,7 +41,7 @@ namespace esme.Server.Api
         public async Task<ActionResult<IEnumerable<InvitationViewModel>>> Invitations()
         {
             var user = await GetUserIncludingInvitations();
-            return Ok(user.Invitations.Select(ToViewModel));
+            return Ok(user.Invitations.Select(ToViewModel).OrderBy(i => i.IsAccepted).ThenBy(i => i.To));
         }
 
         [HttpPost]

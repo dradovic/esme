@@ -2,6 +2,7 @@
 using esme.Shared.Users;
 using Microsoft.AspNetCore.Components;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace esme.Client.Pages
@@ -18,10 +19,14 @@ namespace esme.Client.Pages
         private IUriHelper UriHelper { get; set; }
 
         [Parameter]
-        protected string Email { get; set; }
+        protected string EncodedEmail { get; set; }
+
+        protected string Email => WebUtility.UrlDecode(EncodedEmail);
 
         [Parameter]
-        protected string ConfirmationCode { get; set; }
+        protected string EncodedConfirmationCode { get; set; }
+
+        private string ConfirmationCode => WebUtility.UrlDecode(EncodedConfirmationCode);
 
         protected async Task OnSubmit()
         {

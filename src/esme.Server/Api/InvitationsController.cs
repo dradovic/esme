@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace esme.Server.Api
@@ -64,7 +65,7 @@ namespace esme.Server.Api
             };
             user.Invitations.Add(invitation);
             string baseUrl = _environment.IsProduction() ? Urls.AppUrl : $"{Request.Scheme}://{Request.Host}{Request.PathBase}"; // see: https://stackoverflow.com/a/47051481/331281
-            await _invitationService.SendInvitation(invitation, confirmationCode => $"{baseUrl}/{invitation.To}/{confirmationCode}");
+            await _invitationService.SendInvitation(invitation, confirmationCode => $"{baseUrl}/join/{WebUtility.UrlEncode(invitation.To)}/{WebUtility.UrlEncode(confirmationCode)}");
             await _db.SaveChangesAsync();
             return Ok(ToViewModel(invitation));
         }

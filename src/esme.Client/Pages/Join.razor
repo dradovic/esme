@@ -1,4 +1,4 @@
-﻿@page "/join/{Email}/{ConfirmationCode}"
+﻿@page "/join/{EncodedEmail}/{EncodedConfirmationCode}"
 @inherits JoinBase
 @layout MainLayout
 
@@ -9,7 +9,7 @@
     <NotAuthorized>
         <form onsubmit="@OnSubmit">
             <div class="form-item">
-                <input class="form-control" required readonly @bind="Email" />
+                <input class="form-control" required readonly value="@Email" />
             </div>            <div class="form-item">
                 @* FIXME: da, have consistent form validation (see Invitations) *@
                 <input class="form-control" placeholder="Username" required autofocus @bind="SignupParameters.UserName" />

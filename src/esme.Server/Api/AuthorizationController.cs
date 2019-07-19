@@ -37,16 +37,12 @@ namespace esme.Server.Api
         [Route(Urls.PostLogin)]
         public async Task<IActionResult> Login(LoginParameters parameters)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
             const string error = "Invalid user or password."; // use same error message for all cases
             var user = await _userManager.FindByEmailAsync(parameters.Email);
             if (user == null) return BadRequest(error);
             var checkPasswordResult = await _signInManager.CheckPasswordSignInAsync(user, parameters.Password, false);
             if (!checkPasswordResult.Succeeded) return BadRequest(error);
-
             await _signInManager.SignInAsync(user, parameters.RememberMe);
-
             return Ok();
         }
 
@@ -55,8 +51,6 @@ namespace esme.Server.Api
         [Route(Urls.PostSignup)]
         public async Task<IActionResult> Signup(SignupParameters parameters)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
             var invitation = await _db.Invitations.SingleFirstOrDefaultAsync(i => i.To == parameters.Email);
             if (invitation == null)
             {

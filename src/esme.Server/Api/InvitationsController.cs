@@ -48,8 +48,6 @@ namespace esme.Server.Api
         [Route(Urls.PostInvitation)]
         public async Task<ActionResult<InvitationViewModel>> Invitations([FromBody] InvitationEditModel model)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState); // FIXME: da, should be automatic for [ApiController] (see https://docs.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-3.0)
-
             if (await _db.Users.AnyAsync(u => u.Email == model.To) || 
                 await _db.Invitations.AnyAsync(i => i.To == model.To))
             {

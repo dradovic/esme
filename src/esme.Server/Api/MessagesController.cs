@@ -84,8 +84,6 @@ namespace esme.Server.Api
 
         private async Task<ActionResult<MessageViewModel>> Messages(Guid circleId, Guid messageId, ContentType contentType, Func<Task<string>> getContent)
         {
-            if (!ModelState.IsValid) return BadRequest(); // FIXME: da, should be automatic for [ApiController] (see https://docs.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-3.0)
-
             var userId = _userManager.ParseUserId(User);
             var membership = await GetMembershipIncludingCircle(userId, circleId);
             if (membership == null) return NotFound();

@@ -66,11 +66,6 @@ namespace esme.Server
                 o.ValidationInterval = TimeSpan.FromMinutes(10); // defines when cookie i.e. for password change or lockout is revalidated.
             });
 
-            services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.SuppressModelStateInvalidFilter = true; // FIXME: da, required?
-            });
-
             services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.HttpOnly = true;

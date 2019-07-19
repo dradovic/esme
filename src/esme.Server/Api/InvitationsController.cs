@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace esme.Server.Api
 {
-    [ApiController] // FIXME: da, decorate on assembly level
+    [ApiController]
     [Authorize(Roles = ApplicationRoles.Ambassador)]
     public class InvitationsController : ControllerBase
     {
@@ -58,7 +58,7 @@ namespace esme.Server.Api
             var invitation = new Invitation
             {
                 Id = model.Id,
-                To = model.To, // FIXME: da, make sure To does not already have an invitation and invitation e-mail gets sent only once
+                To = model.To,
                 SentAt = DateTimeOffset.UtcNow,
             };
             user.Invitations.Add(invitation);

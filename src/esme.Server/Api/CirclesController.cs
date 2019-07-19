@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 namespace esme.Server.Api
 {
     [Route("api/my/[action]")] // FIXME: da, move to Urls
-    [ApiController] // FIXME: da, decorate on assembly level
+    [ApiController]
     [Authorize]
     public class CirclesController : ControllerBase
     {
-        private readonly ApplicationDbContext _db; // FIXME: da, use MediatR
+        private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public CirclesController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)

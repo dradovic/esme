@@ -7,7 +7,7 @@ namespace esme.Client.Store.Messages
     {
         public override MessagesState Reduce(MessagesState state, FetchUnreadMessagesAction action)
         {
-            // FIXME: da, set status of all unread messages to "loading"
+            // FEATURE: da, show spinner?
             return state.DeepClone();
         }
     }

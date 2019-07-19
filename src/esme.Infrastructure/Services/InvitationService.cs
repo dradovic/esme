@@ -21,6 +21,8 @@ namespace esme.Infrastructure.Services
 
         public async Task SendInvitation(Invitation invitation, Func<string, string> getSignupUrl)
         {
+            // Note: creating a user with the invitation e-mail first makes sure that the user ever only receives
+            // one invitation as the Identity will refuse to create two users with the same e-mail.
             var user = new ApplicationUser
             {
                 UserName = invitation.Id.ToString(),

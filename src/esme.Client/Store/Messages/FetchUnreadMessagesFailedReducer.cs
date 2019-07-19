@@ -7,7 +7,7 @@ namespace esme.Client.Store.Messages
     {
         public override MessagesState Reduce(MessagesState state, FetchUnreadMessagesFailedAction action)
         {
-            // FIXME: da, set status of all unsent messages to "failed sending"
+            // FEATURE: da, do something with the error message?
             return state.DeepClone();
         }
     }

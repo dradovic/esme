@@ -6,7 +6,7 @@ namespace esme.Client.Store.Messages
     {
         public override MessagesState Reduce(MessagesState state, PostMessageSucceededAction action)
         {
-            var newState = state.TransitionTo(State.Default); // FIXME: da, set status of submitted messages to 'sent'
+            var newState = state.TransitionTo(State.Default);
             newState.Merge(action.PostedMessage);
             return newState;
         }

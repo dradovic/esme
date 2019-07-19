@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace esme.Server.Api
 {
-    [ApiController] // FIXME: da, decorate on assembly level
+    [ApiController]
     [Authorize]
     public class MessagesController : ControllerBase
     {

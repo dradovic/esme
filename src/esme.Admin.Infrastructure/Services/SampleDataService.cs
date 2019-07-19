@@ -79,20 +79,14 @@ namespace esme.Admin.Infrastructure.Services
 
         private async Task DeleteAll()
         {
+            DeleteAllInvitations();
             await DeleteAllUsers();
             DeleteAllData();
         }
 
-        private void DeleteAllData()
+        private void DeleteAllInvitations()
         {
-            foreach (var circle in _db.Circles.Where(c => c.Id != Circle.OpenCircleId))
-            {
-                _db.Circles.Remove(circle);
-            }
-            foreach (var message in _db.Messages)
-            {
-                _db.Messages.Remove(message);
-            }
+            _db.Invitations.RemoveAll();
         }
 
         private async Task DeleteAllUsers()
@@ -101,6 +95,15 @@ namespace esme.Admin.Infrastructure.Services
             {
                 await _userManager.DeleteAsync(user);
             }
+        }
+
+        private void DeleteAllData()
+        {
+            foreach (var circle in _db.Circles.Where(c => c.Id != Circle.OpenCircleId))
+            {
+                _db.Circles.Remove(circle);
+            }
+            _db.Messages.RemoveAll();
         }
     }
 }

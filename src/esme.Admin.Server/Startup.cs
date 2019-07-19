@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using System;
 using GridMvc;
+using esme.Admin.Shared.ViewModels;
 
 namespace esme.Admin.Server
 {
@@ -73,6 +74,7 @@ namespace esme.Admin.Server
             services.AddScoped<ISampleDataService, SampleDataService>();
             services.AddScoped<IUsersGridService, UsersGridService>();
             services.AddScoped<ICirclesGridService, CirclesGridService>();
+            services.AddScoped<IGridService<InvitationViewModel>, InvitationsGridService>();
 
             services.AddOptions();
         }

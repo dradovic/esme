@@ -39,7 +39,7 @@ namespace esme.Server.Api
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var user = await _userManager.FindByNameAsync(parameters.UserName);
+            var user = await _userManager.FindByEmailAsync(parameters.Email);
             if (user == null) return BadRequest("Invalid user or password");
             var checkPasswordResult = await _signInManager.CheckPasswordSignInAsync(user, parameters.Password, false);
             if (!checkPasswordResult.Succeeded) return BadRequest("Invalid user or password");
@@ -68,7 +68,7 @@ namespace esme.Server.Api
 
             return await Login(new LoginParameters
             {
-                UserName = parameters.UserName,
+                Email = parameters.Email,
                 Password = parameters.Password
             });
         }

@@ -1,5 +1,6 @@
 ﻿using esme.Shared.Users;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -10,13 +11,15 @@ namespace esme.Client.Services
     {
         private readonly IAuthorizationApi _authorizationApi;
         private readonly ClientHub _hub;
+        private readonly ILogger<IdentityAuthenticationStateProvider> _logger;
 
         public UserViewModel User { get; private set; }
 
-        public IdentityAuthenticationStateProvider(IAuthorizationApi authorizationApi, ClientHub hub)
+        public IdentityAuthenticationStateProvider(IAuthorizationApi authorizationApi, ClientHub hub, ILogger<IdentityAuthenticationStateProvider> logger)
         {
             _authorizationApi = authorizationApi;
             _hub = hub;
+            _logger = logger;
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -25,6 +28,16 @@ namespace esme.Client.Services
             if (User == null)
             {
                 User = await _authorizationApi.FetchUser();
+                if (User.IsAuthenticated)
+                {
+                    _logger.LogDebug($"User logged in: '{User.UserName}'.");
+                    await _hub.SetupConnection();
+                }
+                else
+                {
+                    _logger.LogDebug($"User logged out.");
+                    // FIXME: da, disconnect from SignalR
+                }
             }
             if (User.IsAuthenticated)
             {
@@ -38,35 +51,27 @@ namespace esme.Client.Services
         public async Task<string> Login(LoginParameters loginParameters)
         {
             var error = await _authorizationApi.Login(loginParameters);
-            await SetUser(null);
+            SignalStateChange();
             return error;
         }
 
         public async Task<string> Signup(SignupParameters registerParameters)
         {
             var error = await _authorizationApi.Signup(registerParameters);
-            await SetUser(null);
+            SignalStateChange();
             return error;
         }
 
         public async Task Logout()
         {
             await _authorizationApi.Logout();
-            await SetUser(null);
+            SignalStateChange();
         }
 
-        private async Task SetUser(UserViewModel user)
+        private void SignalStateChange()
         {
-            User = user;
+            User = null;
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
-            if (User != null)
-            {
-                await _hub.SetupConnection();
-            }
-            else
-            {
-                // FIXME: da, disconnect from SignalR
-            }
         }
     }
 }

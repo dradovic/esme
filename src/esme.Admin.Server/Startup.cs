@@ -72,8 +72,8 @@ namespace esme.Admin.Server
 
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<ISampleDataService, SampleDataService>();
-            services.AddScoped<IUsersGridService, UsersGridService>();
-            services.AddScoped<ICirclesGridService, CirclesGridService>();
+            services.AddScoped<IGridService<UserViewModel>, UsersGridService>();
+            services.AddScoped<IGridService<CircleViewModel>, CirclesGridService>();
             services.AddScoped<IGridService<InvitationViewModel>, InvitationsGridService>();
 
             services.AddOptions();

@@ -16,7 +16,7 @@ namespace esme.Admin.App.Pages
         protected Task Task { get; private set; }
 
         [Inject]
-        private ICirclesGridService CirclesGridService { get; set; }
+        private IGridService<CircleViewModel> CirclesGridService { get; set; }
 
         protected override async Task OnInitAsync()
         {
@@ -31,7 +31,7 @@ namespace esme.Admin.App.Pages
             var query = new QueryDictionary<StringValues>();
             query.Add("grid-page", "1");
 
-            var client = new GridClient<CircleViewModel>(q => CirclesGridService.GetCirclesGridRows(columns, q), query, false, "ordersGrid", columns);
+            var client = new GridClient<CircleViewModel>(q => CirclesGridService.GetRows(columns, q), query, false, "ordersGrid", columns);
             Grid = client.Grid;
 
             // Set new items to grid

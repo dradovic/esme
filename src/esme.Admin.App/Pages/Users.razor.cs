@@ -16,7 +16,7 @@ namespace esme.Admin.App.Pages
         protected Task Task { get; private set; }
 
         [Inject]
-        private IUsersGridService UsersGridService { get; set; }
+        private IGridService<UserViewModel> UsersGridService { get; set; }
 
         protected override async Task OnInitAsync()
         {
@@ -31,7 +31,7 @@ namespace esme.Admin.App.Pages
             var query = new QueryDictionary<StringValues>();
             query.Add("grid-page", "1");
 
-            var client = new GridClient<UserViewModel>(q => UsersGridService.GetUsersGridRows(columns, q), query, false, "usersGrid", columns);
+            var client = new GridClient<UserViewModel>(q => UsersGridService.GetRows(columns, q), query, false, "usersGrid", columns);
             Grid = client.Grid;
 
             // Set new items to grid

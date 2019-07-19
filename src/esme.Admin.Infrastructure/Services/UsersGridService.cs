@@ -1,41 +1,23 @@
-﻿using esme.Admin.Shared.Services;
-using esme.Admin.Shared.ViewModels;
+﻿using esme.Admin.Shared.ViewModels;
 using esme.Infrastructure.Data;
-using GridMvc.Server;
-using GridShared;
-using GridShared.Utility;
-using Microsoft.AspNetCore.Http.Internal;
-using Microsoft.Extensions.Primitives;
-using System;
 using System.Linq;
 
 namespace esme.Admin.Infrastructure.Services
 {
-    public class UsersGridService : IUsersGridService
+    public class UsersGridService : GridService<ApplicationUser, UserViewModel>
     {
-        private readonly ApplicationDbContext _db;
-
-        public UsersGridService(ApplicationDbContext db)
+        public UsersGridService(ApplicationDbContext db) : base(db)
         {
-            _db = db;
         }
 
-        public ItemsDTO<UserViewModel> GetUsersGridRows(Action<IGridColumnCollection<UserViewModel>> columns,
-                QueryDictionary<StringValues> query)
+        protected override IQueryable<UserViewModel> FetchViewModels()
         {
-            var users = _db.Users.Select(u => new UserViewModel
+            return Entities.Select(u => new UserViewModel
             {
                 Id = u.Id,
                 UserName = u.UserName,
                 Email = u.Email,
             });
-            var server = new GridServer<UserViewModel>(users, new QueryCollection(query),
-                true, "usersGrid", columns, 50)
-                .Sortable()
-                .Filterable();
-
-            // return items to displays
-            return server.ItemsToDisplay;
         }
     }
 }

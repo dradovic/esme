@@ -38,7 +38,6 @@ namespace esme.Infrastructure.Services
             var result = await _userManager.ConfirmEmailAsync(user, parameters.ConfirmationCode);
             if (!result.Succeeded) // the token might have expired
             {
-                // FIXME: da, remove expired invitations
                 return result.ToErrorString();
             }
             var resetPasswordToken = await _userManager.GeneratePasswordResetTokenAsync(user);

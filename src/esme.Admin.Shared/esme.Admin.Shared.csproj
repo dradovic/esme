@@ -8,4 +8,8 @@
     <PackageReference Include="GridBlazor" Version="0.6.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\esme.Shared\esme.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

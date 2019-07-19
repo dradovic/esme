@@ -24,9 +24,10 @@ namespace esme.Admin.App.Pages
             {
                 c.Add(o => o.Id).Titled("Id").Sortable(true);
                 c.Add(o => o.To).Titled("To").Sortable(true);
-                c.Add(o => o.SentBy).Sortable(true);
-                c.Add(o => o.SentAt).Sortable(true);
-                c.Add(o => o.AcceptedAt).Sortable(true);
+                c.Add(o => o.SentBy).Titled("By").Sortable(true);
+                c.Add(o => o.SentAt).Titled("Sent").Sortable(true);
+                c.Add(o => o.AcceptedAt).Titled("Accepted").Sortable(true);
+                c.Add().Titled("Expired").RenderValueAs(i => i.Expired.ToString()).Sortable(true);
             };
 
             var query = new QueryDictionary<StringValues>();

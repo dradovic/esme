@@ -18,7 +18,7 @@ namespace esme.Admin.Infrastructure.Services
                 To = i.To,
                 //SentBy = i.To // FIXME: da, implement
                 SentAt = i.SentAt,
-                AcceptedAt = i.AcceptedAt
+                AcceptedAt = i.AcceptedAt,
             });
         }
     }

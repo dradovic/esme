@@ -1,4 +1,5 @@
-﻿using System;
+﻿using esme.Shared;
+using System;
 
 namespace esme.Admin.Shared.ViewModels
 {
@@ -9,5 +10,9 @@ namespace esme.Admin.Shared.ViewModels
         public string SentBy { get; set; }
         public DateTimeOffset SentAt { get; set; }
         public DateTimeOffset? AcceptedAt { get; set; }
+
+        public bool IsAccepted => AcceptedAt.HasValue;
+        public bool Expired => !IsAccepted && SentAt.AddDays(Constants.JoinInvitationExpirationDays) < DateTimeOffset.UtcNow;
+
     }
 }

@@ -8,7 +8,7 @@ namespace esme.Client.Services
 {
     public interface IAuthorizationApi
     {
-        Task Login(LoginParameters loginParameters);
+        Task<string> Login(LoginParameters loginParameters);
         Task<string> Signup(SignupParameters signupParameters);
         Task Logout();
         Task<UserViewModel> FetchUser();
@@ -23,10 +23,9 @@ namespace esme.Client.Services
             _httpClient = httpClient;
         }
 
-        public async Task Login(LoginParameters loginParameters)
+        public async Task<string> Login(LoginParameters loginParameters)
         {
-            // FIXME: da, receive error message from server and display that as an error (ex. "wrong password")
-            await _httpClient.PostJsonAsync(Urls.PostLogin, loginParameters);
+            return await _httpClient.PostAsync(Urls.PostLogin, loginParameters);
         }
 
         public async Task Logout()

@@ -39,10 +39,11 @@ namespace esme.Server.Api
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
+            const string error = "Invalid user or password."; // use same error message for all cases
             var user = await _userManager.FindByEmailAsync(parameters.Email);
-            if (user == null) return BadRequest("Invalid user or password");
+            if (user == null) return BadRequest(error);
             var checkPasswordResult = await _signInManager.CheckPasswordSignInAsync(user, parameters.Password, false);
-            if (!checkPasswordResult.Succeeded) return BadRequest("Invalid user or password");
+            if (!checkPasswordResult.Succeeded) return BadRequest(error);
 
             await _signInManager.SignInAsync(user, parameters.RememberMe);
 

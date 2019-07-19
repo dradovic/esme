@@ -35,10 +35,11 @@ namespace esme.Client.Services
             return new AuthenticationState(new ClaimsPrincipal(identity));
         }
 
-        public async Task Login(LoginParameters loginParameters)
+        public async Task<string> Login(LoginParameters loginParameters)
         {
-            await _authorizationApi.Login(loginParameters);
+            var error = await _authorizationApi.Login(loginParameters);
             await SetUser(null);
+            return error;
         }
 
         public async Task<string> Signup(SignupParameters registerParameters)

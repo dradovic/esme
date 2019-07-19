@@ -1,7 +1,6 @@
 ﻿using esme.Client.Services;
 using esme.Shared.Users;
 using Microsoft.AspNetCore.Components;
-using System;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -30,15 +29,10 @@ namespace esme.Client.Pages
 
         protected async Task OnSubmit()
         {
-            Error = null;
             SignupParameters.Email = Email;
             SignupParameters.ConfirmationCode = ConfirmationCode;
-            var error = await AuthenticationStateProvider.Signup(SignupParameters);
-            if (!string.IsNullOrEmpty(error))
-            {
-                Error = error;
-            }
-            else
+            Error = await AuthenticationStateProvider.Signup(SignupParameters);
+            if (string.IsNullOrEmpty(Error))
             {
                 UriHelper.NavigateTo("/home");
             }

@@ -1,7 +1,6 @@
 ﻿using esme.Client.Services;
 using esme.Shared.Users;
 using Microsoft.AspNetCore.Components;
-using System;
 using System.Threading.Tasks;
 
 namespace esme.Client.Pages
@@ -19,15 +18,10 @@ namespace esme.Client.Pages
 
         protected async Task OnSubmit()
         {
-            Error = null;
-            try
+            Error = await AuthenticationStateProvider.Login(LoginParameters);
+            if (string.IsNullOrEmpty(Error))
             {
-                await AuthenticationStateProvider.Login(LoginParameters);
                 UriHelper.NavigateTo("/home");
-            }
-            catch (Exception x)
-            {
-                Error = x.Message;
             }
         }
     }

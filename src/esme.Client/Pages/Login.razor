@@ -10,7 +10,7 @@
         <form onsubmit="@OnSubmit">
             <div class="form-item">
                 @* FIXME: da, have consistent form validation (see Invitations) *@
-                <input class="form-control" placeholder="your.e-mail@address" required autofocus @bind="LoginParameters.Email" />
+                <input class="form-control" placeholder="e-mail@address" required autofocus @bind="LoginParameters.Email" />
             </div>
             <div class="form-item">
                 <input type="password" class="form-control" placeholder="<password!>" required @bind="LoginParameters.Password" />

@@ -43,6 +43,10 @@ namespace esme.Infrastructure.Services
             var resetPasswordToken = await _userManager.GeneratePasswordResetTokenAsync(user);
             Assert(await _userManager.ResetPasswordAsync(user, resetPasswordToken, parameters.Password));
             user.UserName = parameters.UserName;
+            user.Memberships.Add(new Membership
+            {
+                CircleId = Circle.OpenCircleId
+            });
             invitation.AcceptedAt = DateTimeOffset.UtcNow;
             return null; // success
         }

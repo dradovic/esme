@@ -64,7 +64,6 @@ namespace esme.Server.Api
                 return BadRequest(error);
             }
             await _db.SaveChangesAsync();
-
             return await Login(new LoginParameters
             {
                 Email = parameters.Email,

@@ -1,6 +1,7 @@
 using esme.Infrastructure.Data;
 using esme.Infrastructure.Services;
 using esme.Server.Api;
+using esme.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Server;
@@ -53,6 +54,11 @@ namespace esme.Server
                 o.Lockout.MaxFailedAccessAttempts = 5;
 
                 o.User.RequireUniqueEmail = true;
+            });
+
+            services.Configure<DataProtectionTokenProviderOptions>(options =>
+            {
+                options.TokenLifespan = TimeSpan.FromDays(Constants.JoinInvitationExpirationDays);
             });
 
             services.Configure<SecurityStampValidatorOptions>(o =>

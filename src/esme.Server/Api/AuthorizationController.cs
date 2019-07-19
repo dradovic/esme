@@ -63,7 +63,11 @@ namespace esme.Server.Api
                 return NotFound("Invitation not found.");
             }
 
-            await _invitationService.AcceptInvitation(invitation, parameters);
+            var error = await _invitationService.AcceptInvitation(invitation, parameters);
+            if (!string.IsNullOrEmpty(error))
+            {
+                return BadRequest(error);
+            }
             await _db.SaveChangesAsync();
 
             return await Login(new LoginParameters

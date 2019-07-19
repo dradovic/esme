@@ -9,7 +9,7 @@ namespace esme.Client.Services
     public interface IAuthorizationApi
     {
         Task Login(LoginParameters loginParameters);
-        Task Signup(SignupParameters signupParameters);
+        Task<string> Signup(SignupParameters signupParameters);
         Task Logout();
         Task<UserViewModel> FetchUser();
     }
@@ -35,9 +35,9 @@ namespace esme.Client.Services
             result.EnsureSuccessStatusCode();
         }
 
-        public async Task Signup(SignupParameters signupParameters)
+        public async Task<string> Signup(SignupParameters signupParameters)
         {
-            await _httpClient.PostJsonAsync(Urls.PostSignup, signupParameters);
+            return await _httpClient.PostAsync(Urls.PostSignup, signupParameters);
         }
 
         public async Task<UserViewModel> FetchUser()

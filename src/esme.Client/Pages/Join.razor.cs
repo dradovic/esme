@@ -31,16 +31,16 @@ namespace esme.Client.Pages
         protected async Task OnSubmit()
         {
             Error = null;
-            try
+            SignupParameters.Email = Email;
+            SignupParameters.ConfirmationCode = ConfirmationCode;
+            var error = await AuthenticationStateProvider.Signup(SignupParameters);
+            if (!string.IsNullOrEmpty(error))
             {
-                SignupParameters.Email = Email;
-                SignupParameters.ConfirmationCode = ConfirmationCode;
-                await AuthenticationStateProvider.Signup(SignupParameters);
-                UriHelper.NavigateTo("/home");
+                Error = error;
             }
-            catch (Exception x)
+            else
             {
-                Error = x.Message;
+                UriHelper.NavigateTo("/home");
             }
         }
     }

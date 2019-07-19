@@ -41,10 +41,11 @@ namespace esme.Client.Services
             await SetUser(null);
         }
 
-        public async Task Signup(SignupParameters registerParameters)
+        public async Task<string> Signup(SignupParameters registerParameters)
         {
-            await _authorizationApi.Signup(registerParameters);
+            var error = await _authorizationApi.Signup(registerParameters);
             await SetUser(null);
+            return error;
         }
 
         public async Task Logout()

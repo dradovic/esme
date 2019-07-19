@@ -31,12 +31,12 @@ namespace esme.Client.Services
                 if (User.IsAuthenticated)
                 {
                     _logger.LogDebug($"User logged in: '{User.UserName}'.");
-                    await _hub.SetupConnection();
+                    await _hub.Connect();
                 }
                 else
                 {
                     _logger.LogDebug($"User logged out.");
-                    // FIXME: da, disconnect from SignalR
+                    await _hub.Disconnect();
                 }
             }
             if (User.IsAuthenticated)

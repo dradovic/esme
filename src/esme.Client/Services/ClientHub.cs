@@ -21,7 +21,7 @@ namespace esme.Client.Services
 
         private HubConnection Connection { get; set; }
 
-        public async Task SetupConnection()
+        public async Task Connect()
         {
             if (Connection == null)
             {
@@ -32,10 +32,17 @@ namespace esme.Client.Services
                         options.LogLevel = SignalRLogLevel.Trace; // client log level
                         options.Transport = HttpTransportType.WebSockets;
                     })
-                    .Build();
+                    .Build(); // can only be called once
+            }
+            Connection.On<MessagePostedEvent>(nameof(IEventsHub.MessagePosted), OnMessagePosted);
+            await Connection.StartAsync();
+        }
 
-                Connection.On<MessagePostedEvent>(nameof(IEventsHub.MessagePosted), OnMessagePosted);
-                await Connection.StartAsync();
+        public async Task Disconnect()
+        {
+            if (Connection != null)
+            {
+                await Connection.StopAsync();
             }
         }
 

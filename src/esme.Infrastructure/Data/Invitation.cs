@@ -14,6 +14,8 @@ namespace esme.Infrastructure.Data
         [EmailAddress]
         public string To { get; set; }
 
+        public ApplicationUser SentBy { get; set; }
+
         public DateTimeOffset SentAt { get; set; }
 
         public DateTimeOffset? AcceptedAt { get; set; }

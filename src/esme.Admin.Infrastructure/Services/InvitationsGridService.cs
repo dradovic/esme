@@ -16,7 +16,7 @@ namespace esme.Admin.Infrastructure.Services
             {
                 Id = i.Id,
                 To = i.To,
-                //SentBy = i.To // FIXME: da, implement
+                SentBy = i.SentBy.Email,
                 SentAt = i.SentAt,
                 AcceptedAt = i.AcceptedAt,
             });

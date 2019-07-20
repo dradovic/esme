@@ -1,6 +1,7 @@
 ﻿using esme.Client.Services;
 using esme.Shared.Users;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -17,6 +18,9 @@ namespace esme.Client.Pages
         [Inject]
         private IUriHelper UriHelper { get; set; }
 
+        [Inject]
+        private IJSRuntime JSRuntime { get; set; }
+
         [Parameter]
         protected string EncodedEmail { get; set; }
 
@@ -26,6 +30,11 @@ namespace esme.Client.Pages
         protected string EncodedConfirmationCode { get; set; }
 
         private string ConfirmationCode => WebUtility.UrlDecode(EncodedConfirmationCode);
+
+        protected override async Task OnAfterRenderAsync()
+        {
+            await JSRuntime.InvokeAsync<string>("startAnimation");
+        }
 
         protected async Task OnSubmit()
         {

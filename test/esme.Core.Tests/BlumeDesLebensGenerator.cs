@@ -8,19 +8,18 @@ namespace esme.Core.Tests
     public class BlumeDesLebensGenerator
     {
         private const double SixtyDegInRad = Math.PI / 3.0;
+        private const int ViewBoxWidth = 310;
+        private const int ViewBoxOffset = 10;
+        private const int Center = ViewBoxWidth / 2;
+        private const int OuterRadius = (ViewBoxWidth - ViewBoxOffset) / 2;
+        private const int InnerRadius = OuterRadius / 3;
 
         [Test] // FIXME: da, change to Explicit
-        public void Generate()
+        public void GenerateFlower()
         {
-            const int ViewBoxWidth = 310;
-            const int ViewBoxOffset = 10;
-            const int Center = ViewBoxWidth / 2;
-            const int OuterRadius = (ViewBoxWidth - ViewBoxOffset) / 2;
-            const int InnerRadius = OuterRadius / 3;
+
             HashSet<string> svgElements = new HashSet<string>();
             svgElements.Add(DrawCircle(Center, Center, OuterRadius)); // big outer
-            //DrawCircle(Center, Center, InnerRadius); // center small one
-
             foreach (var (x, y) in ComputeCenters(Center, Center, InnerRadius))
             {
                 double distanceToCenter = Distance((Center, Center), (x, y));
@@ -51,6 +50,51 @@ namespace esme.Core.Tests
             {
                 TestContext.Progress.WriteLine(svgElement);
             }
+        }
+
+        const double letterHeight = InnerRadius / 3.0;
+        const double letterWidth = letterHeight;
+        const double thickness = letterHeight / 5.0;
+        const double spacing = 10.0;
+
+        [Test] // FIXME: da, change to Explicit
+        public void GenerateESME()
+        {
+            const double x = Center - (4 * letterWidth + 3 * spacing)/2.0;
+            const double y = Center - letterHeight / 2.0;
+            List<string> svgElements = new List<string>();
+            svgElements.AddRange(DrawE(x, y));
+            svgElements.AddRange(DrawS(x + letterWidth + spacing, y));
+            svgElements.AddRange(DrawM(x + 2 * letterWidth + 2 * spacing, y));
+            svgElements.AddRange(DrawE(x + 3 * letterWidth + 3 * spacing, y));
+            foreach (string svgElement in svgElements)
+            {
+                TestContext.Progress.WriteLine(svgElement);
+            }
+        }
+
+        private static IEnumerable<string> DrawE(double x, double y, bool includeLeftRect = true)
+        {
+            yield return $"                <rect x=\"{x:0.####}\" y=\"{y:0.####}\" width=\"{letterWidth:0.####}\" height=\"{thickness:0.####}\" fill=\"black\" />";
+            yield return $"                <rect x=\"{x:0.####}\" y=\"{y + letterHeight - thickness:0.####}\" width=\"{letterWidth:0.####}\" height=\"{thickness:0.####}\" fill=\"black\" />";
+            yield return $"                <rect x=\"{x:0.####}\" y=\"{y + letterHeight / 2.0 - thickness / 2.0:0.####}\" width=\"{letterWidth:0.####}\" height=\"{thickness:0.####}\" fill=\"black\" />";
+            if (includeLeftRect)
+            {
+                yield return $"                <rect x=\"{x:0.####}\" y=\"{y:0.####}\" width=\"{thickness:0.####}\" height=\"{letterHeight:0.####}\" fill=\"black\" />";
+            }
+        }
+
+        private static IEnumerable<string> DrawS(double x, double y)
+        {
+            return DrawE(x, y, includeLeftRect: false);
+        }
+
+        private static IEnumerable<string> DrawM(double x, double y)
+        {
+            yield return $"                <rect x=\"{x:0.####}\" y=\"{y:0.####}\" width=\"{letterWidth:0.####}\" height=\"{thickness:0.####}\" fill=\"black\" />";
+            yield return $"                <rect x=\"{x:0.####}\" y=\"{y:0.####}\" width=\"{thickness:0.####}\" height=\"{letterHeight:0.####}\" fill=\"black\" />";
+            yield return $"                <rect x=\"{x + letterWidth - thickness:0.####}\" y=\"{y:0.####}\" width=\"{thickness:0.####}\" height=\"{letterHeight:0.####}\" fill=\"black\" />";
+            yield return $"                <rect x=\"{x + letterWidth / 2.0 - thickness / 2.0:0.####}\" y=\"{y:0.####}\" width=\"{thickness:0.####}\" height=\"{letterHeight:0.####}\" fill=\"black\" />";
         }
 
         private static bool IsGreaterThan(double a, double b)

@@ -52,7 +52,7 @@ namespace esme.Core.Tests
             }
         }
 
-        const double letterHeight = InnerRadius / 3.0;
+        const double letterHeight = InnerRadius / 3.0 + 0.5;
         const double letterWidth = letterHeight;
         const double thickness = letterHeight / 5.0;
         const double spacing = 10.0;

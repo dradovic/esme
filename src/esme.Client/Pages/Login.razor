@@ -1,0 +1,33 @@
+﻿@page "/login"
+@inherits LoginBase
+@layout MainLayout
+
+<AuthorizeView>
+    <Authorized>
+        <RedirectToHome />
+    </Authorized>
+    <NotAuthorized>
+        <form onsubmit="@OnSubmit">
+            <div class="form-item">
+                @* FIXME: da, have consistent form validation (see Invitations) *@
+                <input class="form-control" placeholder="e-mail@address" required autofocus @bind="LoginParameters.Email" />
+            </div>
+            <div class="form-item">
+                <input type="password" class="form-control" placeholder="<password!>" required @bind="LoginParameters.Password" />
+            </div>
+            <div class="form-item" style="text-align: left">
+                <label class="form-check-label" for="loginRememberMe">
+                    <input type="checkbox" id="loginRememberMe" class="form-check-input" @bind="LoginParameters.RememberMe" />
+                    Remember Me
+                </label>
+            </div>
+            <div class="form-item">
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            </div>
+            <div>
+                <label class="text-danger">@Error</label>
+            </div>
+        </form>
+    </NotAuthorized>
+</AuthorizeView>
+

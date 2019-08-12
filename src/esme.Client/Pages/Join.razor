@@ -1,0 +1,29 @@
+﻿@page "/join/{EncodedEmail}/{EncodedConfirmationCode}"
+@inherits JoinBase
+@layout MainLayout
+
+<AuthorizeView>
+    <Authorized>
+        <RedirectToHome />
+    </Authorized>
+    <NotAuthorized>
+        <form onsubmit="@OnSubmit">
+            <div class="form-item">
+                <input class="form-control" required readonly value="@Email" />
+            </div>            <div class="form-item">
+                @* FIXME: da, have consistent form validation (see Invitations) *@
+                <input class="form-control" placeholder="Username" required autofocus @bind="SignupParameters.UserName" />
+            </div>
+            <div class="form-item">
+                <input type="password" class="form-control" placeholder="Password" required @bind="SignupParameters.Password" />
+            </div>
+            <div class="form-item">
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Join</button>
+            </div>
+            <div>
+                <label class="text-danger">@Error</label>
+            </div>
+        </form>
+    </NotAuthorized>
+</AuthorizeView>
+

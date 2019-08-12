@@ -1,0 +1,13 @@
+﻿<!--
+    Configuring this here is temporary. Later we'll move the app config
+    into Program.cs, and it won't be necessary to specify AppAssembly.
+-->
+<CascadingAuthenticationState>
+    <Router AppAssembly=typeof(Program).Assembly>
+        <NotFoundContent>Sorry, nothing to be found here.</NotFoundContent>
+        <NotAuthorizedContent>
+            <RedirectToLogin />
+            You do not have access to this content.
+        </NotAuthorizedContent>
+    </Router>
+</CascadingAuthenticationState>

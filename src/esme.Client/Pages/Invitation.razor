@@ -1,0 +1,30 @@
+﻿@inherits InvitationBase
+@using esme.Shared.Invitations
+
+<div class="balloon @(Invitation.IsAccepted ? "my-balloon" : "their-balloon")">
+    <div class="text-left balloon-text">
+        @if (Invitation.HasError)
+        {
+            <span class="float-right" style="padding-right:10px">
+                <small>
+                    @(Invitation.Error)
+                </small>
+            </span>
+        }
+        else if (Invitation.SentAt.Ticks == 0)
+        {
+            <div class="float-right" style="padding-right: 5px">
+                <div class="spinner-grow spinner-grow-sm text-secondary"></div>
+            </div>
+        }
+        else
+        {
+            <span class="float-right" style="padding-right:10px">
+                <small>
+                    @(Invitation.SentAt.LocalDateTime.ToShortDateString())
+                </small>
+            </span>
+        }
+    </div>
+    <TextMessage Text="@Invitation.To" />
+</div>

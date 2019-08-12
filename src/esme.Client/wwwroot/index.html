@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width">
+    <title>esme</title>
+    <base href="/" />
+    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/site.css" rel="stylesheet" />
+</head>
+<body style="height:100vh">
+    <app>
+        <div class="d-flex align-items-center h-100">
+            <div class="container text-center">
+                <div class="display-4">
+                    LOADING
+                </div>
+            </div>
+        </div>
+    </app>
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script src="/lib/jquery/jquery.slim.min.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        window.startAnimation = function () {
+            const an1 = document.getElementById("an1");
+            an1.beginElement();
+            const anESME = document.getElementById("anESME");
+            anESME.beginElement();
+        }
+        window.endAnimation = function () {
+            const anESMEfadeout = document.getElementById("anESMEfadeout");
+            anESMEfadeout.beginElement();
+        }
+    </script>
+    <script type="module">
+        import {
+            Recorder
+        } from "/lib/vmsg/vmsg.js";
+        window.esme_startRecording = async function () {
+            if (!window.esme_recorder) {
+                window.esme_recorder = new Recorder({
+                    wasmURL: "/lib/vmsg/vmsg.wasm"
+                });
+                await window.esme_recorder.init();
+            }
+            window.esme_recorder.startRecording();
+        }
+        window.esme_stopRecording = async function () {
+            await window.esme_recorder.stopRecording();
+            return window.esme_recorder.blobURL;
+        }
+    </script>
+    <script>
+        window.esme_scroll_to_last_message = function () {
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+    </script>
+</body>
+</html>

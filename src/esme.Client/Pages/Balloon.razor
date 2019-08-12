@@ -1,0 +1,34 @@
+﻿@inherits BalloonBase
+@using esme.Shared.Circles
+
+<div class="balloon @(Message.SentByMe ? "my-balloon" : "their-balloon")">
+    <div class="text-left balloon-text">
+        <span class="text-left">
+            <small>
+                @(Message.SentByMe ? "Me" : Message.SenderName)
+            </small>
+        </span>
+        @if (Message.SentAt.Ticks == 0)
+        {
+            <div class="float-right" style="padding-right: 5px">
+                <div class="spinner-grow spinner-grow-sm text-secondary"></div>
+            </div>
+        }
+        else
+        {
+            <span class="float-right" style="padding-right:10px">
+                <small>
+                    @(Message.SentAt.LocalDateTime.ToShortTimeString())
+                </small>
+            </span>
+        }
+    </div>
+    @if (Message.ContentType == ContentType.Text)
+    {
+        <TextMessage Text="@Message.Content" />
+    }
+    @if (Message.ContentType == ContentType.Voice)
+    {
+        <VoiceMessage RecordingUrl="@Message.Content" />
+    }
+</div>

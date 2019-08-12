@@ -1,0 +1,81 @@
+@page "/circle/{CircleId:guid}"
+@inherits CircleBase
+@using Store.Messages
+
+@if (MessagesState.Value.ErrorMessage != null)
+{
+    <h1>Error</h1>
+    <p>@MessagesState.Value.ErrorMessage</p>
+}
+
+@if (MessagesState.Value.State == State.IsLoading)
+{
+    <p>Loading...</p>
+}
+
+@if (MessagesState.Value.Messages != null)
+{
+    <div class="messages-container">
+        @{
+            DateTime? previousDate = null;
+            foreach (var message in MessagesState.Value.Messages)
+            {
+                DateTime sentAtDate = message.SentAt.Date;
+                if (previousDate == null || sentAtDate.Date > previousDate)
+                {
+                    <div class="balloon date-balloon">
+                        @if (sentAtDate == DateTime.Today.AddDays(-1))
+                        {
+                            <small>Yesterday</small>
+                        }
+                        else if (sentAtDate == DateTime.Today)
+                        {
+                            <small>Today</small>
+                        }
+                        else
+                        {
+                            <small>@sentAtDate.Date.ToShortDateString()</small>
+                        }
+                    </div>
+                }
+                previousDate = sentAtDate.Date;
+
+                <Balloon Message="@message" />
+            }
+        }
+    </div>
+}
+
+<footer class="fixed-bottom">
+    <div class="@Classes.MainContainer">
+        <form onsubmit="@OnSubmit">
+            @if (MessagesState.Value.State == State.Default)
+            {
+                <div class="form-item">
+                    <textarea required autofocus @bind="NewMessage.Text" rows="3" class="form-control"></textarea> @*FIXME: da, specify maxlength*@
+                </div>
+            }
+            <div>
+                @if (MessagesState.Value.State == State.RecordingAvailable)
+                {
+                    <audio src="@MessagesState.Value.RecordingUrl" type="audio/mpeg" controls class="form-item" />
+                }
+                else if (MessagesState.Value.State == State.Default)
+                {
+                    <button class="btn btn-lg btn-secondary btn-block form-item" @onclick="StartRecording">
+                        Record
+                    </button>
+                }
+                else if (MessagesState.Value.State == State.IsRecording)
+                {
+                    <button class="btn btn-lg btn-secondary btn-block form-item" @onclick="StopRecording">
+                        @RecordingTime
+                    </button>
+                }
+            </div>
+            <div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
+            </div>
+        </form>
+    </div>
+</footer>

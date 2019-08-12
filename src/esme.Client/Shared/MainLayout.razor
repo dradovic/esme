@@ -1,0 +1,32 @@
+﻿@inherits MainLayoutBase
+@inject Blazor.Fluxor.IStore Store
+
+@Store.Initialize()
+
+<AuthorizeView>
+    <Authorized>
+        <nav class="navbar fixed-top navbar-expand-lg">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/home">Circles<span class="sr-only">(current)</span></a>
+                    </li>
+                    @if (context.User.IsInRole(ApplicationRoles.Ambassador))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="/invitations">Invitations</a>
+                        </li>
+                    }
+                </ul>
+                <button type="button" class="btn btn-link" @onclick="Logout">Logout @context.User.Identity.Name</button>
+            </div>
+        </nav>
+    </Authorized>
+</AuthorizeView>
+
+<FlowerOfLife>
+    @Body
+</FlowerOfLife>

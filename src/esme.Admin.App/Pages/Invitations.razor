@@ -1,0 +1,12 @@
+﻿@page "/invitations"
+@inherits InvitationsBase
+@using GridBlazor
+
+@if (Task.IsCompleted)
+{
+    <GridComponent T="InvitationViewModel" Grid="@Grid"></GridComponent>
+}
+else
+{
+    <p><em>Loading...</em></p>
+}

@@ -21,7 +21,7 @@
                         </li>
                     }
                 </ul>
-                <button type="button" class="btn btn-link" onclick="@Logout">Logout @context.User.Identity.Name</button>
+                <button type="button" class="btn btn-link" @onclick="Logout">Logout @context.User.Identity.Name</button>
             </div>
         </nav>
     </Authorized>

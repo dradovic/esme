@@ -1,10 +1,9 @@
 ﻿using System;
-using Blazor.Fluxor;
 using esme.Shared.Circles;
 
 namespace esme.Client.Store.Messages
 {
-    public class PostVoiceMessageAction : IAction
+    public class PostVoiceMessageAction
     {
         public PostVoiceMessageAction(Guid circleId, string recordingUrl, VoiceMessageEditModel message)
         {

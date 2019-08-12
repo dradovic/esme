@@ -1,9 +1,8 @@
-﻿using Blazor.Fluxor;
-using esme.Shared.Circles;
+﻿using esme.Shared.Circles;
 
 namespace esme.Client.Store.Circles
 {
-    public class FetchCirclesSucceededAction : IAction
+    public class FetchCirclesSucceededAction
     {
         public FetchCirclesSucceededAction(CircleViewModel[] circles)
         {

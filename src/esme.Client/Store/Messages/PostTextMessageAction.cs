@@ -1,10 +1,9 @@
-﻿using Blazor.Fluxor;
-using esme.Shared.Circles;
+﻿using esme.Shared.Circles;
 using System;
 
 namespace esme.Client.Store.Messages
 {
-    public class PostTextMessageAction : IAction
+    public class PostTextMessageAction
     {
         public PostTextMessageAction(Guid circleId, TextMessageEditModel message)
         {

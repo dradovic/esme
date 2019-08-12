@@ -1,9 +1,8 @@
-﻿using Blazor.Fluxor;
-using esme.Shared.Invitations;
+﻿using esme.Shared.Invitations;
 
 namespace esme.Client.Store.Invitations
 {
-    public class PostInvitationFailedAction : IAction
+    public class PostInvitationFailedAction
     {
         public PostInvitationFailedAction(InvitationEditModel invitation, string errorMessage)
         {

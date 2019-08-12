@@ -1,10 +1,9 @@
-﻿using Blazor.Fluxor;
-using esme.Shared.Circles;
+﻿using esme.Shared.Circles;
 using System.Collections.Generic;
 
 namespace esme.Client.Store.Messages
 {
-    public class FetchInitialMessagesSucceededAction : IAction
+    public class FetchInitialMessagesSucceededAction
     {
         public FetchInitialMessagesSucceededAction(List<MessageViewModel> messages)
         {

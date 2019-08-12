@@ -1,8 +1,6 @@
-﻿using Blazor.Fluxor;
-
-namespace esme.Client.Store.Messages
+﻿namespace esme.Client.Store.Messages
 {
-    public class PostVoiceMessageFailedAction : IAction
+    public class PostVoiceMessageFailedAction
     {
         public PostVoiceMessageFailedAction(string errorMessage)
         {

@@ -1,11 +1,10 @@
-﻿using Blazor.Fluxor;
-using esme.Shared.Circles;
+﻿using esme.Shared.Circles;
 
 namespace esme.Client.Store.Messages
 {
     public abstract class PostMessageReducer<TAction>
     {
-        public MessagesState Reduce(MessagesState state, IAction action)
+        public MessagesState Reduce(MessagesState state, object action)
         {
             var newState = state.TransitionTo(State.Default);
             if (newState.Messages != null)
@@ -16,7 +15,7 @@ namespace esme.Client.Store.Messages
             return newState;
         }
 
-        public bool ShouldReduceStateForAction(IAction action)
+        public bool ShouldReduceStateForAction(object action)
         {
             return action.GetType() == typeof(TAction);
         }

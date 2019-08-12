@@ -1,9 +1,8 @@
-﻿using Blazor.Fluxor;
-using esme.Shared.Invitations;
+﻿using esme.Shared.Invitations;
 
 namespace esme.Client.Store.Invitations
 {
-    public class PostInvitationSucceededAction : IAction
+    public class PostInvitationSucceededAction
     {
         public PostInvitationSucceededAction(InvitationViewModel postedInvitation)
         {

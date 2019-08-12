@@ -1,9 +1,8 @@
-﻿using Blazor.Fluxor;
-using System;
+﻿using System;
 
 namespace esme.Client.Store.Messages
 {
-    public class FetchUnreadMessagesAction : IAction
+    public class FetchUnreadMessagesAction
     {
         public FetchUnreadMessagesAction(Guid circleId)
         {

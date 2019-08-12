@@ -62,13 +62,13 @@
                 }
                 else if (MessagesState.Value.State == State.Default)
                 {
-                    <button class="btn btn-lg btn-secondary btn-block form-item" @onclick="@StartRecording">
+                    <button class="btn btn-lg btn-secondary btn-block form-item" @onclick="StartRecording">
                         Record
                     </button>
                 }
                 else if (MessagesState.Value.State == State.IsRecording)
                 {
-                    <button class="btn btn-lg btn-secondary btn-block form-item" @onclick="@StopRecording">
+                    <button class="btn btn-lg btn-secondary btn-block form-item" @onclick="StopRecording">
                         @RecordingTime
                     </button>
                 }

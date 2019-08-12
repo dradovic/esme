@@ -1,9 +1,8 @@
-﻿using Blazor.Fluxor;
-using esme.Shared.Circles;
+﻿using esme.Shared.Circles;
 
 namespace esme.Client.Store.Messages
 {
-    public class PostMessageSucceededAction : IAction
+    public class PostMessageSucceededAction
     {
         public PostMessageSucceededAction(MessageViewModel postedMessage)
         {

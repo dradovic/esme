@@ -1,9 +1,8 @@
-﻿using Blazor.Fluxor;
-using System;
+﻿using System;
 
 namespace esme.Client.Store.Circles
 {
-    public class IncrementUnreadMessagesAction : IAction
+    public class IncrementUnreadMessagesAction
     {
         public IncrementUnreadMessagesAction(Guid circleId)
         {

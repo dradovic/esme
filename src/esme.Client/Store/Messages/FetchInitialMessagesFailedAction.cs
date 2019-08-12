@@ -1,8 +1,6 @@
-﻿using Blazor.Fluxor;
-
-namespace esme.Client.Store.Messages
+﻿namespace esme.Client.Store.Messages
 {
-    public class FetchInitialMessagesFailedAction : IAction
+    public class FetchInitialMessagesFailedAction
     {
         public FetchInitialMessagesFailedAction(string errorMessage)
         {

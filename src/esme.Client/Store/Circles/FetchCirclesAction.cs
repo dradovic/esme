@@ -1,8 +1,6 @@
-﻿using Blazor.Fluxor;
-
-namespace esme.Client.Store.Circles
+﻿namespace esme.Client.Store.Circles
 {
-    public class FetchCirclesAction : IAction
+    public class FetchCirclesAction
     {
     }
 }

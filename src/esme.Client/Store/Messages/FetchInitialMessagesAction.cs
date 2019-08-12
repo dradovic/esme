@@ -1,9 +1,8 @@
-﻿using Blazor.Fluxor;
-using System;
+﻿using System;
 
 namespace esme.Client.Store.Messages
 {
-    public class FetchInitialMessagesAction : IAction
+    public class FetchInitialMessagesAction
     {
         public FetchInitialMessagesAction(Guid circleId)
         {

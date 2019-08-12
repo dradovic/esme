@@ -1,8 +1,6 @@
-﻿using Blazor.Fluxor;
-
-namespace esme.Client.Store.Messages
+﻿namespace esme.Client.Store.Messages
 {
-    public class AvailRecordingAction : IAction
+    public class AvailRecordingAction
     {
         public AvailRecordingAction(string recordingUrl)
         {

@@ -4,10 +4,11 @@ using GridMvc.Server;
 using GridShared;
 using GridShared.Utility;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace esme.Admin.Infrastructure.Services
@@ -39,5 +40,41 @@ namespace esme.Admin.Infrastructure.Services
         }
 
         protected abstract IQueryable<TViewModel> FetchViewModels();
+
+        private class QueryCollection : IQueryCollection
+        {
+            private QueryDictionary<StringValues> _query;
+
+            public QueryCollection(QueryDictionary<StringValues> query)
+            {
+                _query = query;
+            }
+
+            public StringValues this[string key] => _query.ContainsKey(key) ? _query[key] : new StringValues();
+
+            public int Count => _query.Count;
+
+            public ICollection<string> Keys => _query.Keys;
+
+            public bool ContainsKey(string key)
+            {
+                return _query.ContainsKey(key);
+            }
+
+            public IEnumerator<KeyValuePair<string, StringValues>> GetEnumerator()
+            {
+                return _query.GetEnumerator();
+            }
+
+            public bool TryGetValue(string key, out StringValues value)
+            {
+                return _query.TryGetValue(key, out value);
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return _query.GetEnumerator();
+            }
+        }
     }
 }

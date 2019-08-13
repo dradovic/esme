@@ -5,10 +5,10 @@ namespace esme.Shared.Events
 {
     public class MessagePostedEvent
     {
-        [JsonPropertyName("circleid")] // should become obsolete again (see: https://github.com/BlazorExtensions/SignalR/issues/39)
+        [JsonPropertyName("circleid")]
         public Guid CircleId { get; set; }
 
-        [JsonPropertyName("messageid")] // should become obsolete again (see: https://github.com/BlazorExtensions/SignalR/issues/39)
+        [JsonPropertyName("messageid")]
         public Guid MessageId { get; set; }
     }
 }

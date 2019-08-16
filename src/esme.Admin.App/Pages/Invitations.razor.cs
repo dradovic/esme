@@ -1,5 +1,6 @@
 ﻿using esme.Admin.Shared.Services;
 using esme.Admin.Shared.ViewModels;
+using esme.Shared;
 using GridBlazor;
 using GridShared;
 using GridShared.Utility;
@@ -12,8 +13,13 @@ namespace esme.Admin.App.Pages
 {
     public abstract class InvitationsBase : ComponentBase
     {
+        protected InvitationEditModel NewInvitation { get; private set; } = new InvitationEditModel();
+
         protected CGrid<InvitationViewModel> Grid { get; private set; }
         protected Task Task { get; private set; }
+
+        [Inject]
+        private IInvitationService InvitationService { get; set; }
 
         [Inject]
         private IGridService<InvitationViewModel> GridService { get; set; }
@@ -39,6 +45,12 @@ namespace esme.Admin.App.Pages
             // Set new items to grid
             Task = client.UpdateGrid();
             await Task;
+        }
+
+        protected void OnSubmit()
+        {
+            InvitationService.Invite(NewInvitation);
+            NewInvitation = new InvitationEditModel(); // start over
         }
     }
 }

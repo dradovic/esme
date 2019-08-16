@@ -10,3 +10,14 @@ else
 {
     <p><em>Loading...</em></p>
 }
+
+<EditForm Model="@NewInvitation" OnValidSubmit="@OnSubmit" style="margin-top: 20px">
+    <DataAnnotationsValidator />
+    <div class="form-item">
+        <InputText placeholder="email@address" autofocus @bind-Value="NewInvitation.To" class="form-control" />
+        <ValidationMessage For="@(() => NewInvitation.To)" />
+    </div>
+    <div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Send Invitation</button>
+    </div>
+</EditForm>

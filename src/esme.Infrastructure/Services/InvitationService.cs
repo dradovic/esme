@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using esme.Infrastructure.Data;
 using esme.Shared;
@@ -11,9 +10,9 @@ namespace esme.Infrastructure.Services
     public class InvitationService
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly MailingService _mailing;
+        private readonly IMailingService _mailing;
 
-        public InvitationService(UserManager<ApplicationUser> userManager, MailingService mailing)
+        public InvitationService(UserManager<ApplicationUser> userManager, IMailingService mailing)
         {
             _userManager = userManager;
             _mailing = mailing;

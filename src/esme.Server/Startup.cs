@@ -24,10 +24,12 @@ namespace esme.Server
     public class Startup
     {
         private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _environment;
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             _configuration = configuration;
+            _environment = environment;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -105,10 +107,18 @@ namespace esme.Server
 
             services.AddScoped<AzureBlobStorage>();
             services.AddScoped<InvitationService>();
-            services.AddScoped<MailingService>();
+            if (_environment.OnLocalhost())
+            {
+                services.AddScoped<IMailingService, LoggingMailingService>();
+            }
+            else
+            {
+                services.AddScoped<IMailingService, MailingService>();
+            }
 
             services.AddOptions();
             services.Configure<AzureBlobStorageOptions>(_configuration.GetSection("AzureBlobStorage"));
+            services.Configure<MailingOptions>(_configuration.GetSection("SendGrid"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

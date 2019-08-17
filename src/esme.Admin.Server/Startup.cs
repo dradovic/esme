@@ -16,16 +16,19 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using GridMvc;
 using esme.Admin.Shared.ViewModels;
+using esme.Infrastructure.Services;
 
 namespace esme.Admin.Server
 {
     public class Startup
     {
         private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _environment;
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             _configuration = configuration;
+            _environment = environment;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -75,8 +78,21 @@ namespace esme.Admin.Server
             services.AddScoped<IGridService<UserViewModel>, UsersGridService>();
             services.AddScoped<IGridService<CircleViewModel>, CirclesGridService>();
             services.AddScoped<IGridService<InvitationViewModel>, InvitationsGridService>();
+            services.AddScoped<IInvitationService, AdminInvitationService>();
+
+            // shared services
+            services.AddScoped<InvitationService>();
+            if (_environment.OnLocalhost())
+            {
+                services.AddScoped<IMailingService, LoggingMailingService>();
+            }
+            else
+            {
+                services.AddScoped<IMailingService, MailingService>();
+            }
 
             services.AddOptions();
+            services.Configure<MailingOptions>(_configuration.GetSection("SendGrid"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

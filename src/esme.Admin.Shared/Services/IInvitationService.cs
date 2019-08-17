@@ -5,6 +5,6 @@ namespace esme.Admin.Shared.Services
 {
     public interface IInvitationService
     {
-        Task Invite(InvitationEditModel model);
+        Task Invite(InvitationEditModel model, string baseUri);
     }
 }

@@ -20,7 +20,7 @@ namespace esme.Admin.Infrastructure.Services
             _db = db;
         }
 
-        public async Task Invite(InvitationEditModel model)
+        public async Task Invite(InvitationEditModel model, string baseUri)
         {
             var invitation = new Invitation
             {
@@ -28,8 +28,7 @@ namespace esme.Admin.Infrastructure.Services
                 To = model.To,
                 SentAt = DateTimeOffset.UtcNow,
             };
-            string baseUrl = Urls.AppUrl;
-            await _invitationService.SendInvitation(invitation, confirmationCode => $"{baseUrl}/join/{WebUtility.UrlEncode(invitation.To)}/{WebUtility.UrlEncode(confirmationCode)}");
+            await _invitationService.SendInvitation(invitation, confirmationCode => $"{baseUri}/join/{WebUtility.UrlEncode(invitation.To)}/{WebUtility.UrlEncode(confirmationCode)}");
             await _db.SaveChangesAsync();
         }
     }

@@ -24,6 +24,9 @@ namespace esme.Admin.App.Pages
         [Inject]
         private IGridService<InvitationViewModel> GridService { get; set; }
 
+        [Inject]
+        private IUriHelper UriHelper { get; set; }
+
         protected override async Task OnInitAsync()
         {
             Action<IGridColumnCollection<InvitationViewModel>> columns = c =>
@@ -49,7 +52,7 @@ namespace esme.Admin.App.Pages
 
         protected void OnSubmit()
         {
-            InvitationService.Invite(NewInvitation);
+            InvitationService.Invite(NewInvitation, UriHelper.GetBaseUri());
             NewInvitation = new InvitationEditModel(); // start over
         }
     }

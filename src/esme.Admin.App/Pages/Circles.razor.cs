@@ -18,7 +18,7 @@ namespace esme.Admin.App.Pages
         [Inject]
         private IGridService<CircleViewModel> CirclesGridService { get; set; }
 
-        protected override async Task OnInitAsync()
+        protected override async Task OnInitializedAsync()
         {
             Action<IGridColumnCollection<CircleViewModel>> columns = c =>
             {

@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GridBlazor" Version="0.7.2" />
-    <PackageReference Include="GridMvcCore" Version="2.8.6" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0-preview7.19365.7" />
+    <PackageReference Include="GridBlazor" Version="0.8.1" />
+    <PackageReference Include="GridMvcCore" Version="2.8.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0-preview8.19405.7" />
   </ItemGroup>
 
   <ItemGroup>

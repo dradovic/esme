@@ -11,7 +11,7 @@ namespace esme.Client
         [Inject]
         private IUriHelper UriHelper { get; set; }
 
-        protected override async Task OnInitAsync()
+        protected override async Task OnInitializedAsync()
         {
             // check again since we might be here because of a missing user role
             var authenticationState = await AuthenticationState;

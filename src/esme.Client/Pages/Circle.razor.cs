@@ -40,7 +40,7 @@ namespace esme.Client.Pages
 
         private bool _postVoiceMessageWhenAvailable;
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             // FIXME: da, disable send button while setup is going on (see BlazorChat sample)?
             EventAggregator.Subscribe(this);

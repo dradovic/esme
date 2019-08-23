@@ -17,6 +17,10 @@ using System;
 using GridMvc;
 using esme.Admin.Shared.ViewModels;
 using esme.Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Authentication.AzureAD.UI;
+using Microsoft.AspNetCore.Authentication;
 
 namespace esme.Admin.Server
 {
@@ -31,10 +35,11 @@ namespace esme.Admin.Server
             _environment = environment;
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(AzureADDefaults.AuthenticationScheme)
+                .AddAzureAD(options => _configuration.Bind("AzureAd", options));
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
 
@@ -58,7 +63,17 @@ namespace esme.Admin.Server
                 o.User.RequireUniqueEmail = true;
             });
 
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                if (!_environment.OnLocalhost())
+                {
+                    var policy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build();
+                    options.Filters.Add(new AuthorizeFilter(policy));
+                }
+            });
+
             //services.AddSingleton<CircuitHandler, LoggingCircuitHandler>();
             services.AddServerSideBlazor();
 
@@ -95,7 +110,6 @@ namespace esme.Admin.Server
             services.Configure<MailingOptions>(_configuration.GetSection("SendGrid"));
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseResponseCompression();
@@ -108,6 +122,12 @@ namespace esme.Admin.Server
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            if (!env.OnLocalhost())
+            {
+                app.UseAuthentication();
+                app.UseAuthorization();
+            }
 
             app.UseEndpoints(endpoints =>
             {

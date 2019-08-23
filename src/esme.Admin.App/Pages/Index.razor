@@ -1,3 +1,10 @@
 ﻿@page "/"
 
-<h1>Hello, admin!</h1>
+<AuthorizeView>
+    <Authorized>
+        Hello, @context.User.Identity.Name!
+    </Authorized>
+    <NotAuthorized>
+        Hello, dev!
+    </NotAuthorized>
+</AuthorizeView>

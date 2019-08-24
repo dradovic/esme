@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using esme.Admin.Shared.Services;
 using esme.Admin.Shared.ViewModels;
 using Microsoft.AspNetCore.Components;
@@ -9,7 +8,7 @@ namespace esme.Admin.App.Pages
     public abstract class AmbassadorCellBase : ComponentBase
     {
         [Parameter]
-        protected UserViewModel Item { get; set; }
+        public UserViewModel Item { get; set; }
 
         protected bool? IsAmbassador { get; set; }
 

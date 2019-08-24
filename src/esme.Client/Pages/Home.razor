@@ -17,7 +17,7 @@
     @foreach (var circle in CirclesState.Value.Circles)
     {
         <div>
-            <button type="button" class="btn btn-link ml-md-auto" onclick="@(() => CircleClick(circle))">@circle.Name</button>
+            <button type="button" class="btn btn-link ml-md-auto" onclick="(() => CircleClick(circle))">@circle.Name</button>
             @if (circle.NumberOfUnreadMessages > 0)
             {
                 <span class="badge badge-secondary">@circle.NumberOfUnreadMessages</span>

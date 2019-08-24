@@ -6,6 +6,6 @@ namespace esme.Client.Pages
     public abstract class BalloonBase : ComponentBase
     {
         [Parameter]
-        protected MessageViewModel Message { get; set; }
+        public MessageViewModel Message { get; set; }
     }
 }

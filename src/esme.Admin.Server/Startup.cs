@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.Blazor.Server;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -12,8 +10,6 @@ using esme.Admin.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using esme.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using System;
 using GridMvc;
 using esme.Admin.Shared.ViewModels;
 using esme.Infrastructure.Services;
@@ -21,6 +17,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 using Microsoft.AspNetCore.Authentication;
+using esme.Admin.App;
+using Microsoft.AspNetCore.Identity;
+using System;
 
 namespace esme.Admin.Server
 {
@@ -43,25 +42,9 @@ namespace esme.Admin.Server
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+            services.AddIdentityCore<ApplicationUser>()
                 .AddRoles<IdentityRole<Guid>>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-
-            services.Configure<IdentityOptions>(o =>
-            {
-                o.Password.RequireDigit = true;
-                o.Password.RequireLowercase = true;
-                o.Password.RequireUppercase = true;
-                o.Password.RequireNonAlphanumeric = true;
-                o.Password.RequiredLength = 8;
-                o.Password.RequiredUniqueChars = 6;
-
-                o.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
-                o.Lockout.MaxFailedAccessAttempts = 5;
-
-                o.User.RequireUniqueEmail = true;
-            });
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc(options =>
             {
@@ -74,18 +57,10 @@ namespace esme.Admin.Server
                 }
             });
 
-            //services.AddSingleton<CircuitHandler, LoggingCircuitHandler>();
+            services.AddRazorPages();
             services.AddServerSideBlazor();
 
             services.AddGridMvc();
-
-            services.AddResponseCompression(options =>
-            {
-                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[]
-                {
-                    MediaTypeNames.Application.Octet,
-                });
-            });
 
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<ISampleDataService, SampleDataService>();
@@ -111,13 +86,12 @@ namespace esme.Admin.Server
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseResponseCompression();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -130,10 +104,9 @@ namespace esme.Admin.Server
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
                 endpoints.MapControllers();
-                endpoints.MapBlazorHub();
-                endpoints.MapFallbackToPage("/Index");
+                endpoints.MapBlazorHub<App.App>(selector: "app");
+                endpoints.MapFallbackToPage("/_Host");
             });
         }
     }

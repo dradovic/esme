@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 
 namespace esme.Admin.Server
 {
@@ -8,11 +8,11 @@ namespace esme.Admin.Server
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((context, config) =>
                 {
                     var env = context.HostingEnvironment;
@@ -21,7 +21,9 @@ namespace esme.Admin.Server
                     config.AddJsonFile($"appsettings.{env.EnvironmentName.ToLower()}.json", optional: true);
                     config.AddUserSecrets<Startup>();
                 })
-                .UseStartup<Startup>()
-                .Build();
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }

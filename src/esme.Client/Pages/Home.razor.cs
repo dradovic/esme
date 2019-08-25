@@ -25,7 +25,7 @@ namespace esme.Client.Pages
         [Inject]
         private IUriHelper UriHelper { get; set; }
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             EventAggregator.Subscribe(this); // FIXME: da, need to unsubscribe?
             CirclesState.Subscribe(this);

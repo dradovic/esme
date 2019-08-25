@@ -32,7 +32,7 @@ namespace esme.Client.Pages
         protected TextMessageEditModel NewMessage { get; private set; } = new TextMessageEditModel();
 
         [Parameter]
-        protected Guid CircleId { get; set; }
+        public Guid CircleId { get; set; }
 
         private Stopwatch _recordingWatch;
         private Timer _timer;
@@ -40,7 +40,7 @@ namespace esme.Client.Pages
 
         private bool _postVoiceMessageWhenAvailable;
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             // FIXME: da, disable send button while setup is going on (see BlazorChat sample)?
             EventAggregator.Subscribe(this);

@@ -7,7 +7,7 @@
         <RedirectToHome />
     </Authorized>
     <NotAuthorized>
-        <form onsubmit="@OnSubmit">
+        <form @onsubmit="OnSubmit">
             <div class="form-item">
                 @* FIXME: da, have consistent form validation (see Invitations) *@
                 <input class="form-control" placeholder="e-mail@address" required autofocus @bind="LoginParameters.Email" />

@@ -6,6 +6,6 @@ namespace esme.Client.Pages
     public abstract class InvitationBase : ComponentBase
     {
         [Parameter]
-        protected InvitationViewModel Invitation { get; set; }
+        public InvitationViewModel Invitation { get; set; }
     }
 }

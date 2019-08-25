@@ -22,12 +22,12 @@ namespace esme.Client.Pages
         private IJSRuntime JSRuntime { get; set; }
 
         [Parameter]
-        protected string EncodedEmail { get; set; }
+        public string EncodedEmail { get; set; }
 
         protected string Email => WebUtility.UrlDecode(EncodedEmail);
 
         [Parameter]
-        protected string EncodedConfirmationCode { get; set; }
+        public string EncodedConfirmationCode { get; set; }
 
         private string ConfirmationCode => WebUtility.UrlDecode(EncodedConfirmationCode);
 

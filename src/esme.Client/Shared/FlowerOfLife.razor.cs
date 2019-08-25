@@ -5,6 +5,6 @@ namespace esme.Client.Shared
     public class FlowerOfLifeBase : ComponentBase
     {
         [Parameter]
-        protected RenderFragment ChildContent { get; set; }
+        public RenderFragment ChildContent { get; set; }
     }
 }

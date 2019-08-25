@@ -17,7 +17,7 @@ namespace esme.Client.Pages
 
         protected InvitationEditModel NewInvitation { get; private set; } = new InvitationEditModel();
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             InvitationsState.Subscribe(this);
             Dispatcher.Dispatch(new FetchInvitationsAction());

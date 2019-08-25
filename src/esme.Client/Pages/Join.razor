@@ -7,7 +7,7 @@
         <RedirectToHome />
     </Authorized>
     <NotAuthorized>
-        <form onsubmit="OnSubmit">
+        <form @onsubmit="OnSubmit">
             <div class="form-item">
                 <input class="form-control" required readonly value="@Email" />
             </div>            <div class="form-item">

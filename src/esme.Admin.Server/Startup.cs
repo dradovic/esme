@@ -65,7 +65,7 @@ namespace esme.Admin.Server
 
             services.AddMvc(options =>
             {
-                if (!_environment.OnLocalhost())
+                if (!_configuration.UsesLocalhost())
                 {
                     var policy = new AuthorizationPolicyBuilder()
                         .RequireAuthenticatedUser()
@@ -96,7 +96,7 @@ namespace esme.Admin.Server
 
             // shared services
             services.AddScoped<InvitationService>();
-            if (_environment.OnLocalhost())
+            if (_configuration.UsesLocalhost())
             {
                 services.AddScoped<IMailingService, LoggingMailingService>();
             }
@@ -122,7 +122,7 @@ namespace esme.Admin.Server
 
             app.UseRouting();
 
-            if (!env.OnLocalhost())
+            if (!_configuration.UsesLocalhost())
             {
                 app.UseAuthentication();
                 app.UseAuthorization();

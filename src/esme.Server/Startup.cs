@@ -106,7 +106,7 @@ namespace esme.Server
 
             services.AddScoped<AzureBlobStorage>();
             services.AddScoped<InvitationService>();
-            if (_environment.OnLocalhost())
+            if (_configuration.UsesLocalhost())
             {
                 services.AddScoped<IMailingService, LoggingMailingService>();
             }

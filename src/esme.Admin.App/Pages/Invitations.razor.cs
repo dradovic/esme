@@ -27,7 +27,7 @@ namespace esme.Admin.App.Pages
         [Inject]
         private IUriHelper UriHelper { get; set; }
 
-        protected override async Task OnInitAsync()
+        protected override async Task OnInitializedAsync()
         {
             Action<IGridColumnCollection<InvitationViewModel>> columns = c =>
             {

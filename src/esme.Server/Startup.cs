@@ -101,13 +101,12 @@ namespace esme.Server
                 options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[]
                 {
                     MediaTypeNames.Application.Octet,
-                    WasmMediaTypeNames.Application.Wasm,
                 });
             });
 
             services.AddScoped<AzureBlobStorage>();
             services.AddScoped<InvitationService>();
-            if (_environment.OnLocalhost())
+            if (_configuration.UsesLocalhost())
             {
                 services.AddScoped<IMailingService, LoggingMailingService>();
             }

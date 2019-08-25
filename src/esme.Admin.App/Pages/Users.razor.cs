@@ -18,7 +18,7 @@ namespace esme.Admin.App.Pages
         [Inject]
         private IGridService<UserViewModel> UsersGridService { get; set; }
 
-        protected override async Task OnInitAsync()
+        protected override async Task OnInitializedAsync()
         {
             Action<IGridColumnCollection<UserViewModel>> columns = c =>
             {

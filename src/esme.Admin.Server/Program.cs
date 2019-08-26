@@ -20,6 +20,7 @@ namespace esme.Admin.Server
                     config.AddJsonFile("appsettings.json");
                     config.AddJsonFile($"appsettings.{env.EnvironmentName.ToLower()}.json", optional: true);
                     config.AddUserSecrets<Startup>();
+                    config.AddEnvironmentVariables();
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

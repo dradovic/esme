@@ -189,16 +189,17 @@ namespace esme.Infrastructure.Data.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     To = table.Column<string>(nullable: false),
+                    SentById = table.Column<Guid>(nullable: true),
                     SentAt = table.Column<DateTimeOffset>(nullable: false),
-                    AcceptedAt = table.Column<DateTimeOffset>(nullable: true),
-                    ApplicationUserId = table.Column<Guid>(nullable: true)
+                    Error = table.Column<string>(nullable: true),
+                    AcceptedAt = table.Column<DateTimeOffset>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Invitations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Invitations_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
+                        name: "FK_Invitations_AspNetUsers_SentById",
+                        column: x => x.SentById,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -274,9 +275,9 @@ namespace esme.Infrastructure.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Invitations_ApplicationUserId",
+                name: "IX_Invitations_SentById",
                 table: "Invitations",
-                column: "ApplicationUserId");
+                column: "SentById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invitations_To",

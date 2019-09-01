@@ -18,19 +18,28 @@ namespace esme.Infrastructure.Services
             _mailing = mailing;
         }
 
-        public async Task SendInvitation(Invitation invitation, Func<string, string> getSignupUrl)
+        public async Task<Invitation> SendInvitation(Guid invitationId, string to, Func<string, string> getSignupUrl)
         {
             // Note: creating a user with the invitation e-mail first makes sure that the user ever only receives
             // one invitation as the Identity will refuse to create two users with the same e-mail.
             var user = new ApplicationUser
             {
-                UserName = invitation.Id.ToString(),
-                Email = invitation.To,
+                UserName = invitationId.ToString(),
+                Email = to,
             };
             Assert(await _userManager.CreateAsync(user));
+
+            // send invitiation e-mail
             string code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var url = getSignupUrl(code);
-            await _mailing.Send(invitation.To, "Join the esme Community", $"Follow this link: {url} to join the community. This invitation expires in {Constants.JoinInvitationExpirationDays} days."); // FIXME: da, can we set the sender to invitor's e-mail?
+            string error = await _mailing.Send(to, "Join the esme Community", $"Follow this link: {url} to join the community. This invitation expires in {Constants.JoinInvitationExpirationDays} days."); // FIXME: da, can we set the sender to invitor's e-mail?
+            return new Invitation
+            {
+                Id = invitationId,
+                To = to,
+                SentAt = DateTimeOffset.UtcNow,
+                Error = error,
+            };
         }
 
         public async Task<string> AcceptInvitation(Invitation invitation, SignupParameters parameters)

@@ -22,13 +22,7 @@ namespace esme.Admin.Infrastructure.Services
 
         public async Task Invite(InvitationEditModel model, string baseUri)
         {
-            var invitation = new Invitation
-            {
-                Id = Guid.NewGuid(),
-                To = model.To,
-                SentAt = DateTimeOffset.UtcNow,
-            };
-            await _invitationService.SendInvitation(invitation, confirmationCode => $"{baseUri}/join/{WebUtility.UrlEncode(invitation.To)}/{WebUtility.UrlEncode(confirmationCode)}");
+            await _invitationService.SendInvitation(Guid.NewGuid(), model.To, confirmationCode => $"{baseUri}/join/{WebUtility.UrlEncode(model.To)}/{WebUtility.UrlEncode(confirmationCode)}");
             await _db.SaveChangesAsync();
         }
     }

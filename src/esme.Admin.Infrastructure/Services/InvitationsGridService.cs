@@ -18,6 +18,7 @@ namespace esme.Admin.Infrastructure.Services
                 To = i.To,
                 SentBy = i.SentBy.Email,
                 SentAt = i.SentAt,
+                Error = i.Error,
                 AcceptedAt = i.AcceptedAt,
             });
         }

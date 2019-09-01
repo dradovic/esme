@@ -55,15 +55,9 @@ namespace esme.Server.Api
             }
 
             var user = await GetUserIncludingInvitations();
-            var invitation = new Invitation
-            {
-                Id = model.Id,
-                To = model.To,
-                SentAt = DateTimeOffset.UtcNow,
-            };
-            user.Invitations.Add(invitation);
             string baseUrl = _environment.IsProduction() ? Urls.AppUrl : $"{Request.Scheme}://{Request.Host}{Request.PathBase}"; // see: https://stackoverflow.com/a/47051481/331281
-            await _invitationService.SendInvitation(invitation, confirmationCode => $"{baseUrl}/join/{WebUtility.UrlEncode(invitation.To)}/{WebUtility.UrlEncode(confirmationCode)}");
+            var invitation = await _invitationService.SendInvitation(model.Id, model.To, confirmationCode => $"{baseUrl}/join/{WebUtility.UrlEncode(model.To)}/{WebUtility.UrlEncode(confirmationCode)}");
+            user.Invitations.Add(invitation);
             await _db.SaveChangesAsync();
             return Ok(ToViewModel(invitation));
         }

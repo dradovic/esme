@@ -35,6 +35,7 @@ namespace esme.Admin.App.Pages
                 c.Add(o => o.To).Titled("To").Sortable(true);
                 c.Add(o => o.SentBy).Titled("By").Sortable(true);
                 c.Add(o => o.SentAt).Titled("Sent").Sortable(true);
+                c.Add(o => o.Error).Titled("Error").Sortable(true);
                 c.Add(o => o.AcceptedAt).Titled("Accepted").Sortable(true);
                 c.Add().Titled("Expired").RenderValueAs(i => i.Expired.ToString()).Sortable(true);
             };

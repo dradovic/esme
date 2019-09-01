@@ -2,9 +2,10 @@
 
 namespace esme.Admin.Shared.Services
 {
-    public interface ISampleDataService
+    public interface IDataService
     {
         Task DeleteAll();
         Task ResetAllWithSampleData();
+        Task Migrate();
     }
 }

@@ -2,6 +2,7 @@ using esme.Admin.Shared.Services;
 using esme.Infrastructure.Data;
 using esme.Shared.Circles;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace esme.Admin.Infrastructure.Services
 {
-    public class SampleDataService : ISampleDataService
+    public class DataService : IDataService
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _db;
 
-        public SampleDataService(UserManager<ApplicationUser> userManager,
+        public DataService(UserManager<ApplicationUser> userManager,
             ApplicationDbContext db)
         {
             _userManager = userManager;
@@ -104,6 +105,20 @@ namespace esme.Admin.Infrastructure.Services
                 _db.Circles.Remove(circle);
             }
             _db.Messages.RemoveAll();
+        }
+
+        public async Task Migrate()
+        {
+            int? timeout = _db.Database.GetCommandTimeout();
+            _db.Database.SetCommandTimeout(600);
+            try
+            {
+                await _db.Database.MigrateAsync();
+            }
+            finally
+            {
+                _db.Database.SetCommandTimeout(timeout);
+            }
         }
     }
 }

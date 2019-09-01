@@ -77,7 +77,7 @@ namespace esme.Admin.Infrastructure.Services
             return user;
         }
 
-        private async Task DeleteAll()
+        public async Task DeleteAll()
         {
             DeleteAllInvitations();
             await DeleteAllUsers();

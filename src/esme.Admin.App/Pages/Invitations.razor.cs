@@ -51,10 +51,11 @@ namespace esme.Admin.App.Pages
             await Task;
         }
 
-        protected void OnSubmit()
+        protected async Task OnSubmit()
         {
-            InvitationService.Invite(NewInvitation, UriHelper.GetBaseUri());
+            await InvitationService.Invite(NewInvitation, UriHelper.GetBaseUri());
             NewInvitation = new InvitationEditModel(); // start over
+            await Grid.UpdateGrid();
         }
     }
 }

@@ -4,6 +4,7 @@ namespace esme.Admin.Shared.Services
 {
     public interface ISampleDataService
     {
+        Task DeleteAll();
         Task ResetAllWithSampleData();
     }
 }

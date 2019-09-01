@@ -43,6 +43,11 @@ namespace esme.Admin.Server
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.Configure<IdentityOptions>(o =>
+            {
+                o.User.RequireUniqueEmail = true; // note: important when sending invitations from Admin
+            });
+
             services.AddMvc(options =>
             {
                 if (!_configuration.UsesLocalhost())

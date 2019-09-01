@@ -9,6 +9,7 @@ namespace esme.Admin.Shared.ViewModels
         public string To { get; set; }
         public string SentBy { get; set; }
         public DateTimeOffset SentAt { get; set; }
+        public string Error { get; set; }
         public DateTimeOffset? AcceptedAt { get; set; }
 
         public bool IsAccepted => AcceptedAt.HasValue;

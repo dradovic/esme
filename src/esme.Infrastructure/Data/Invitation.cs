@@ -18,6 +18,8 @@ namespace esme.Infrastructure.Data
 
         public DateTimeOffset SentAt { get; set; }
 
+        public string Error { get; set; }
+
         public DateTimeOffset? AcceptedAt { get; set; }
     }
 }

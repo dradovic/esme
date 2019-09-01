@@ -14,7 +14,7 @@ namespace esme.Infrastructure.Services
 
     public interface IMailingService
     {
-        Task Send(string to, string subject, string content);
+        Task<string> Send(string to, string subject, string content);
     }
 
     public class MailingService : IMailingService
@@ -28,7 +28,7 @@ namespace esme.Infrastructure.Services
             _logger = logger;
         }
 
-        public async Task Send(string to, string subject, string content)
+        public async Task<string> Send(string to, string subject, string content)
         {
             var msg = new SendGridMessage();
             msg.SetFrom(new EmailAddress("info@esme.community", "esme"));
@@ -39,9 +39,18 @@ namespace esme.Infrastructure.Services
             msg.AddContent(MimeType.Html, content);
 
             var sendgrid = new SendGridClient(_options.SendGridKey);
-            await sendgrid.SendEmailAsync(msg);
 
-            _logger.LogInformation($"Sent mail to '{to}' about '{subject}' saying: '{content}'");
+            var response = await sendgrid.SendEmailAsync(msg);
+            if (!response.StatusCode.IsSuccess())
+            {
+                _logger.LogError($"Could not send mail to '{to}' about '{subject}' saying: '{content}'.");
+                return await response.Body.ReadAsStringAsync();
+            }
+            else
+            {
+                _logger.LogInformation($"Sent mail to '{to}' about '{subject}' saying: '{content}'.");
+                return null;
+            }
         }
     }
 
@@ -54,10 +63,10 @@ namespace esme.Infrastructure.Services
             _logger = logger;
         }
 
-        public Task Send(string to, string subject, string content)
+        public Task<string> Send(string to, string subject, string content)
         {
             _logger.LogInformation($"Sent mail to '{to}' about '{subject}' saying: '{content}'");
-            return Task.CompletedTask;
+            return Task.FromResult(default(string));
         }
     }
 }

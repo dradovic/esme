@@ -1,14 +1,10 @@
 ﻿@page "/data"
 @inherits DataBase
 
-<button disabled=@IsDeleteAllDisabled @onclick="DeleteAll">
+<button disabled=@IsWorking @onclick="DeleteAll">
     Delete All Data
 </button>
 
-<button disabled=@IsResetAllWithSampleDataDisabled @onclick="ResetAllWithSampleData">
+<button disabled=@IsWorking @onclick="ResetAllWithSampleData">
     Reset with Sample Data
-</button>
-
-<button disabled=@IsMigrateDisabled @onclick="Migrate">
-    Migrate
 </button>

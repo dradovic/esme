@@ -8,8 +8,7 @@ namespace esme.Infrastructure.Services
 {
     public class MailingOptions
     {
-        public string SendGridUser { get; set; }
-        public string SendGridKey { get; set; }
+        public string ApiKey { get; set; }
     }
 
     public interface IMailingService
@@ -38,7 +37,7 @@ namespace esme.Infrastructure.Services
             msg.AddContent(MimeType.Text, content);
             msg.AddContent(MimeType.Html, content);
 
-            var sendgrid = new SendGridClient(_options.SendGridKey);
+            var sendgrid = new SendGridClient(_options.ApiKey);
 
             var response = await sendgrid.SendEmailAsync(msg);
             if (!response.StatusCode.IsSuccess())

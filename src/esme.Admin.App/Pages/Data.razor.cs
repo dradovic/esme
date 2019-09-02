@@ -9,37 +9,24 @@ namespace esme.Admin.App.Pages
         [Inject]
         private IDataService SampleDataService { get; set; }
 
-        protected bool IsDeleteAllDisabled { get; private set; }
-
-        protected bool IsResetAllWithSampleDataDisabled { get; private set; }
-
-        protected bool IsMigrateDisabled { get; private set; }
+        protected bool IsWorking { get; private set; }
 
         protected async Task DeleteAll()
         {
-            IsDeleteAllDisabled = true;
+            IsWorking = true;
             StateHasChanged();
             await Task.Delay(10);
-            await SampleDataService.DeleteAll();
-            IsDeleteAllDisabled = false;
+            await SampleDataService.DeleteAllAsync();
+            IsWorking = false;
         }
 
         protected async Task ResetAllWithSampleData()
         {
-            IsResetAllWithSampleDataDisabled = true;
+            IsWorking = true;
             StateHasChanged();
             await Task.Delay(10);
-            await SampleDataService.ResetAllWithSampleData();
-            IsResetAllWithSampleDataDisabled = false;
-        }
-
-        protected async Task Migrate()
-        {
-            IsMigrateDisabled = true;
-            StateHasChanged();
-            await Task.Delay(10);
-            await SampleDataService.Migrate();
-            IsMigrateDisabled = false;
+            await SampleDataService.ResetAllWithSampleDataAsync();
+            IsWorking = false;
         }
     }
 }

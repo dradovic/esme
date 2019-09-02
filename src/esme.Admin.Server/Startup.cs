@@ -86,8 +86,10 @@ namespace esme.Admin.Server
             services.Configure<MailingOptions>(_configuration.GetSection("SendGrid"));
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDataService dataService)
         {
+            dataService.MigrateDatabase();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

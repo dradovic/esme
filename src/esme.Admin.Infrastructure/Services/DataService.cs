@@ -22,9 +22,9 @@ namespace esme.Admin.Infrastructure.Services
             _db = db;
         }
 
-        public async Task ResetAllWithSampleData()
+        public async Task ResetAllWithSampleDataAsync()
         {
-            await DeleteAll();
+            await DeleteAllAsync();
             var users = await AddUsers();
             await AddData(users);
             await _db.SaveChangesAsync();
@@ -78,7 +78,7 @@ namespace esme.Admin.Infrastructure.Services
             return user;
         }
 
-        public async Task DeleteAll()
+        public async Task DeleteAllAsync()
         {
             DeleteAllInvitations();
             await DeleteAllUsers();
@@ -107,13 +107,13 @@ namespace esme.Admin.Infrastructure.Services
             _db.Messages.RemoveAll();
         }
 
-        public async Task Migrate()
+        public void MigrateDatabase()
         {
             int? timeout = _db.Database.GetCommandTimeout();
             _db.Database.SetCommandTimeout(600);
             try
             {
-                await _db.Database.MigrateAsync();
+                _db.Database.Migrate();
             }
             finally
             {

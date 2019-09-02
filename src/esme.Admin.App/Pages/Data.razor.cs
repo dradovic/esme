@@ -16,7 +16,7 @@ namespace esme.Admin.App.Pages
             IsWorking = true;
             StateHasChanged();
             await Task.Delay(10);
-            await SampleDataService.DeleteAll();
+            await SampleDataService.DeleteAllAsync();
             IsWorking = false;
         }
 
@@ -25,16 +25,7 @@ namespace esme.Admin.App.Pages
             IsWorking = true;
             StateHasChanged();
             await Task.Delay(10);
-            await SampleDataService.ResetAllWithSampleData();
-            IsWorking = false;
-        }
-
-        protected async Task Migrate()
-        {
-            IsWorking = true;
-            StateHasChanged();
-            await Task.Delay(10);
-            await SampleDataService.Migrate();
+            await SampleDataService.ResetAllWithSampleDataAsync();
             IsWorking = false;
         }
     }

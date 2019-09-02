@@ -4,8 +4,9 @@ namespace esme.Admin.Shared.Services
 {
     public interface IDataService
     {
-        Task DeleteAll();
-        Task ResetAllWithSampleData();
-        Task Migrate();
+        Task DeleteAllAsync();
+        Task ResetAllWithSampleDataAsync();
+
+        void MigrateDatabase();
     }
 }
